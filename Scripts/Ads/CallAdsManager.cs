@@ -67,7 +67,7 @@ namespace _0.DucLib.Scripts.Ads
 #if IGNORE_ADS
             return;
 #endif
-            AdsManager.ShowMrec(target, renderMode);
+            // AdsManager.ShowMrec(target, renderMode);
         }
         public static void HideMRECApplovin()
         {
