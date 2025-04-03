@@ -10,7 +10,8 @@ namespace _0.DucTALib.Scripts.Common
     {
         [FoldoutGroup("Music")] [SerializeField]
         private PlayAudioChannelSO BGM;
-        
+        [FoldoutGroup("Music")] [SerializeField]
+        private PlayAudioChannelSO BGMMenu;
         [FoldoutGroup("Single")] [SerializeField]
         private PlayAudioChannelSO clickAud;
         
@@ -28,7 +29,15 @@ namespace _0.DucTALib.Scripts.Common
         {
             BGM?.Stop();
         }
-
+        public void PlayBGMMenu()
+        {
+            BGMMenu?.Play();
+        }
+        
+        public void StopBGMMenu()
+        {
+            BGMMenu?.Stop();
+        }
        
         public void PlayClickSound()
         {
