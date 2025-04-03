@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using DG.Tweening;
@@ -7,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash
 {
@@ -31,7 +33,6 @@ namespace _0.DucTALib.Splash
             "Finalizing game setup..."
         };
 
-        public Transform pos;
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
@@ -93,8 +94,13 @@ namespace _0.DucTALib.Splash
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
             yield return new WaitForSeconds(0.2f);
-            string sceneName = "Menu";
-            SceneManager.LoadScene(sceneName);
+            CompleteLoad();
+
+        }
+
+        protected virtual void CompleteLoad()
+        {
+            
         }
 
         IEnumerator ShowLoadingText()
