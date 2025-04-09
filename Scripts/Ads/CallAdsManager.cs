@@ -61,13 +61,13 @@ namespace _0.DucLib.Scripts.Ads
         {
         }
 
-        public static void ShowMRECApplovin(GameObject target,RenderMode renderMode)
+        public static void ShowMRECApplovin(GameObject target,Camera cam)
         {
             LogHelper.CheckPoint("Call MREC");
 #if IGNORE_ADS
             return;
 #endif
-            // AdsManager.ShowMrec(target, renderMode);
+            AdsManager.ShowMrec(target, cam);
         }
         public static void HideMRECApplovin()
         {
@@ -82,6 +82,7 @@ namespace _0.DucLib.Scripts.Ads
 #if IGNORE_ADS
             return;
 #endif
+            AdsManager.HideMrec();
             // AdsManager.DesTroyMrec();
         }
 

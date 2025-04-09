@@ -61,7 +61,7 @@ namespace _0.DucTALib.Splash
             }
 
             CallAdsManager.DestroyMRECApplovin();
-            CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, RenderMode.ScreenSpaceCamera);
+            CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
 
             SetImage();
             // Todo load ads

@@ -113,6 +113,7 @@ namespace _0.DucTALib.Splash
         }
         IEnumerator FirstLoading()
         {
+            var cam = Camera.main;
             yield return StartCoroutine(WaitFirebaseIE());
             // CR loading
             // while (currentMessageIndex < 4)
@@ -151,7 +152,7 @@ namespace _0.DucTALib.Splash
             yield return new WaitForSeconds(0.5f);
             SplashTracking.TrackingIntro("show_select_age");
             selectAgePanel.ShowObject();
-            CallAdsManager.ShowMRECApplovin(selectAgePanel.bannerPos.gameObject, RenderMode.ScreenSpaceCamera);
+            CallAdsManager.ShowMRECApplovin(selectAgePanel.bannerPos.gameObject, cam);
             // CallAdsManager.ShowMRECAdmob(selectAgePanel.bannerPos);
             loadingText.text = "AUTO CLOSE LATER 6S";
             cooldown = 10;
@@ -164,7 +165,7 @@ namespace _0.DucTALib.Splash
             CallAdsManager.DestroyMRECApplovin();
             HideAgeSelectPanel();
             yield return new WaitForSeconds(0.3f);
-            CallAdsManager.ShowMRECApplovin(introPanel.bannerPos.gameObject, RenderMode.ScreenSpaceCamera);
+            CallAdsManager.ShowMRECApplovin(introPanel.bannerPos.gameObject, cam);
             // Todo: show downloading progress
             float downloadProgress = 0f;
             float displayedProgress = 0f;
