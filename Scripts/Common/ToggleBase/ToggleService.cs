@@ -1,5 +1,4 @@
-﻿using _0.Custom.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 

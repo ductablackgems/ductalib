@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using BG_Library.NET;

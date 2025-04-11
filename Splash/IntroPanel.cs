@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucTALib.Scripts.Common;
 using DG.Tweening;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using _0.Custom.Scripts;
-using _0.DucLib.Scripts.Ads;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
