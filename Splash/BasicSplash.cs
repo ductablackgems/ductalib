@@ -12,6 +12,7 @@ namespace _0.DucTALib.Splash
 {
     public class BasicSplash : MonoBehaviour
     {
+         public string sceneName;
         [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -98,7 +99,10 @@ namespace _0.DucTALib.Splash
 
         protected virtual void CompleteLoad()
         {
-            
+            DOVirtual.DelayedCall(3, () =>
+            {
+                SceneManager.LoadScene(sceneName);
+            });
         }
 
         IEnumerator ShowLoadingText()
