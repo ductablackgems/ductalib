@@ -9,7 +9,7 @@ using Image = UnityEngine.UI.Image;
 
 namespace _0.DucTALib.Scripts.Loading
 {
-    public class LoadingScene : ResourceSingleton<LoadingScene>
+    public class LoadingScene : SingletonMono<LoadingScene>
     {
         public string menu;
         public string gameplay;
