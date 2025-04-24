@@ -26,6 +26,7 @@ namespace _0.DucLib.Scripts.Machine
             if ((Object)val == (Object)null)
             {
                 val = base.gameObject.AddComponent<T>();
+                val.Init();
             }
             return val;
         }
