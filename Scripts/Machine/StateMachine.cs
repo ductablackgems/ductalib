@@ -30,7 +30,10 @@ namespace _0.DucLib.Scripts.Machine
             }
             return val;
         }
-
+        public bool IsInState<T>() where T : DTState
+        {
+            return _currentState is T;
+        }
         public virtual void ChangeState<T>() where T : DTState
         {
             CurrentState = GetState<T>();
