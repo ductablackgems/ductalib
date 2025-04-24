@@ -5,6 +5,8 @@ namespace _0.DucLib.Scripts.Machine
     public abstract class DTState : MonoBehaviour
     {
 
+        public abstract void Init();
+        
         public virtual void Enter()
         {
             AddListeners();
