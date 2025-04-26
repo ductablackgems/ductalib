@@ -116,7 +116,10 @@ namespace _0.DucLib.Scripts.Common
             // Nhân số với 1000 lũy thừa theo chỉ số hậu tố
             return number * Math.Pow(1000, suffixIndex);
         }
-
+        public static string FormatNumber(int number)
+        {
+            return number.ToString("#,0");
+        }
         #endregion
 
         #region Object

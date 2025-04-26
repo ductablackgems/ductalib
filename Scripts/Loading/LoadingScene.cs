@@ -43,14 +43,20 @@ namespace _0.DucTALib.Scripts.Loading
 
         private IEnumerator LoadSceneIE(string sceneName)
         {
-          
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             asyncLoad.allowSceneActivation = false;
+
             while (asyncLoad.progress < 0.9f)
             {
                 yield return null;
             }
+
+
             asyncLoad.allowSceneActivation = true;
+
+            yield return null;
+
+            yield return new WaitForSeconds(6f);
             yield return fade.DOFade(1, 0.3f).WaitForCompletion();
             content.HideObject();
             fade.HideObject();
