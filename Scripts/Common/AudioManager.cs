@@ -20,6 +20,9 @@ namespace _0.DucTALib.Scripts.Common
 
         [FoldoutGroup("Single")] [SerializeField]
         private PlayAudioChannelSO coin;
+        
+        [FoldoutGroup("Single")] [SerializeField]
+        private PlayAudioChannelSO noMoneySound;
         public void PlayBGM()
         {
             BGM?.Play();
@@ -58,6 +61,11 @@ namespace _0.DucTALib.Scripts.Common
         public void PlayCoin()
         {
             coin?.Play();
+        }
+
+        public void NoMoneySound()
+        {
+            noMoneySound?.Play();
         }
         #endregion
     }
