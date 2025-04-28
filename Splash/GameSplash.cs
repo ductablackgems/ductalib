@@ -114,7 +114,7 @@ namespace _0.DucTALib.Splash
             currentProgressTxt.text = $"{100}%";
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
-            if (CustomConfig.CustomConfigValue.loadIntro)
+            if (!CustomConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield break;
