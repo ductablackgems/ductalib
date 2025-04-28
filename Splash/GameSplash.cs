@@ -125,12 +125,15 @@ namespace _0.DucTALib.Splash
         }
         private void SetUpStep()
         {
-            var panelLookup = steps.ToDictionary(x => x.splashType);
-
-            steps = CustomConfig.CustomConfigValue.splashConfigs
-                .Select(c => panelLookup.TryGetValue(c.type, out var panel) ? panel : null)
-                .Where(panel => panel != null)
-                .ToList();
+            var panelMap = steps.ToDictionary(x => x.splashType, x => x);
+               var config = CustomConfig.CustomConfigValue.splashConfigs;
+           
+               var list = config
+                   .Select(a => panelMap[a.type])
+                   .ToList();
+           
+               steps.Clear();
+               steps.AddRange(list);
         }
         private void StartStep()
         {
