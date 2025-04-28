@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Audio setting
   m_EditorClassIdentifier: 
   listAudioTypes:
-  - name: FX
+  - name: SOUND
     isDestroyOnLoad: 0
     audioMixer: {fileID: 24100000, guid: 0b7af1e7f868261409d93ac7f9b5c1be, type: 2}
     audioMixerGroup: {fileID: 24300006, guid: 0b7af1e7f868261409d93ac7f9b5c1be, type: 2}
     listCurrentAud: []
-  - name: Music
+  - name: MUSIC
     isDestroyOnLoad: 0
     audioMixer: {fileID: 24100000, guid: 0b7af1e7f868261409d93ac7f9b5c1be, type: 2}
     audioMixerGroup: {fileID: 24300010, guid: 0b7af1e7f868261409d93ac7f9b5c1be, type: 2}
