@@ -1,4 +1,4 @@
-using _0.Game.Scripts;
+using _0.DucLib.Scripts.Common;
 using UnityEngine;
 
 namespace _0.DucTALib.Splash.Scripts
