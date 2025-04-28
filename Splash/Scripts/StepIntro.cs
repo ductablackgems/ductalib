@@ -1,15 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _0.DucTALib.Splash
+namespace _0.DucTALib.Splash.Scripts
 {
-    public class IntroPanel : MonoBehaviour
+    public class StepIntro : BaseStepSplash
     {
         [SerializeField] private List<Sprite> sprites = new List<Sprite>();
         [SerializeField] private List<string> tips = new List<string>();
@@ -19,27 +20,25 @@ namespace _0.DucTALib.Splash
         [SerializeField] private TextMeshProUGUI textSkip;
         [SerializeField] private TextMeshProUGUI tipText;
         [SerializeField] private float showButtonDuration = 3.5f;
+        public CanvasGroup cvg;
         public Transform bannerPos;
         private Coroutine skipCoroutine;
         private int index = 0;
         private int countNext = 0;
 
-        private void OnEnable()
+        public override void Enter()
         {
-            // CalculateSize();
+            gameObject.ShowObject();
+            cvg.FadeInPopup();
+            SplashTracking.TrackingIntro("show_intro");
             index = 0;
             SetImage();
             skipCoroutine = StartCoroutine(DelayShowButton());
+            CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
         }
 
-        private void OnDisable()
+        public override void Next()
         {
-        }
-
-        private void CalculateSize()
-        {
-            // leftPanel.sizeDelta = new Vector2(Screen.width / 2, Screen.height);
-            // leftPanel.anchoredPosition = new Vector2(leftPanel.anchoredPosition.x/2,0 );
         }
 
         public void NextOnClick()
@@ -55,7 +54,7 @@ namespace _0.DucTALib.Splash
             skipCoroutine = null;
             if (index >= sprites.Count)
             {
-                LoadSplash.instance.StopCRLoading();
+                Complete();
                 return;
             }
 
@@ -63,7 +62,6 @@ namespace _0.DucTALib.Splash
             CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
 
             SetImage();
-            // Todo load ads
             skipCoroutine = StartCoroutine(DelayShowButton());
         }
 
@@ -77,21 +75,12 @@ namespace _0.DucTALib.Splash
                 textSkip.text = $"";
                 yield return null;
             }
-
             textSkip.text = $"NEXT";
             skipButton.interactable = true;
-            // float delayTime = 3f;
-            // while (delayTime > 0)
-            // {
-            //     delayTime -= Time.deltaTime;
-            //     yield return null;
-            // }
-            // NextOnClick();
         }
 
         private void SetImage()
         {
-            // toggles[index].isOn = true;
             tipText.text = tips[index];
             fadeImg.DOFade(1.0f, 0.12f).OnComplete(() =>
             {
