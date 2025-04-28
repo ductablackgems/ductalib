@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash.Scripts;
+using _0.Game.Scripts;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -12,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CommonHelper = _0.DucLib.Scripts.Common.CommonHelper;
 using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash
@@ -118,7 +119,7 @@ namespace _0.DucTALib.Splash
                 CompleteAllStep();
                 yield break;
             }
-            currentProgressTxt.HideObject();
+            CommonHelper.HideObject(currentProgressTxt);
             currentStepPanel = steps[currentStep];
             StartStep();
         }
