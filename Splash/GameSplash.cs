@@ -122,7 +122,6 @@ namespace _0.DucTALib.Splash
             currentStepPanel = steps[currentStep];
             StartStep();
         }
-
         private void SetUpStep()
         {
             var panelLookup = steps.ToDictionary(x => x.splashType);
