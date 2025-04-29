@@ -50,7 +50,7 @@ namespace _0.DucTALib.Splash
         };
 
         public List<BaseStepSplash> steps = new List<BaseStepSplash>();
-        public GameObject header;
+        public GameObject loadingObj;
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
@@ -155,7 +155,12 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
-            SceneManager.LoadScene(sceneName);
+            loadingObj.ShowObject();
+            currentStepPanel.HideObject();
+            DOVirtual.DelayedCall(2.5f, () =>
+            {
+                SceneManager.LoadScene(sceneName);
+            });
         }
     }
 }
