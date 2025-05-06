@@ -60,7 +60,14 @@ namespace _0.DucLib.Scripts.Ads
         public static void DestroyMRECAdmob()
         {
         }
-
+        public static void ShowMRECApplovin(GameObject target)
+        {
+            LogHelper.CheckPoint("Call MREC");
+#if IGNORE_ADS
+            return;
+#endif
+            AdsManager.ShowMrec(target);
+        }
         public static void ShowMRECApplovin(GameObject target,Camera cam)
         {
             LogHelper.CheckPoint("Call MREC");

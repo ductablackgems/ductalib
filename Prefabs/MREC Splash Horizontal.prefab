@@ -1827,9 +1827,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: _0.DucTALib.Splash.Scripts.StepIntro, Assembly-CSharp
-        m_MethodName: NextOnClick
+      - m_Target: {fileID: 6831337049588407545}
+        m_TargetAssemblyTypeName: _0.DucTALib.Splash.Scripts.StepSelectLanguage,
+          Assembly-CSharp
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

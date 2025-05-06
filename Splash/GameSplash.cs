@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _0.DucLib.Scripts.Ads;
 using _0.DucTALib.Splash.Scripts;
 using _0.Game.Scripts;
 using DG.Tweening;
@@ -157,6 +158,7 @@ namespace _0.DucTALib.Splash
         {
             loadingObj.ShowObject();
             currentStepPanel.HideObject();
+            CallAdsManager.DestroyMRECApplovin();
             DOVirtual.DelayedCall(2.5f, () =>
             {
                 SceneManager.LoadScene(sceneName);
