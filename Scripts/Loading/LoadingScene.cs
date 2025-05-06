@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.Scripts.Common;
 using BG_Library.Common;
 using DG.Tweening;
 using UnityEngine;
@@ -53,11 +54,15 @@ namespace _0.DucTALib.Scripts.Loading
 
 
             asyncLoad.allowSceneActivation = true;
-
+            
             yield return null;
 
             yield return new WaitForSeconds(6f);
             yield return fade.DOFade(1, 0.3f).WaitForCompletion();
+            if (sceneName != menu)
+            {
+                AudioManager.Instance.StopBGMMenu();
+            }
             content.HideObject();
             fade.HideObject();
         }

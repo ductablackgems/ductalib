@@ -8,15 +8,28 @@ namespace _0.DucLib.Scripts.Ads
     public class RewardNotReady : MonoBehaviour
     {
         public Transform content;
-        private void OnEnable()
+        public Transform parent;
+
+        private void Awake()
         {
+            CallAdsManager.rewardNotReadyAction += Show;
+        }
+
+        private void OnDestroy()
+        {
+            CallAdsManager.rewardNotReadyAction -= Show;
+        }
+
+        private void Show()
+        {
+            parent.ShowObject();
             content.ScaleInPopup();
         }
 
         public void Hide()
         {
             AudioManager.Instance.PlayClickSound();
-            gameObject.HideObject();
+            parent.HideObject();
         }
     }
 }

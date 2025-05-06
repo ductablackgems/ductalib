@@ -36,9 +36,7 @@ namespace _0.DucTALib.Scripts.Common
 
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
-
             CustomConfigValue = JsonConvert.DeserializeObject<CustomConfigValue>(RemoteConfig.Ins.custom_config, settings);
-
         }
     }
 }
