@@ -17,23 +17,12 @@ namespace _0.DucLib.Scripts.Editor
         [MenuItem("Tools/Load Menu")]
         public static void Load2()
         {
-            OpenScene("Menu");
-        }
-        [MenuItem("Tools/Load Tutorial")]
-        public static void Load4()
-        {
-            OpenScene("Tutorial");
-        }
-        
-        [MenuItem("Tools/Load Shop")]
-        public static void Load5()
-        {
-            OpenScene("Shop");
+            OpenScene("MainMenu");
         }
         [MenuItem("Tools/Load Game")]
         public static void Load6()
         {
-            OpenScene("Game");
+            OpenScene("GamePlay");
         }
         
         private static void OpenScene(string sceneName)

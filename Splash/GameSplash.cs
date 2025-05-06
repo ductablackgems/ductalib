@@ -114,13 +114,14 @@ namespace _0.DucTALib.Splash
             loadingText.text = "Starting game";
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
-            SetUpStep();
-            yield return new WaitForSeconds(0.2f);
+            
             if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield break;
             }
+            SetUpStep();
+            yield return new WaitForSeconds(0.2f);
             CommonHelper.HideObject(currentProgressTxt);
             currentStepPanel = steps[currentStep];
             StartStep();
