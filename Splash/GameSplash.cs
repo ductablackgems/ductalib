@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Common;
+using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash.Scripts;
-using _0.Game.Scripts;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -115,7 +116,7 @@ namespace _0.DucTALib.Splash
             currentProgressTxt.text = $"{100}%";
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
-            if (!CustomConfig.CustomConfigValue.loadIntro)
+            if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield break;
@@ -127,7 +128,7 @@ namespace _0.DucTALib.Splash
         private void SetUpStep()
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
-               var config = CustomConfig.CustomConfigValue.splashConfigs;
+               var config = SplashRemoteConfig.CustomConfigValue.splashConfigs;
            
                var list = config
                    .Select(a => panelMap[a.type])

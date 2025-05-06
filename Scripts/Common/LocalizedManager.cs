@@ -1,5 +1,5 @@
 using System.Collections;
-using _0.Game.Scripts;
+using _0.DucLib.Scripts.Common;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -38,33 +38,33 @@ namespace _0.DucTALib.Scripts.Common
             active = true;
             yield return LocalizationSettings.InitializationOperation;
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[(int)language];
-            PlayerDataPref.Language = language;
+            GlobalData.Language = language;
             active = false;
         }
 
         private static void SetDefaultLanguage()
         {
-            if( PlayerDataPref.Language != Language.NONE) return;
+            if( GlobalData.Language != Language.NONE) return;
             switch (Application.systemLanguage)
             {
                 case SystemLanguage.English:
-                    PlayerDataPref.Language = Language.English;
+                    GlobalData.Language = Language.English;
                     break;
                 case SystemLanguage.Vietnamese:
-                    PlayerDataPref.Language = Language.VietNam;
+                    GlobalData.Language = Language.VietNam;
                     break;
                 case SystemLanguage.Arabic:
-                    PlayerDataPref.Language = Language.Iraq;
+                    GlobalData.Language = Language.Iraq;
                     break;
 
                 case SystemLanguage.German:
-                    PlayerDataPref.Language = Language.Germany;
+                    GlobalData.Language = Language.Germany;
                     break;
                 case SystemLanguage.Hindi:
-                    PlayerDataPref.Language = Language.India;
+                    GlobalData.Language = Language.India;
                     break;
                 default:
-                    PlayerDataPref.Language = Language.English;
+                    GlobalData.Language = Language.English;
                     break;
             }
         }

@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿using _0.DucTALib.Scripts.Common;
+using UnityEngine;
 
 namespace _0.DucLib.Scripts.Common
 {
     public static class GlobalData
     {
+        public static LocalizedManager.Language Language
+        {
+            get => (LocalizedManager.Language)PlayerPrefs.GetInt("Language", -1);
+            set => PlayerPrefs.SetInt("Language", (int)value);
+        }
+
         public static bool IAP_RemoveAds
         {
             get => PlayerPrefs.GetInt("IAP_RemoveAds", 0) == 1;

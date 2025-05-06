@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
-using _0.Game.Scripts;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -17,7 +17,7 @@ namespace _0.DucTALib.Splash.Scripts
             gameObject.ShowObject();
             SplashTracking.TrackingIntro("show_select_age");
             canvasGroup.FadeInPopup();
-            SelectLanguage(PlayerDataPref.Language);
+            SelectLanguage(GlobalData.Language);
             CallAdsManager.ShowMRECApplovin(mrecPos.gameObject, Camera.main);
             StartCoroutine(ShowNext());
         }
