@@ -33,7 +33,6 @@ namespace _0.DucLib.Scripts.Ads
 
         private IEnumerator ShowBreakAdsUI(int time)
         {
-            Time.timeScale = 0;
             cvg.ShowObject();
             cvg.FadeInPopup();
             while (time > 0)
