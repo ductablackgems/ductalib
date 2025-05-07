@@ -45,7 +45,7 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
     void Awake()
     {
         // check if there's another instance already exist in scene
-        if (ins != null && ins.GetInstanceID() != this.GetInstanceID())
+        if (ins != null )
         {
             // Destroy this instances because already exist the singleton of EventsDispatcer
             //Common.Log("An instance of T already exist : <{0}>, So destroy this instance : <{1}>!!", instance.name, name);

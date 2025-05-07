@@ -17,11 +17,18 @@ namespace _0.DucTALib.Scripts.Loading
         public Transform content;
         public Image fade;
         private Coroutine loadingCoroutine;
-        
+        private string sceneName;
+        public bool ignoreStart;
         protected override void Init()
         {
             base.Init();
-            transform.SetParent(DDOL.Instance.transform);
+            if (!ignoreStart)
+            {
+                content.ShowObject();
+                Master.ChangeAlpha(fade, 0);
+                fade.ShowObject();
+                StartCoroutine(Hide());
+            }
         }
 
         public void LoadMenu()
@@ -45,24 +52,20 @@ namespace _0.DucTALib.Scripts.Loading
         private IEnumerator LoadSceneIE(string sceneName)
         {
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-            asyncLoad.allowSceneActivation = false;
-
-            while (asyncLoad.progress < 0.9f)
+            asyncLoad.allowSceneActivation = true;
+            while (!asyncLoad.isDone)
             {
                 yield return null;
             }
-
-
-            asyncLoad.allowSceneActivation = true;
-            
-            yield return null;
-
-            yield return new WaitForSeconds(6f);
-            yield return fade.DOFade(1, 0.3f).WaitForCompletion();
             if (sceneName != menu)
             {
                 AudioManager.Instance.StopBGMMenu();
             }
+        }
+        private IEnumerator Hide()
+        {
+            yield return new WaitForSeconds(1f);
+            yield return fade.DOFade(1, 0.3f).SetUpdate(true).WaitForCompletion();
             content.HideObject();
             fade.HideObject();
         }

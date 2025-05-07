@@ -21,7 +21,7 @@ namespace _0.DucTALib.Splash
 {
     public enum SplashType
     {
-        Age, Intro, Language
+        Age, Intro, Language, Reward
     }
     [Serializable]
     public class SplashConfig

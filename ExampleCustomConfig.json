@@ -1,0 +1,20 @@
+﻿{
+  "Splash": {
+    "splashConfigs": [
+      {
+        "type": "Age"
+      },
+      {
+        "type": "Intro"
+      },
+      {
+        "type": "Language"
+      }
+    ],
+    "loadIntro": true
+  },
+  "Custom": {
+    "mrecMainPanel": true,
+    "mrecShopCharacter": true
+  }
+}
