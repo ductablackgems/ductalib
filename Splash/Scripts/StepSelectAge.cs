@@ -33,13 +33,10 @@ namespace _0.DucTALib.Splash.Scripts
         private IEnumerator LoadIE()
         {
             cd = 10;
-            float time = 0;
             while (cd > 0)
             {
                 cd -= Time.deltaTime;
-                time += Time.deltaTime;
                 GameSplash.instance.loadingText.text = $"AUTO CLOSE LATER {(int)cd}S";
-                if (!buttonNext.gameObject.activeSelf && time >=4) buttonNext.ShowButtonTween();
                 yield return null;
             }
 
@@ -51,6 +48,8 @@ namespace _0.DucTALib.Splash.Scripts
         {
             AudioManager.Instance.PlayClickSound();
             cd = 10;
+            if (!policyToggle.isOn) buttonNext.HideObject();
+            else if (policyToggle.isOn && !buttonNext.gameObject.activeSelf) buttonNext.ShowButtonTween();
         }
 
         public void ChangeAge(int age)
@@ -60,6 +59,8 @@ namespace _0.DucTALib.Splash.Scripts
             ageText.text = currentAge.ToString();
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
+            if (policyToggle.isOn && !buttonNext.gameObject.activeSelf) buttonNext.ShowButtonTween();
+            else if (!policyToggle.isOn) buttonNext.HideObject();
             cd = 10;
         }
 
