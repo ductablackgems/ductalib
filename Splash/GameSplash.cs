@@ -113,6 +113,7 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game";
+            Debug.Log($"rererer {AdsManager.IsMrecReady}");
             yield return new WaitUntil(() => AdsManager.IsMrecReady);
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";

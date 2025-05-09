@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using BG_Library.NET;
 using UnityEngine;
 
@@ -6,17 +7,39 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class LoadAdsManualy : SingletonMono<LoadAdsManualy>
     {
-        protected override void Init()
+        private bool mrecReady;
+
+        private void Start()
         {
-            base.Init();
-            StartCoroutine(LoadAds());
+            AdsManager.Event_OnMediationInitComplete += InitMaxComplete;
         }
 
-        private IEnumerator LoadAds()
+        private void OnDestroy()
         {
-            yield return new WaitForEndOfFrame();
-            yield return new WaitUntil(() => AdsManager.IsMrecReady);
-            Debug.Log("mrec ready");
+            AdsManager.Event_OnMediationInitComplete -= InitMaxComplete;
         }
+
+        private void InitMaxComplete()
+        {
+            AdsManager.InitMrecManually();
+            AdsManager.InitBannerManually();
+        }
+
+        public void LoadAdsOther()
+        {
+            AdsManager.InitAppOpenManually();
+            AdsManager.InitInterstitialManually();
+            AdsManager.InitRewardManually();
+        }
+        // private IEnumerator LoadAds()
+        // {
+        //     yield return new WaitForEndOfFrame();
+        //     yield return new WaitUntil(() => AdsManager.IsMrecReady);
+        //     Debug.Log("mrec ready==========");
+        //     // AdsManager.InitBannerManually();
+        //     // AdsManager.InitInterstitialManually();
+        //     // AdsManager.InitAppOpenManually();
+        //     // AdsManager.InitRewardManually();
+        // }
     }
 }

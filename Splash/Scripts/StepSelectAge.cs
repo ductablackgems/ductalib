@@ -25,6 +25,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void Enter()
         {
+            LoadAdsManualy.instance.LoadAdsOther();
             gameObject.ShowObject();
             cvg.FadeInPopup();
             SplashTracking.TrackingIntro("show_select_age");
