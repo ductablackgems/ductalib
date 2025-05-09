@@ -23,7 +23,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public static bool RewardedIsReady()
         {
-            return AdsManager.IsRewardedReady();
+            return AdsManager.IsRewardedReady;
         }
 
         public static void ShowRewardVideo(string pos, Action actionDone)
@@ -117,6 +117,11 @@ namespace _0.DucLib.Scripts.Ads
         public static void HideNativeOverlay()
         {
            // AdsManager.Ins.nativeOverlayManager.HideAd();
+        }
+
+        public static Vector2 GetMRECSize()
+        {
+            return AdsManager.GetSizeMrec;
         }
     }
 }

@@ -10,10 +10,5 @@ namespace _0.DucTALib.CustomButton
         public string imageName;
         public string text;
         public string textColor;
-
-        
-      
     }
-    
-    
 }

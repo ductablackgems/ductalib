@@ -6,6 +6,7 @@ using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash.Scripts;
+using BG_Library.NET;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -112,6 +113,7 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game";
+            yield return new WaitUntil(() => AdsManager.IsMrecReady);
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
             
