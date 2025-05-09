@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _0.DucTALib.Button
+namespace _0.DucTALib.CustomButton
 {
     [Serializable]
     public class CustomButtonConfig
