@@ -17,8 +17,6 @@ namespace _0.DucTALib.Splash.Scripts
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
         public CanvasGroup cvg;
-        public Transform bannerPos;
-        public Transform mrecPos;
         private int currentAge = 2012;
 
         private float cd;
@@ -29,16 +27,11 @@ namespace _0.DucTALib.Splash.Scripts
             gameObject.ShowObject();
             cvg.FadeInPopup();
             SplashTracking.TrackingIntro("show_select_age");
-            // CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
             StartCoroutine(LoadIE());
-            SetUpMrec();
+            ShowMrec();
         }
 
-        private void SetUpMrec()
-        {
-            mrecPos.rectTransform().sizeDelta = CallAdsManager.GetMRECSize();
-        }
-
+        
         private IEnumerator LoadIE()
         {
             cd = 10;
@@ -50,7 +43,7 @@ namespace _0.DucTALib.Splash.Scripts
             }
 
             GameSplash.instance.loadingText.text = "";
-            CallAdsManager.DestroyMRECApplovin();
+            HideMrec();
             Complete();
         }
 
@@ -78,5 +71,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             cd = 0;
         }
+
+       
     }
 }

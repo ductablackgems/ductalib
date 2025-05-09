@@ -21,7 +21,6 @@ namespace _0.DucTALib.Splash.Scripts
         [SerializeField] private TextMeshProUGUI tipText;
         [SerializeField] private float showButtonDuration = 3.5f;
         public CanvasGroup cvg;
-        public Transform bannerPos;
         private Coroutine skipCoroutine;
         private int index = 0;
         private int countNext = 0;
@@ -34,7 +33,7 @@ namespace _0.DucTALib.Splash.Scripts
             index = 0;
             SetImage();
             skipCoroutine = StartCoroutine(DelayShowButton());
-            CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
+            ShowMrec();
         }
 
         public override void Next()
@@ -57,10 +56,7 @@ namespace _0.DucTALib.Splash.Scripts
                 Complete();
                 return;
             }
-
-            CallAdsManager.DestroyMRECApplovin();
-            CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
-
+            ShowMrec();
             SetImage();
             skipCoroutine = StartCoroutine(DelayShowButton());
         }
@@ -88,5 +84,7 @@ namespace _0.DucTALib.Splash.Scripts
                 fadeImg.DOFade(0, 0.12f);
             });
         }
+        
+       
     }
 }
