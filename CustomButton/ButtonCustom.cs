@@ -1,7 +1,9 @@
-﻿namespace _0.DucTALib.CustomButton
+﻿using UnityEngine;
+
+namespace _0.DucTALib.CustomButton
 {
     
-    public class ButtonCustom
+    public class ButtonCustom : MonoBehaviour
     {
         
     }

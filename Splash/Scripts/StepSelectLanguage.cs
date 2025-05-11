@@ -18,7 +18,7 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.TrackingIntro("show_select_age");
             canvasGroup.FadeInPopup();
             SelectLanguage(GlobalData.Language);
-            CallAdsManager.ShowMRECApplovin(mrecPos.gameObject, Camera.main);
+            ShowMrec();
             StartCoroutine(ShowNext());
         }
 
@@ -26,11 +26,10 @@ namespace _0.DucTALib.Splash.Scripts
         {
             GameSplash.instance.NextStep();
         }
-        
+
         [SerializeField] private List<ButtonLanguage> languageButtons = new List<ButtonLanguage>();
         [SerializeField] private CanvasGroup canvasGroup;
         public GameObject buttonNext;
-        public Transform mrecPos;
 
         public void SelectLanguage(LocalizedManager.Language language)
         {
@@ -39,7 +38,7 @@ namespace _0.DucTALib.Splash.Scripts
             RefreshButton(language);
         }
 
-        private void RefreshButton( LocalizedManager.Language language)
+        private void RefreshButton(LocalizedManager.Language language)
         {
             foreach (var a in languageButtons)
             {

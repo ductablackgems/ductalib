@@ -114,6 +114,7 @@ namespace _0.DucTALib.Splash
 
             loadingText.text = "Starting game...";
             Debug.Log($"rererer {AdsManager.IsMrecReady}");
+            /// add timeout
             yield return new WaitUntil(() => AdsManager.IsMrecReady);
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
@@ -163,7 +164,7 @@ namespace _0.DucTALib.Splash
         {
             loadingObj.ShowObject();
             currentStepPanel.HideObject();
-            CallAdsManager.DestroyMRECApplovin();
+            CallAdsManager.HideMRECApplovin();
             DOVirtual.DelayedCall(2.5f, () =>
             {
                 SceneManager.LoadScene(sceneName);
