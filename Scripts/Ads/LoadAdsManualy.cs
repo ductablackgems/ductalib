@@ -21,8 +21,8 @@ namespace _0.DucLib.Scripts.Ads
 
         private void InitMaxComplete()
         {
-            AdsManager.InitMrecManually();
-            AdsManager.InitBannerManually();
+            // AdsManager.InitMrecManually();
+            // AdsManager.InitBannerManually();
         }
 
         public void LoadAdsOther()

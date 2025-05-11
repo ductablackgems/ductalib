@@ -112,7 +112,7 @@ namespace _0.DucTALib.Splash
                 yield return null;
             }
 
-            loadingText.text = "Starting game";
+            loadingText.text = "Starting game...";
             Debug.Log($"rererer {AdsManager.IsMrecReady}");
             yield return new WaitUntil(() => AdsManager.IsMrecReady);
             loadingBar.DOFillAmount(1, 0.2f);
