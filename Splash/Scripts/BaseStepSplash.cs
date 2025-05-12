@@ -18,7 +18,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected void ShowMrec()
         {
-            mrecPos.rectTransform().sizeDelta = CallAdsManager.GetMRECSize();
+            CallAdsManager.ResizeMREC(mrecPos.rectTransform());
+            Debug.Log($"position : {mrecPos.transform.localPosition} _ {transform.name}");
             HideMrec();
             CallAdsManager.ShowMRECApplovin(mrecPos.gameObject, Camera.main);
         }

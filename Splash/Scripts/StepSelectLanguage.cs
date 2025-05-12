@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -29,8 +30,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         [SerializeField] private List<ButtonLanguage> languageButtons = new List<ButtonLanguage>();
         [SerializeField] private CanvasGroup canvasGroup;
-        public GameObject buttonNext;
-
+        public ButtonCustomGroup group;
         public void SelectLanguage(LocalizedManager.Language language)
         {
             AudioManager.Instance.PlayClickSound();
@@ -49,7 +49,7 @@ namespace _0.DucTALib.Splash.Scripts
         private IEnumerator ShowNext()
         {
             yield return new WaitForSeconds(3.5f);
-            buttonNext.ShowObject();
+            group.CurrentButton.ShowObject();
         }
     }
 }

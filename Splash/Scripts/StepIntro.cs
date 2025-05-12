@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
 using DG.Tweening;
 using TMPro;
@@ -16,10 +17,9 @@ namespace _0.DucTALib.Splash.Scripts
         [SerializeField] private List<string> tips = new List<string>();
         [SerializeField] private Image screenshotImage;
         [SerializeField] private Image fadeImg;
-        [SerializeField] private Button skipButton;
-        [SerializeField] private TextMeshProUGUI textSkip;
         [SerializeField] private TextMeshProUGUI tipText;
         [SerializeField] private float showButtonDuration = 3.5f;
+        public ButtonCustomGroup nextGroup;
         public CanvasGroup cvg;
         private Coroutine skipCoroutine;
         private int index = 0;
@@ -65,17 +65,15 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator DelayShowButton()
         {
-            skipButton.interactable = false;
+            nextGroup.CurrentButton.HideObject();
             showButtonDuration = 2f;
             while (showButtonDuration > 0)
             {
                 showButtonDuration -= Time.deltaTime;
-                textSkip.text = $"";
                 yield return null;
             }
 
-            textSkip.text = $"NEXT";
-            skipButton.interactable = true;
+            nextGroup.ShowObject();
         }
 
         private void SetImage()

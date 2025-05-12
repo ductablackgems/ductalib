@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _0.Custom.Scripts;
+using _0.DucTALib.CustomButton;
 using _0.DucTALib.Splash;
 using BG_Library.NET;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ namespace _0.DucTALib.Scripts.Common
     public class SplashCustomConfigValue
     {
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
+        public List<CustomButtonGroupConfig> groupButtonCustomConfigs;
         public bool loadIntro = false;
     }
 

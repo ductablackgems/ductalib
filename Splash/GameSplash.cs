@@ -22,17 +22,23 @@ namespace _0.DucTALib.Splash
 {
     public enum SplashType
     {
-        Age, Intro, Language, Reward
+        Age,
+        Intro,
+        Language,
+        Reward
     }
+
     [Serializable]
     public class SplashConfig
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public SplashType type;
     }
+
     public class GameSplash : SingletonMono<GameSplash>
     {
         public string sceneName;
+
         [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -72,6 +78,7 @@ namespace _0.DucTALib.Splash
         private float cooldown = 0;
         private int currentStep = 0;
         private BaseStepSplash currentStepPanel;
+
         private void Start()
         {
             StartCoroutine(WaitToLoadScene());
@@ -113,35 +120,53 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game...";
-            Debug.Log($"rererer {AdsManager.IsMrecReady}");
             /// add timeout
-            yield return new WaitUntil(() => AdsManager.IsMrecReady);
+            float timer = 0f;
+            float timeoutSeconds = 10f;
+            while (!AdsManager.IsMrecReady && timer < timeoutSeconds)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            if (!AdsManager.IsMrecReady)
+            {
+                LogHelper.CheckPoint("MREC not ready after timeout.");
+            }
+            else
+            {
+                LogHelper.CheckPoint("MREC is ready.");
+            }
+
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
-            
+
             if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield break;
             }
+
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
             CommonHelper.HideObject(currentProgressTxt);
             currentStepPanel = steps[currentStep];
             StartStep();
         }
+
         private void SetUpStep()
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
-               var config = SplashRemoteConfig.CustomConfigValue.splashConfigs;
-           
-               var list = config
-                   .Select(a => panelMap[a.type])
-                   .ToList();
-           
-               steps.Clear();
-               steps.AddRange(list);
+            var config = SplashRemoteConfig.CustomConfigValue.splashConfigs;
+
+            var list = config
+                .Select(a => panelMap[a.type])
+                .ToList();
+
+            steps.Clear();
+            steps.AddRange(list);
         }
+
         private void StartStep()
         {
             currentStepPanel.Enter();
@@ -155,7 +180,7 @@ namespace _0.DucTALib.Splash
                 CompleteAllStep();
                 return;
             }
-            
+
             currentStepPanel = steps[currentStep];
             StartStep();
         }
@@ -165,10 +190,7 @@ namespace _0.DucTALib.Splash
             loadingObj.ShowObject();
             currentStepPanel.HideObject();
             CallAdsManager.HideMRECApplovin();
-            DOVirtual.DelayedCall(2.5f, () =>
-            {
-                SceneManager.LoadScene(sceneName);
-            });
+            DOVirtual.DelayedCall(2.5f, () => { SceneManager.LoadScene(sceneName); });
         }
     }
 }

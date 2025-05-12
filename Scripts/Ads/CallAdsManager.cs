@@ -1,5 +1,6 @@
 ﻿using System;
 using _0.DucLib.Scripts.Common;
+using BG_Library.Common;
 using BG_Library.NET;
 using UnityEngine;
 
@@ -51,8 +52,8 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void ShowMRECAdmob(Transform pos)
         {
-           
         }
+
         public static void HideMRECAdmob()
         {
         }
@@ -60,6 +61,7 @@ namespace _0.DucLib.Scripts.Ads
         public static void DestroyMRECAdmob()
         {
         }
+
         public static void ShowMRECApplovin(GameObject target)
         {
             LogHelper.CheckPoint("Call MREC overlay");
@@ -68,7 +70,8 @@ namespace _0.DucLib.Scripts.Ads
 #endif
             AdsManager.ShowMrec(target);
         }
-        public static void ShowMRECApplovin(GameObject target,Camera cam)
+
+        public static void ShowMRECApplovin(GameObject target, Camera cam)
         {
             LogHelper.CheckPoint("Call MREC screen space");
 #if IGNORE_ADS
@@ -76,6 +79,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif
             AdsManager.ShowMrec(target, cam);
         }
+
         public static void HideMRECApplovin()
         {
 #if IGNORE_ADS
@@ -116,12 +120,32 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void HideNativeOverlay()
         {
-           // AdsManager.Ins.nativeOverlayManager.HideAd();
+            // AdsManager.Ins.nativeOverlayManager.HideAd();
         }
 
         public static Vector2 GetMRECSize()
         {
             return AdsManager.GetSizeMrec;
+        }
+
+        public static void ResizeMREC(RectTransform image)
+        {
+            float screenDensity = Screen.dpi / 160f;
+            float mrecWidthPx = 300 * screenDensity;
+            float mrecHeightPx = 250 * screenDensity;
+
+            var canvas = Master.GetNearestCanvas(image);
+            float referenceDpi = 160f;
+            float scaleFactor = canvas.scaleFactor;
+
+            float width = mrecWidthPx / scaleFactor;
+            float height = mrecHeightPx / scaleFactor;
+
+            image.sizeDelta = new Vector2(width, height);
+
+
+            Debug.Log($"NET SIZE : {AdsManager.GetSizeMrec}");
+            Debug.Log($"CURRENT SIZE : {image.sizeDelta}");
         }
     }
 }

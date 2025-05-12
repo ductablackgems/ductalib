@@ -5,41 +5,37 @@ using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-    public class LoadAdsManualy : SingletonMono<LoadAdsManualy>
+    public class LoadAdsManualy : MonoBehaviour
     {
-        private bool mrecReady;
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
 
         private void Start()
         {
-            AdsManager.Event_OnMediationInitComplete += InitMaxComplete;
+            StartCoroutine(LoadAds());
         }
 
-        private void OnDestroy()
+        private IEnumerator LoadAds()
         {
-            AdsManager.Event_OnMediationInitComplete -= InitMaxComplete;
-        }
+            yield return new WaitForEndOfFrame();
+            float timeout = 30f;
+            float currentTime = 0;
+            while (!AdsManager.IsMrecReady && currentTime < timeout)
+            {
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
 
-        private void InitMaxComplete()
-        {
-            // AdsManager.InitMrecManually();
-            // AdsManager.InitBannerManually();
-        }
-
-        public void LoadAdsOther()
-        {
-            AdsManager.InitAppOpenManually();
+            yield return new WaitUntil(() => AdsManager.IsMrecReady);
+            AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
+            yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
+            AdsManager.InitAppOpenManually();
+            yield return new WaitUntil(AdsManager.IsOpenAppReady);
             AdsManager.InitRewardManually();
+            yield return new WaitUntil(() => AdsManager.IsRewardedReady);
         }
-        // private IEnumerator LoadAds()
-        // {
-        //     yield return new WaitForEndOfFrame();
-        //     yield return new WaitUntil(() => AdsManager.IsMrecReady);
-        //     Debug.Log("mrec ready==========");
-        //     // AdsManager.InitBannerManually();
-        //     // AdsManager.InitInterstitialManually();
-        //     // AdsManager.InitAppOpenManually();
-        //     // AdsManager.InitRewardManually();
-        // }
     }
 }

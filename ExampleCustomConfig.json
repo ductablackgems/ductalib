@@ -11,6 +11,41 @@
         "type": "Language"
       }
     ],
+    "groupButtonCustomConfigs": [
+      {
+        "groupName": "select_age_next",
+        "buttonConfig": {
+          "positionIndex": 0,
+          "customButton": false,
+          "backgroundColor": "none",
+          "imageName": "none",
+          "textValue": "none",
+          "textColor": "none"
+        }
+      },
+      {
+        "groupName": "intro_next",
+        "buttonConfig": {
+          "positionIndex": 0,
+          "customButton": false,
+          "backgroundColor": "none",
+          "imageName": "none",
+          "textValue": "none",
+          "textColor": "none"
+        }
+      },
+      {
+        "groupName": "language_next",
+        "buttonConfig": {
+          "positionIndex": 0,
+          "customButton": false,
+          "backgroundColor": "none",
+          "imageName": "none",
+          "textValue": "none",
+          "textColor": "none"
+        }
+      }
+    ],
     "loadIntro": true
   },
   "Custom": {
