@@ -73,7 +73,7 @@ namespace _0.DucTALib.Splash.Scripts
                 yield return null;
             }
 
-            nextGroup.ShowObject();
+            nextGroup.CurrentButton.ShowObject();
         }
 
         private void SetImage()

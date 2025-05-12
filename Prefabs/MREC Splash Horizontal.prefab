@@ -1806,6 +1806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 23305280294711314}
+  tmpText: {fileID: 8170468499273437938}
 --- !u!1 &875003803523256703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,6 +2370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 1852958213016686810}
+  tmpText: {fileID: 8604478992269477579}
 --- !u!1 &1395129821634620006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,6 +2728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 4477569724495226859}
+  tmpText: {fileID: 8266183606850687761}
 --- !u!1 &1639389900390805771
 GameObject:
   m_ObjectHideFlags: 0
@@ -4669,7 +4675,6 @@ GameObject:
   - component: {fileID: 6936324218754630079}
   - component: {fileID: 2825631763833563579}
   - component: {fileID: 4276614205807962587}
-  - component: {fileID: 2270671484009841259}
   m_Layer: 5
   m_Name: customButton1
   m_TagString: Untagged
@@ -4803,18 +4808,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2270671484009841259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3087470481821095142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  buttonImg: {fileID: 2825631763833563579}
+  tmpText: {fileID: 8196353430759020333}
 --- !u!1 &3139501313328430062
 GameObject:
   m_ObjectHideFlags: 0
@@ -5036,6 +5031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 3606929577493819312}
+  tmpText: {fileID: 2395977997618597805}
 --- !u!1 &3306663083339948059
 GameObject:
   m_ObjectHideFlags: 0
@@ -7360,6 +7357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 2853318948461778436}
+  tmpText: {fileID: 4817078078560707135}
 --- !u!1 &5300103266939300352
 GameObject:
   m_ObjectHideFlags: 0
@@ -7848,6 +7847,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 8159368505436604599}
+  tmpText: {fileID: 1503164389783126551}
 --- !u!1 &6289414026722198806
 GameObject:
   m_ObjectHideFlags: 0
@@ -8866,7 +8867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6277645413166401377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8993,6 +8994,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2d9b01e0dc4c03aaabc93adb88d182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImg: {fileID: 2604781290693243411}
+  tmpText: {fileID: 875801669676549330}
 --- !u!1 &8405017415038999909
 GameObject:
   m_ObjectHideFlags: 0

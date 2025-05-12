@@ -128,7 +128,7 @@ namespace _0.DucLib.Scripts.Ads
             return AdsManager.GetSizeMrec;
         }
 
-        public static void ResizeMREC(RectTransform image)
+        public static Vector2 GetSizeMrec(RectTransform image)
         {
             float screenDensity = Screen.dpi / 160f;
             float mrecWidthPx = 300 * screenDensity;
@@ -140,12 +140,14 @@ namespace _0.DucLib.Scripts.Ads
 
             float width = mrecWidthPx / scaleFactor;
             float height = mrecHeightPx / scaleFactor;
+            return new Vector2(width, height);
+        }
 
-            image.sizeDelta = new Vector2(width, height);
+        public static void ResizeMREC(RectTransform image)
+        {
 
-
-            Debug.Log($"NET SIZE : {AdsManager.GetSizeMrec}");
-            Debug.Log($"CURRENT SIZE : {image.sizeDelta}");
+            var size = GetSizeMrec(image);
+            image.sizeDelta = new Vector2(size.x, size.y);
         }
     }
 }
