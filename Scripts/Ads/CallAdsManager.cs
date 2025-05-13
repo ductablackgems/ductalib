@@ -97,11 +97,6 @@ namespace _0.DucLib.Scripts.Ads
             // AdsManager.DesTroyMrec();
         }
 
-        public static void LogEventFirebase(string str)
-        {
-            Debug.Log("Push Firebase Event: " + str);
-        }
-
         public static bool CheckInternet()
         {
             return Application.internetReachability != NetworkReachability.NotReachable;
@@ -111,18 +106,7 @@ namespace _0.DucLib.Scripts.Ads
         {
             //AdsManager.Ins.nativeOverlayManager.ShowAd();
         }
-
-        public static void ShowNativeOverlay(Transform pos)
-        {
-            // AdsManager.Ins.nativeOverlayManager.RenderAd(pos);
-            // AdsManager.Ins.nativeOverlayManager.ShowAd();
-        }
-
-        public static void HideNativeOverlay()
-        {
-            // AdsManager.Ins.nativeOverlayManager.HideAd();
-        }
-
+        
         public static Vector2 GetMRECSize()
         {
             return AdsManager.GetSizeMrec;
@@ -145,7 +129,6 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void ResizeMREC(RectTransform image)
         {
-
             var size = GetSizeMrec(image);
             image.sizeDelta = new Vector2(size.x, size.y);
         }
