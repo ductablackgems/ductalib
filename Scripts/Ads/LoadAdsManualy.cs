@@ -20,7 +20,7 @@ namespace _0.DucLib.Scripts.Ads
         private IEnumerator LoadAds()
         {
             yield return new WaitForEndOfFrame();
-            float timeout = 30f;
+            float timeout = 20f;
             float currentTime = 0;
             while (!AdsManager.IsMrecReady && currentTime < timeout)
             {

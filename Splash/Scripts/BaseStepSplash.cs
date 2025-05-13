@@ -8,8 +8,8 @@ namespace _0.DucTALib.Splash.Scripts
     {
         public SplashType splashType;
         public abstract void Enter();
-        public Transform mrecPos;
         public abstract void Next();
+        public MRECObject mrecObject;
         public void Complete()
         {
             gameObject.HideObject();
@@ -18,10 +18,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected void ShowMrec()
         {
-            CallAdsManager.ResizeMREC(mrecPos.rectTransform());
-            Debug.Log($"position : {mrecPos.transform.localPosition} _ {transform.name}");
-            HideMrec();
-            CallAdsManager.ShowMRECApplovin(mrecPos.gameObject, Camera.main);
+            mrecObject.ShowMREC(Camera.main);
         }
 
         protected void HideMrec()

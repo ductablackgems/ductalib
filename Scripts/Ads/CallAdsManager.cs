@@ -112,12 +112,16 @@ namespace _0.DucLib.Scripts.Ads
             return AdsManager.GetSizeMrec;
         }
 
+        public static float GetDPIDevice()
+        {
+            return Screen.dpi / 160f;
+        }
         public static Vector2 GetSizeMrec(RectTransform image)
         {
-            float screenDensity = Screen.dpi / 160f;
+            float screenDensity = GetDPIDevice();
             float mrecWidthPx = 300 * screenDensity;
             float mrecHeightPx = 250 * screenDensity;
-
+           
             var canvas = Master.GetNearestCanvas(image);
             float referenceDpi = 160f;
             float scaleFactor = canvas.scaleFactor;
