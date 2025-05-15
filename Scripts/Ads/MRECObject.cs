@@ -17,7 +17,7 @@ namespace _0.DucLib.Scripts.Ads
         private void SetDefault()
         {
             parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
-            content.sizeDelta = new Vector2(600, 500);
+            content.sizeDelta = new Vector2(540, 450);
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
         }
