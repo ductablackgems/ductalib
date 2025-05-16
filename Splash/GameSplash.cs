@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
@@ -120,6 +121,14 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game...";
+            if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
+            {
+                loadingBar.DOFillAmount(1, 0.5f);
+                currentProgressTxt.text = $"{100}%";
+                CompleteAllStep();
+                yield return new WaitForSeconds(1f);
+                yield break;
+            }
             /// add timeout
             float timer = 0f;
             float timeoutSeconds = 10f;
@@ -141,11 +150,7 @@ namespace _0.DucTALib.Splash
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
 
-            if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
-            {
-                CompleteAllStep();
-                yield break;
-            }
+            
 
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
@@ -190,6 +195,7 @@ namespace _0.DucTALib.Splash
             loadingObj.ShowObject();
             currentStepPanel.HideObject();
             CallAdsManager.HideMRECApplovin();
+            GameTracking.Progress(GameTracking.END_INTRO);
             DOVirtual.DelayedCall(2.5f, () => { SceneManager.LoadScene(sceneName); });
         }
     }

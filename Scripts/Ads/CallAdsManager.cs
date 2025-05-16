@@ -71,12 +71,13 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.ShowMrec(target);
         }
 
-        public static void ShowMRECApplovin(GameObject target, Camera cam)
+        public static void ShowMRECApplovin(GameObject target, Camera cam, string pos)
         {
             LogHelper.CheckPoint("Call MREC screen space");
 #if IGNORE_ADS
             return;
 #endif
+            AdsManager.ScreenName = pos;
             AdsManager.ShowMrec(target, cam);
         }
 

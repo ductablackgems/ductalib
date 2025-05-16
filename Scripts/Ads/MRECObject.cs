@@ -8,11 +8,13 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class MRECObject : MonoBehaviour
     {
-        public int spaceTop = 100;
-        public int spaceRight = -50;
+        public int spaceTop;
+        public int spaceRight;
         public RectTransform content;
         public RectTransform parent;
         public List<RectTransform> resizedObjects = new List<RectTransform>();
+
+        public string pos;
         // [Button]
         private void SetDefault()
         {
@@ -33,10 +35,10 @@ namespace _0.DucLib.Scripts.Ads
         }
         public void ShowMREC(Camera camera, bool ignoreDpiLimit = true)
         {
-#if UNITY_EDITOR
-            SetDefault();
-            return;
-#endif
+// #if UNITY_EDITOR
+//             SetDefault();
+//             return;
+// #endif
             if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f)
             {
                 SetDefault();
@@ -48,17 +50,12 @@ namespace _0.DucLib.Scripts.Ads
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
             HideMREC();
-            CallAdsManager.ShowMRECApplovin(content.gameObject,camera);
+            CallAdsManager.ShowMRECApplovin(content.gameObject, camera, pos);
             // StartCoroutine(WaitFrame());
         }
 
 
-        private IEnumerator WaitFrame()
-        {
-            yield return new WaitForEndOfFrame();
-            HideMREC();
-            CallAdsManager.ShowMRECApplovin(content.gameObject, Camera.main);
-        }
+     
 
         public void HideMREC()
         {

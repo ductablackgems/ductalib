@@ -28,10 +28,11 @@ namespace _0.DucLib.Scripts.Ads
                 yield return null;
             }
 
-            yield return new WaitUntil(() => AdsManager.IsMrecReady);
+            // yield return new WaitUntil(() => AdsManager.IsMrecReady);
             AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
+            AdsManager.ShowBanner();
             AdsManager.InitAppOpenManually();
             yield return new WaitUntil(AdsManager.IsOpenAppReady);
             AdsManager.InitRewardManually();

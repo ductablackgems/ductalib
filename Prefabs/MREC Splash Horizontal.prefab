@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 4995158085090359536}
   - component: {fileID: 6148811538816497567}
   - component: {fileID: 8632336291625024714}
+  - component: {fileID: 6885228098720764521}
   m_Layer: 5
   m_Name: Select age
   m_TagString: Untagged
@@ -974,6 +975,22 @@ MonoBehaviour:
   - {fileID: 4879854511810455983}
   - {fileID: 2911296487333708517}
   - {fileID: 409297004693724606}
+--- !u!114 &6885228098720764521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488663198803256109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc5e5250c6ebc649b802c4482e6fd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTop: 1
+  applyBot: 1
+  applyRight: 1
+  applyLeft: 1
 --- !u!1 &525847817506875279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2604,6 +2621,7 @@ GameObject:
   - component: {fileID: 5911427176527715677}
   - component: {fileID: 6821777101761314014}
   - component: {fileID: 3376454930292116411}
+  - component: {fileID: 2083092937134591673}
   m_Layer: 5
   m_Name: intro
   m_TagString: Untagged
@@ -2716,6 +2734,22 @@ MonoBehaviour:
   buttons:
   - {fileID: 6032908095229813286}
   - {fileID: 4276614205807962587}
+--- !u!114 &2083092937134591673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709283189834817341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc5e5250c6ebc649b802c4482e6fd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTop: 1
+  applyBot: 1
+  applyRight: 1
+  applyLeft: 1
 --- !u!1 &1724569684126972004
 GameObject:
   m_ObjectHideFlags: 0
@@ -6735,6 +6769,7 @@ GameObject:
   - component: {fileID: 117367416162519866}
   - component: {fileID: 6831337049588407545}
   - component: {fileID: 7257759268453629199}
+  - component: {fileID: 7980604177202336732}
   m_Layer: 5
   m_Name: LanguagePanel
   m_TagString: Untagged
@@ -6839,6 +6874,22 @@ MonoBehaviour:
   buttons:
   - {fileID: 8484732829765694398}
   - {fileID: 7845327707738419857}
+--- !u!114 &7980604177202336732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5500043098809793601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc5e5250c6ebc649b802c4482e6fd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTop: 1
+  applyBot: 1
+  applyRight: 1
+  applyLeft: 1
 --- !u!1 &5755022814785447790
 GameObject:
   m_ObjectHideFlags: 0
@@ -8997,6 +9048,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753673631032628044, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
+      propertyPath: pos
+      value: select_age
+      objectReference: {fileID: 0}
     - target: {fileID: 7553089652750970501, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -9287,6 +9342,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753673631032628044, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
+      propertyPath: pos
+      value: intro
+      objectReference: {fileID: 0}
     - target: {fileID: 7553089652750970501, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -9415,6 +9474,10 @@ PrefabInstance:
     - target: {fileID: 3769917260782942758, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753673631032628044, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
+      propertyPath: pos
+      value: select_age
       objectReference: {fileID: 0}
     - target: {fileID: 7553089652750970501, guid: 71f00bbcd3d496e4c8421af9a2f79dfa, type: 3}
       propertyPath: m_Enabled
