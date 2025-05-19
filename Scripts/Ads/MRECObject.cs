@@ -35,10 +35,10 @@ namespace _0.DucLib.Scripts.Ads
         }
         public void ShowMREC(Camera camera, bool ignoreDpiLimit = true)
         {
-// #if UNITY_EDITOR
-//             SetDefault();
-//             return;
-// #endif
+#if UNITY_EDITOR
+            SetDefault();
+            return;
+#endif
             if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f)
             {
                 SetDefault();

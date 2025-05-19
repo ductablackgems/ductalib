@@ -195,6 +195,8 @@ namespace _0.DucTALib.Splash
             loadingObj.ShowObject();
             currentStepPanel.HideObject();
             CallAdsManager.HideMRECApplovin();
+            
+            SplashTracking.TrackingIntro("end_intro");
             GameTracking.Progress(GameTracking.END_INTRO);
             DOVirtual.DelayedCall(2.5f, () => { SceneManager.LoadScene(sceneName); });
         }
