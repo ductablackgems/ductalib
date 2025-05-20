@@ -13,24 +13,9 @@ namespace _0.DucTALib.Splash.Scripts
 {
     public class StepSelectLanguage : BaseStepSplash
     {
-        public override void Enter()
-        {
-            gameObject.ShowObject();
-            SplashTracking.TrackingIntro("show_select_age");
-            canvasGroup.FadeInPopup();
-            SelectLanguage(GlobalData.Language);
-            ShowMrec();
-            StartCoroutine(ShowNext());
-        }
-
-        public override void Next()
-        {
-            GameSplash.instance.NextStep();
-        }
-
         [SerializeField] private List<ButtonLanguage> languageButtons = new List<ButtonLanguage>();
         [SerializeField] private CanvasGroup canvasGroup;
-        public ButtonCustomGroup group;
+
         public void SelectLanguage(LocalizedManager.Language language)
         {
             AudioManager.Instance.PlayClickSound();
@@ -49,7 +34,31 @@ namespace _0.DucTALib.Splash.Scripts
         private IEnumerator ShowNext()
         {
             yield return new WaitForSeconds(3.5f);
-            group.CurrentButton.ShowObject();
+            currentButton.ShowObject();
+        }
+
+        public override void Enter()
+        {
+            gameObject.ShowObject();
+            GetCurrentButton();
+            SplashTracking.TrackingIntro("show_select_age");
+            canvasGroup.FadeInPopup();
+            SelectLanguage(GlobalData.Language);
+            ShowMrec();
+            StartCoroutine(ShowNext());
+        }
+
+        public override void Next()
+        {
+            GameSplash.instance.NextStep();
+        }
+
+        protected override void GetCurrentButton()
+        {
+            if (currentButton != null) return;
+            var config = SplashRemoteConfig.CustomConfigValue.selectLanguageConfig;
+            var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
+            currentButton = button;
         }
     }
 }

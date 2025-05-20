@@ -5,34 +5,25 @@ using UnityEngine.UI;
 
 namespace _0.DucTALib.CustomButton
 {
-    
     public class ButtonCustom : MonoBehaviour
     {
-        public Image buttonImg;
-        public TextMeshProUGUI tmpText;
-        public void SetUpButton(CustomButtonConfig config)
+        public enum ButtonType
         {
-            if(!config.customButton) return;
-
-            if (config.backgroundColor != "none")
-            {
-                buttonImg.color = CommonHelper.HexToColor(config.backgroundColor);
-            }
-            
-            if (config.imageName != "none")
-            {
-                // buttonImg.color = CommonHelper.HexToColor(config.backgroundColor);
-            }
-
-            if (config.textValue != "none")
-            {
-                tmpText.text = config.textValue;
-            }
-            
-            if (config.textColor != "none")
-            {
-                tmpText.color = CommonHelper.HexToColor(config.textColor);
-            }
+            ScreenButton,
+            TextOnly,
+            WithImage
         }
+
+        public enum ButtonPosition
+        {
+            Center,
+            TopRight,
+            TopLeft,
+            BottomRight,
+            BottomLeft,
+            Bottom
+        }
+        public ButtonType type;
+        public ButtonPosition pos;
     }
 }

@@ -11,14 +11,6 @@ using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
 {
-    [Serializable]
-    public class SplashCustomConfigValue
-    {
-        public List<SplashConfig> splashConfigs = new List<SplashConfig>();
-        public List<CustomButtonGroupConfig> groupButtonCustomConfigs;
-        public bool loadIntro = false;
-    }
-
     public class SplashRemoteConfig : MonoBehaviour
     {
         public static SplashCustomConfigValue CustomConfigValue;

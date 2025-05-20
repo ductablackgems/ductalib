@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.CustomButton;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _0.DucTALib.Splash.Scripts
@@ -9,6 +12,11 @@ namespace _0.DucTALib.Splash.Scripts
         public SplashType splashType;
         public abstract void Enter();
         public abstract void Next();
+
+        protected abstract void GetCurrentButton();
+        public List<ButtonCustom> buttons;
+        [ReadOnly] public ButtonCustom currentButton;
+        
         public MRECObject mrecObject;
         public void Complete()
         {
@@ -30,5 +38,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             CallAdsManager.DestroyMRECApplovin();
         }
+        
+        
     }
 }

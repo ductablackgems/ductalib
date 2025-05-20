@@ -16,7 +16,6 @@ namespace _0.DucTALib.Splash.Scripts
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
-        public ButtonCustomGroup selectAgeNext;
         public CanvasGroup cvg;
         private int currentAge = 2012;
 
@@ -27,7 +26,7 @@ namespace _0.DucTALib.Splash.Scripts
             gameObject.ShowObject();
             cvg.FadeInPopup();
             SplashTracking.TrackingIntro("show_select_age");
-            // CallAdsManager.ShowMRECApplovin(bannerPos.gameObject, Camera.main);
+            GetCurrentButton();
             StartCoroutine(LoadIE());
             ShowMrec();
         }
@@ -51,8 +50,8 @@ namespace _0.DucTALib.Splash.Scripts
         {
             AudioManager.Instance.PlayClickSound();
             cd = 10;
-            if (!policyToggle.isOn) selectAgeNext.CurrentButton.HideObject();
-            else if (policyToggle.isOn && !selectAgeNext.CurrentButton.gameObject.activeSelf) selectAgeNext.CurrentButton.ShowButtonTween();
+            if (!policyToggle.isOn) currentButton.HideObject();
+            else if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
         }
 
         public void ChangeAge(int age)
@@ -62,14 +61,21 @@ namespace _0.DucTALib.Splash.Scripts
             ageText.text = currentAge.ToString();
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
-            if (policyToggle.isOn && !selectAgeNext.CurrentButton.gameObject.activeSelf) selectAgeNext.CurrentButton.ShowButtonTween();
-            else if (!policyToggle.isOn) selectAgeNext.CurrentButton.HideObject();
+            if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
+            else if (!policyToggle.isOn) currentButton.HideObject();
             cd = 10;
         }
 
         public override void Next()
         {
             cd = 0;
+        }
+
+        protected override void GetCurrentButton()
+        {
+            var config = SplashRemoteConfig.CustomConfigValue.selectAgeConfig;
+            var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
+            currentButton = button;
         }
     }
 }

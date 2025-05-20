@@ -1,52 +1,29 @@
 ﻿{
   "Splash": {
+    "loadIntro": true,
     "splashConfigs": [
       {
         "type": "Age"
       },
       {
         "type": "Intro"
-      },
-      {
-        "type": "Language"
       }
     ],
-    "groupButtonCustomConfigs": [
-      {
-        "groupName": "select_age_next",
-        "buttonConfig": {
-          "positionIndex": 0,
-          "customButton": false,
-          "backgroundColor": "none",
-          "imageName": "none",
-          "textValue": "none",
-          "textColor": "none"
-        }
-      },
-      {
-        "groupName": "intro_next",
-        "buttonConfig": {
-          "positionIndex": 0,
-          "customButton": false,
-          "backgroundColor": "none",
-          "imageName": "none",
-          "textValue": "none",
-          "textColor": "none"
-        }
-      },
-      {
-        "groupName": "select_language_next",
-        "buttonConfig": {
-          "positionIndex": 0,
-          "customButton": false,
-          "backgroundColor": "none",
-          "imageName": "none",
-          "textValue": "none",
-          "textColor": "none"
-        }
-      }
-    ],
-    "loadIntro": true
+    "selectAgeConfig": {
+      "buttonType": "WithImage",
+      "buttonPos": "BottomLeft"
+    },
+    "introConfig": {
+      "delayShowButtonTime": 6,
+      "isAutoNext": false,
+      "nextTIme": 6,
+      "buttonType": "ScreenButton",
+      "buttonPos": "Center"
+    },
+    "selectLanguageConfig": {
+      "buttonType": "WithImage",
+      "buttonPos": "BottomLeft"
+    }
   },
   "Custom": {
     "mrecMainPanel": true,

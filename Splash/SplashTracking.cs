@@ -12,6 +12,7 @@ namespace _0.DucTALib.Splash
         {
             var param = new Parameter("progress",value);
             LogHelper.LogPurple($"tracking_progress_{value}");
+            FirebaseEvent.LogEvent($"tracking_progress_{value}");
             FirebaseEvent.LogEvent("tracking_intro_progress",param);
         }
     }

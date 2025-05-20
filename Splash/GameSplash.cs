@@ -29,13 +29,7 @@ namespace _0.DucTALib.Splash
         Reward
     }
 
-    [Serializable]
-    public class SplashConfig
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public SplashType type;
-    }
-
+    
     public class GameSplash : SingletonMono<GameSplash>
     {
         public string sceneName;
@@ -121,8 +115,14 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game...";
+            // var timeoutFB = 5f;
+            // while (RemoteConfig.Ins.isDataFetched)
+            // {
+            //     
+            // }
             if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
+                Debug.Log($"data fetch {RemoteConfig.Ins.isDataFetched}");
                 loadingBar.DOFillAmount(1, 0.5f);
                 currentProgressTxt.text = $"{100}%";
                 CompleteAllStep();

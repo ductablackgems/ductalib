@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
@@ -11,46 +12,60 @@ using UnityEngine.UI;
 
 namespace _0.DucTALib.Splash.Scripts
 {
+    [Serializable]
+    public class DelayButtonTxt
+    {
+        public TextMeshProUGUI tmp;
+        public ButtonCustom.ButtonPosition pos;
+    }
+
     public class StepIntro : BaseStepSplash
     {
+        public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
         [SerializeField] private List<Sprite> sprites = new List<Sprite>();
         [SerializeField] private List<string> tips = new List<string>();
         [SerializeField] private Image screenshotImage;
         [SerializeField] private Image fadeImg;
         [SerializeField] private TextMeshProUGUI tipText;
-        [SerializeField] private float showButtonDuration = 3.5f;
-        public ButtonCustomGroup nextGroup;
+        private TextMeshProUGUI currentDelayButtonTxt;
         public CanvasGroup cvg;
-        private Coroutine skipCoroutine;
+        private Coroutine showButtonCoroutine;
         private int index = 0;
         private int countNext = 0;
 
         public override void Enter()
         {
             gameObject.ShowObject();
+            GetCurrentButton();
             cvg.FadeInPopup();
             SplashTracking.TrackingIntro("show_intro");
             index = 0;
             SetImage();
-            skipCoroutine = StartCoroutine(DelayShowButton());
             ShowMrec();
         }
 
-        public override void Next()
+        protected override void GetCurrentButton()
         {
+            if (currentButton != null) return;
+            var config = SplashRemoteConfig.CustomConfigValue.introConfig;
+            var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
+            currentDelayButtonTxt = delayButtonTxts.Find(x => x.pos == config.buttonPos).tmp;
+            currentButton = button;
+            StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.delayShowButtonTime);
         }
 
         public void NextOnClick()
         {
             AudioManager.Instance.PlayClickSound();
+            NextStep();
+        }
+
+        private void NextStep()
+        {
             index++;
             SplashTracking.TrackingIntro($"next_intro_{index}");
-            if (skipCoroutine != null)
-            {
-                StopCoroutine(skipCoroutine);
-            }
-
-            skipCoroutine = null;
+            if (showButtonCoroutine != null) StopCoroutine(showButtonCoroutine);
+            showButtonCoroutine = null;
             if (index >= sprites.Count)
             {
                 Complete();
@@ -58,22 +73,37 @@ namespace _0.DucTALib.Splash.Scripts
             }
 
             ShowMrec();
-
             SetImage();
-            skipCoroutine = StartCoroutine(DelayShowButton());
+            StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTIme);
         }
 
-        private IEnumerator DelayShowButton()
+        private void StartDelayShowButton(int time)
         {
-            nextGroup.CurrentButton.HideObject();
-            showButtonDuration = 2f;
-            while (showButtonDuration > 0)
+            if (showButtonCoroutine != null) StopCoroutine(showButtonCoroutine);
+            showButtonCoroutine = null;
+            showButtonCoroutine = StartCoroutine(DelayShowButton(time));
+        }
+
+        private IEnumerator DelayShowButton(int time)
+        {
+            currentButton.HideObject();
+            currentDelayButtonTxt.ShowObject();
+
+            for (int i = time; i > 0; i--)
             {
-                showButtonDuration -= Time.deltaTime;
-                yield return null;
+                currentDelayButtonTxt.text = $"Next in {i}s";
+                yield return new WaitForSeconds(1f);
             }
 
-            nextGroup.CurrentButton.ShowObject();
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
+            {
+                NextStep();
+            }
+            else
+            {
+                currentDelayButtonTxt.HideObject();
+                currentButton.ShowObject();
+            }
         }
 
         private void SetImage()
@@ -84,6 +114,10 @@ namespace _0.DucTALib.Splash.Scripts
                 screenshotImage.sprite = sprites[index];
                 fadeImg.DOFade(0, 0.12f);
             });
+        }
+
+        public override void Next()
+        {
         }
     }
 }
