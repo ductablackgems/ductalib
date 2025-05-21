@@ -76,6 +76,8 @@ namespace _0.DucTALib.Splash
 
         private void Start()
         {
+            SplashTracking.loading_duration.Reset();
+            SplashTracking.loading_duration.Start();
             StartCoroutine(WaitToLoadScene());
         }
 
@@ -115,11 +117,7 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game...";
-            // var timeoutFB = 5f;
-            // while (RemoteConfig.Ins.isDataFetched)
-            // {
-            //     
-            // }
+            
             if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 Debug.Log($"data fetch {RemoteConfig.Ins.isDataFetched}");
@@ -149,12 +147,13 @@ namespace _0.DucTALib.Splash
 
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
-
+            
             
 
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
-            CommonHelper.HideObject(currentProgressTxt);
+            SplashTracking.LoadingEnd();
+            currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
             StartStep();
         }
@@ -196,7 +195,6 @@ namespace _0.DucTALib.Splash
             currentStepPanel.HideObject();
             CallAdsManager.HideMRECApplovin();
             
-            SplashTracking.TrackingIntro("end_intro");
             GameTracking.Progress(GameTracking.END_INTRO);
             DOVirtual.DelayedCall(2.5f, () => { SceneManager.LoadScene(sceneName); });
         }

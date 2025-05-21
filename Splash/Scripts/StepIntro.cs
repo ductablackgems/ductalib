@@ -38,7 +38,7 @@ namespace _0.DucTALib.Splash.Scripts
             gameObject.ShowObject();
             GetCurrentButton();
             cvg.FadeInPopup();
-            SplashTracking.TrackingIntro("show_intro");
+            SplashTracking.OnboardingShow(1);
             index = 0;
             SetImage();
             ShowMrec();
@@ -63,15 +63,16 @@ namespace _0.DucTALib.Splash.Scripts
         private void NextStep()
         {
             index++;
-            SplashTracking.TrackingIntro($"next_intro_{index}");
+            SplashTracking.OnboardingNext(index);
             if (showButtonCoroutine != null) StopCoroutine(showButtonCoroutine);
             showButtonCoroutine = null;
+            
             if (index >= sprites.Count)
             {
                 Complete();
                 return;
             }
-
+            SplashTracking.OnboardingShow(index+1);
             ShowMrec();
             SetImage();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTIme);
@@ -98,6 +99,7 @@ namespace _0.DucTALib.Splash.Scripts
             if (SplashRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
             {
                 NextStep();
+                currentDelayButtonTxt.HideObject();
             }
             else
             {

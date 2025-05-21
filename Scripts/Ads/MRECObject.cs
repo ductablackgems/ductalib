@@ -43,7 +43,7 @@ namespace _0.DucLib.Scripts.Ads
 #if UNITY_EDITOR
             SetDefault();
             return;
-#endif
+#endif 
             if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f) // size >= 65%
             {
                 HideMREC();

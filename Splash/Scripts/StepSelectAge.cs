@@ -1,4 +1,5 @@
 using System.Collections;
+using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.CustomButton;
@@ -16,16 +17,17 @@ namespace _0.DucTALib.Splash.Scripts
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
+        public TextMeshProUGUI loadingText;
         public CanvasGroup cvg;
         private int currentAge = 2012;
-
+        private bool autoClose = true;
         private float cd;
 
         public override void Enter()
         {
             gameObject.ShowObject();
             cvg.FadeInPopup();
-            SplashTracking.TrackingIntro("show_select_age");
+            SplashTracking.PolicyShow();
             GetCurrentButton();
             StartCoroutine(LoadIE());
             ShowMrec();
@@ -37,12 +39,13 @@ namespace _0.DucTALib.Splash.Scripts
             while (cd > 0)
             {
                 cd -= Time.deltaTime;
-                GameSplash.instance.loadingText.text = $"AUTO CLOSE LATER {(int)cd}S";
+                loadingText.text = $"AUTO CLOSE LATER {(int)cd}S";
                 yield return null;
             }
 
-            GameSplash.instance.loadingText.text = "";
+            loadingText.text = "";
             HideMrec();
+            SplashTracking.PolicyEnd(autoClose);
             Complete();
         }
 
@@ -69,6 +72,7 @@ namespace _0.DucTALib.Splash.Scripts
         public override void Next()
         {
             cd = 0;
+            autoClose = false;
         }
 
         protected override void GetCurrentButton()

@@ -27,13 +27,6 @@ namespace _0.DucTALib.Scripts.Common
 
         public void FetchComplete()
         {
-            // var settings = new JsonSerializerSettings
-            // {
-            //
-            //     Converters = new List<JsonConverter> { new StringEnumConverter() }
-            // };
-            // CustomConfigValue = JsonConvert.DeserializeObject<SplashCustomConfigValue>(RemoteConfig.Ins.custom_config, settings);
-            
             var settings = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
@@ -41,6 +34,7 @@ namespace _0.DucTALib.Scripts.Common
 
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
+            SplashTracking.SetUserProperty();
         }
     }
 }

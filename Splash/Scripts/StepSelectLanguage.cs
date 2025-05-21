@@ -41,7 +41,6 @@ namespace _0.DucTALib.Splash.Scripts
         {
             gameObject.ShowObject();
             GetCurrentButton();
-            SplashTracking.TrackingIntro("show_select_age");
             canvasGroup.FadeInPopup();
             SelectLanguage(GlobalData.Language);
             ShowMrec();

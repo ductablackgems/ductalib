@@ -1,6 +1,7 @@
 ﻿{
   "Splash": {
     "loadIntro": true,
+    "testSegment" : 1000,
     "splashConfigs": [
       {
         "type": "Age"

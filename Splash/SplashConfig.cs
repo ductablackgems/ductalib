@@ -45,6 +45,7 @@ namespace _0.DucTALib.Splash
     public class SplashCustomConfigValue
     {
         public bool loadIntro = false;
+        public int testSegment;
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;
