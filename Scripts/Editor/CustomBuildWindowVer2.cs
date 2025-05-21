@@ -17,10 +17,7 @@ namespace _0.DucLib.Scripts.Editor
         {
             new BuildSymbol("ENABLE_CHEAT", "Cheat Mode"),
             new BuildSymbol("IGNORE_ADS", "Ignore Ads"),
-            new BuildSymbol("DEBUG_NET", "Debug NET"),
-            new BuildSymbol("IGNORE_APP_OPEN", "Ignore App Open"),
-            new BuildSymbol("CONFIG_EDITOR", "Config Editor"),
-            new BuildSymbol("IGNORE_IAP", "Ignore IAP"),
+            new BuildSymbol("IGNORE_INTRO", "Ignore Intro"),
         };
 
         [MenuItem("CUSTOM BUILD/CUSTOM BUILD SETTINGS VER 2  %#&C")]

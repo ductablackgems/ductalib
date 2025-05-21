@@ -6,6 +6,7 @@ using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.NET;
 using DG.Tweening;
@@ -54,7 +55,6 @@ namespace _0.DucTALib.Splash
         };
 
         public List<BaseStepSplash> steps = new List<BaseStepSplash>();
-        public GameObject loadingObj;
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
@@ -117,10 +117,15 @@ namespace _0.DucTALib.Splash
             }
 
             loadingText.text = "Starting game...";
-            
+#if IGNORE_INTRO
+             loadingBar.DOFillAmount(1, 0.5f);
+                currentProgressTxt.text = $"{100}%";
+                CompleteAllStep();
+                yield return new WaitForSeconds(1f);
+                yield break;
+#endif
             if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
-                Debug.Log($"data fetch {RemoteConfig.Ins.isDataFetched}");
                 loadingBar.DOFillAmount(1, 0.5f);
                 currentProgressTxt.text = $"{100}%";
                 CompleteAllStep();
@@ -191,12 +196,9 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
-            loadingObj.ShowObject();
             currentStepPanel.HideObject();
             CallAdsManager.HideMRECApplovin();
-            
-            GameTracking.Progress(GameTracking.END_INTRO);
-            DOVirtual.DelayedCall(2.5f, () => { SceneManager.LoadScene(sceneName); });
+            LoadingScene.instance.LoadMenu();
         }
     }
 }

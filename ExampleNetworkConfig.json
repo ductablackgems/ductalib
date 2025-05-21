@@ -1,0 +1,25 @@
+{
+  "typeMediation": 0,
+  "maxInforIns": {
+    "idOA": "6ea6fbb3f59443a5",
+    "idFA": "c5de8a0329417651",
+    "idRW": "45fa60dd9e0fc15d",
+    "idBN": "9a1fab426e97ac96",
+    "idMREC": "90b0b1ea48748af1"
+  },
+  "admobInforIns": {
+    "nativeInfos": [
+      {
+        "isUseAllPrice": false,
+        "idAllPrice": "ca-app-pub-3940256099942544/2247696110",
+        "idMediumPrice": "ca-app-pub-3940256099942544/2247696110",
+        "idHighPrice": "ca-app-pub-3940256099942544/2247696110"
+      }
+    ]
+  },
+  "type0": {
+    "ao_UseAllAdmob": true,
+    "ao_ShowAfterFullScreenAds": true,
+    "ao_ShowAfterFullScreenAds2": true
+  }
+}

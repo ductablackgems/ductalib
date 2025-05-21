@@ -92,14 +92,14 @@ namespace _0.DucTALib.Splash.Scripts
 
             for (int i = time; i > 0; i--)
             {
-                currentDelayButtonTxt.text = $"Next in {i}s";
+                currentDelayButtonTxt.text = $"Next in {i}s...";
                 yield return new WaitForSeconds(1f);
             }
 
             if (SplashRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
             {
-                NextStep();
                 currentDelayButtonTxt.HideObject();
+                NextStep();
             }
             else
             {

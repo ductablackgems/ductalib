@@ -15,15 +15,15 @@
       "buttonPos": "BottomLeft"
     },
     "introConfig": {
-      "delayShowButtonTime": 6,
+      "delayShowButtonTime": 5,
       "isAutoNext": false,
-      "nextTIme": 6,
+      "nextTIme": 5,
       "buttonType": "ScreenButton",
       "buttonPos": "Center"
     },
     "selectLanguageConfig": {
       "buttonType": "WithImage",
-      "buttonPos": "BottomLeft"
+      "buttonP os": "BottomLeft"
     }
   },
   "Custom": {
