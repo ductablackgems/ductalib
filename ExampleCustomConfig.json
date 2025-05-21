@@ -25,7 +25,7 @@
     },
     "selectLanguageConfig": {
       "buttonType": "WithImage",
-      "buttonP os": "BottomLeft"
+      "buttonPos": "BottomLeft"
     }
   },
   "Custom": {
