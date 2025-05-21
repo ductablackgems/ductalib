@@ -67,7 +67,7 @@ namespace _0.DucTALib.Splash.Scripts
             if (showButtonCoroutine != null) StopCoroutine(showButtonCoroutine);
             showButtonCoroutine = null;
             
-            if (index >= sprites.Count)
+            if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
                 return;
@@ -75,7 +75,7 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.OnboardingShow(index+1);
             ShowMrec();
             SetImage();
-            StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTIme);
+            StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
         private void StartDelayShowButton(int time)

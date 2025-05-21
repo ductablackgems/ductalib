@@ -25,14 +25,15 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class SelectAgeConfig : SplashBaseConfig
     {
-        
+        public int nextTime;
     }
     [Serializable]
     public class IntroConfig : SplashBaseConfig
     {
         public int delayShowButtonTime;
+        public int tutorialCount;
         public bool isAutoNext;
-        public int nextTIme;
+        public int nextTime;
 
         
     }

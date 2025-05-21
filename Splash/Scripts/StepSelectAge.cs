@@ -35,7 +35,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator LoadIE()
         {
-            cd = 10;
+            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
             while (cd > 0)
             {
                 cd -= Time.deltaTime;
@@ -52,7 +52,7 @@ namespace _0.DucTALib.Splash.Scripts
         public void ToggleOnChange(bool isOn)
         {
             AudioManager.Instance.PlayClickSound();
-            cd = 10;
+            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
             if (!policyToggle.isOn) currentButton.HideObject();
             else if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
         }
@@ -66,7 +66,7 @@ namespace _0.DucTALib.Splash.Scripts
             rightAgeText.text = (currentAge + 1).ToString();
             if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
             else if (!policyToggle.isOn) currentButton.HideObject();
-            cd = 10;
+            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
         }
 
         public override void Next()

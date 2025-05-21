@@ -12,12 +12,14 @@
     ],
     "selectAgeConfig": {
       "buttonType": "WithImage",
-      "buttonPos": "BottomLeft"
+      "buttonPos": "BottomLeft",
+      "nextTime": 5
     },
     "introConfig": {
       "delayShowButtonTime": 5,
       "isAutoNext": false,
-      "nextTIme": 5,
+      "nextTime": 5,
+      "tutorialCount": 4,
       "buttonType": "ScreenButton",
       "buttonPos": "Center"
     },
