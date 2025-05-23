@@ -1,7 +1,7 @@
 ﻿{
   "Splash": {
     "loadIntro": true,
-    "testSegment": 1000,
+    "testSegment": 1002,
     "interComplete": true,
     "splashConfigs": [
       {

@@ -28,7 +28,11 @@ namespace _0.DucLib.Scripts.Ads
                 yield return null;
             }
 
-            // yield return new WaitUntil(() => AdsManager.IsMrecReady);
+            StartCoroutine(LoadOtherAds());
+        }
+
+        private IEnumerator LoadOtherAds()
+        {
             AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);

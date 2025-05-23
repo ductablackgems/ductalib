@@ -1,7 +1,7 @@
 ﻿{
   "Splash": {
     "loadIntro": true,
-    "testSegment": 1000,
+    "testSegment": 1003,
     "interComplete": true,
     "splashConfigs": [
       {
@@ -21,7 +21,7 @@
     },
     "introConfig": {
       "delayShowButtonTime": 5,
-      "isAutoNext": false,
+      "isAutoNext": true,
       "nextTime": 5,
       "tutorialCount": 4,
       "buttonType": "ScreenButton",

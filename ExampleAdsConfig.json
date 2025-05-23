@@ -5,6 +5,11 @@
     "decreaseInterTPI": 0,
     "posInfos": [
       {
+        "pos": "complete_all_step",
+        "isShow": true,
+        "timeShow": 20
+      },
+      {
         "pos": "character_button_click",
         "isShow": true,
         "timeShow": 40
@@ -171,7 +176,7 @@
   },
   "banner": {
     "isEnable": true,
-    "isAutoShow": false,
+    "isAutoShow": true,
     "pos": 1
   },
   "openApp": {

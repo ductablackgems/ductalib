@@ -30,7 +30,7 @@ namespace _0.DucTALib.Splash
         Reward
     }
 
-    
+
     public class GameSplash : SingletonMono<GameSplash>
     {
         public string sceneName;
@@ -132,6 +132,7 @@ namespace _0.DucTALib.Splash
                 yield return new WaitForSeconds(1f);
                 yield break;
             }
+
             /// add timeout
             float timer = 0f;
             float timeoutSeconds = 10f;
@@ -152,8 +153,7 @@ namespace _0.DucTALib.Splash
 
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
-            
-            
+
 
             SetUpStep();
             yield return new WaitForSeconds(0.2f);
@@ -187,6 +187,8 @@ namespace _0.DucTALib.Splash
             if (currentStep >= steps.Count)
             {
                 CompleteAllStep();
+                if (SplashRemoteConfig.CustomConfigValue.interComplete) CallAdsManager.ShowInter("complete_all_step");
+
                 return;
             }
 

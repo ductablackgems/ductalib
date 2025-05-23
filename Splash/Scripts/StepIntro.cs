@@ -9,6 +9,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash.Scripts
 {
@@ -66,13 +67,14 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.OnboardingNext(index);
             if (showButtonCoroutine != null) StopCoroutine(showButtonCoroutine);
             showButtonCoroutine = null;
-            
+
             if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
                 return;
             }
-            SplashTracking.OnboardingShow(index+1);
+
+            SplashTracking.OnboardingShow(index + 1);
             ShowMrec();
             SetImage();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
@@ -110,10 +112,13 @@ namespace _0.DucTALib.Splash.Scripts
 
         private void SetImage()
         {
-            tipText.text = tips[index];
+            var count = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
+            var cindex = index;
+            if (sprites.Count <= count) cindex = Random.Range(0, sprites.Count);
+            tipText.text = tips[cindex];
             fadeImg.DOFade(1.0f, 0.12f).OnComplete(() =>
             {
-                screenshotImage.sprite = sprites[index];
+                screenshotImage.sprite = sprites[cindex];
                 fadeImg.DOFade(0, 0.12f);
             });
         }

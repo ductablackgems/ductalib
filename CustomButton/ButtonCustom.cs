@@ -25,5 +25,26 @@ namespace _0.DucTALib.CustomButton
         }
         public ButtonType type;
         public ButtonPosition pos;
+        public Image background;
+        public TextMeshProUGUI text;
+
+        public void CustomTxt(string value)
+        {
+            if(text == null) text = transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if(value != "none") text.text = value;
+        }
+        
+        
+        public void CustomTxtColor(string value)
+        {
+            if(text == null) text = transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if (value != "none") text.color = CommonHelper.HexToColor(value);
+        }
+        
+        public void CustomButtonColor(string value)
+        {
+            if(background == null) background = transform.GetComponent<Image>();
+            if (value != "none") background.color = CommonHelper.HexToColor(value);
+        }
     }
 }

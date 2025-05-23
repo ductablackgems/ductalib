@@ -80,6 +80,9 @@ namespace _0.DucTALib.Splash.Scripts
             var config = SplashRemoteConfig.CustomConfigValue.selectAgeConfig;
             var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
             currentButton = button;
+            currentButton.CustomButtonColor(config.buttonColor);
+            currentButton.CustomTxt(config.textValue);
+            currentButton.CustomTxtColor(config.textColor);
         }
     }
 }

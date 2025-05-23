@@ -26,6 +26,9 @@ namespace _0.DucTALib.Splash
     public class SelectAgeConfig : SplashBaseConfig
     {
         public int nextTime;
+        public string textValue;
+        public string buttonColor;
+        public string textColor;
     }
     [Serializable]
     public class IntroConfig : SplashBaseConfig
@@ -47,6 +50,7 @@ namespace _0.DucTALib.Splash
     {
         public bool loadIntro = false;
         public int testSegment;
+        public bool interComplete;
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;

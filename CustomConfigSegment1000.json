@@ -1,8 +1,8 @@
-﻿{
+{
   "Splash": {
-    "loadIntro": true,
+    "loadIntro": false,
     "testSegment": 1000,
-    "interComplete": true,
+    "interComplete": false,
     "splashConfigs": [
       {
         "type": "Age"

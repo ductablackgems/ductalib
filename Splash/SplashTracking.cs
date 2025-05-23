@@ -52,9 +52,9 @@ namespace _0.DucTALib.Splash
         public static void PolicyEnd(bool isAutoClose)
         {
             string autoCloseStr = isAutoClose ? "1" : "0";
-            LogHelper.LogPurple($"[TRACKING] fn_policy_show_isAutoClose_{autoCloseStr}");
+            LogHelper.LogPurple($"[TRACKING] fn_policy_end_isAutoClose_{autoCloseStr}");
             Parameter param = new Parameter("is_auto_close", autoCloseStr);
-            FirebaseEvent.LogEvent("fn_policy_show", param);
+            FirebaseEvent.LogEvent("fn_policy_end", param);
         }
 
         // === Onboarding ===
