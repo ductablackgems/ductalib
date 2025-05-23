@@ -11,7 +11,7 @@ namespace _0.DucTALib.Splash
 
         private IEnumerator Start()
         {
-            yield return new WaitUntil(() => AdsManager.IsAdmobReady);
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             naUI.Request("intro");
             Debug.Log("NA =========== request");
             yield return new WaitUntil(()=> naUI.IsReady);
