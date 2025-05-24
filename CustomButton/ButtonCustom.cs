@@ -43,6 +43,7 @@ namespace _0.DucTALib.CustomButton
         
         public void CustomButtonColor(string value)
         {
+            if(type != ButtonType.WithImage) return;
             if(background == null) background = transform.GetComponent<Image>();
             if (value != "none") background.color = CommonHelper.HexToColor(value);
         }

@@ -1,8 +1,10 @@
 {
   "Splash": {
-    "loadIntro": false,
+    "loadIntro": true,
     "testSegment": 1000,
-    "interComplete": false,
+    "interComplete": true,
+    "timeoutMin" : 7,
+    "timeoutMax" : 15,
     "splashConfigs": [
       {
         "type": "Age"
@@ -25,7 +27,10 @@
       "nextTime": 5,
       "tutorialCount": 4,
       "buttonType": "ScreenButton",
-      "buttonPos": "Center"
+      "buttonPos": "Center",
+      "textValue": "none",
+      "buttonColor": "#4285F4",
+      "textColor": "#FFFFFF"
     },
     "selectLanguageConfig": {
       "buttonType": "WithImage",

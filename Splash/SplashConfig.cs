@@ -37,8 +37,9 @@ namespace _0.DucTALib.Splash
         public int tutorialCount;
         public bool isAutoNext;
         public int nextTime;
-
-        
+        public string textValue;
+        public string buttonColor;
+        public string textColor;
     }
     [Serializable]
     public class SelectLanguageConfig : SplashBaseConfig
@@ -51,6 +52,8 @@ namespace _0.DucTALib.Splash
         public bool loadIntro = false;
         public int testSegment;
         public bool interComplete;
+        public int timeoutMin;
+        public int timeoutMax;
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;

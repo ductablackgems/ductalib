@@ -3,6 +3,8 @@
     "loadIntro": true,
     "testSegment": 1001,
     "interComplete": false,
+    "timeoutMin" : 7,
+    "timeoutMax" : 15,
     "splashConfigs": [
       {
         "type": "Age"
@@ -22,7 +24,10 @@
       "nextTime": 5,
       "tutorialCount": 4,
       "buttonType": "ScreenButton",
-      "buttonPos": "Center"
+      "buttonPos": "Center",
+      "textValue": "none",
+      "buttonColor": "#4285F4",
+      "textColor": "#FFFFFF"
     },
     "selectLanguageConfig": {
       "buttonType": "WithImage",

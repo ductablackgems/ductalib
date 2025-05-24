@@ -20,7 +20,7 @@ namespace _0.DucLib.Scripts.Ads
         private IEnumerator LoadAds()
         {
             yield return new WaitForEndOfFrame();
-            float timeout = 20f;
+            float timeout = 7;
             float currentTime = 0;
             while (!AdsManager.IsMrecReady && currentTime < timeout)
             {
@@ -33,10 +33,10 @@ namespace _0.DucLib.Scripts.Ads
 
         private IEnumerator LoadOtherAds()
         {
-            AdsManager.InitBannerManually();
+            // AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
-            AdsManager.ShowBanner();
+            // AdsManager.ShowBanner();
             AdsManager.InitAppOpenManually();
             yield return new WaitUntil(AdsManager.IsOpenAppReady);
             AdsManager.InitRewardManually();

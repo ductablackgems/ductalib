@@ -23,11 +23,9 @@ namespace _0.DucTALib.Splash.Scripts
     public class StepIntro : BaseStepSplash
     {
         public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
-        [SerializeField] private List<Sprite> sprites = new List<Sprite>();
         [SerializeField] private List<string> tips = new List<string>();
-        [SerializeField] private Image screenshotImage;
-        [SerializeField] private Image fadeImg;
         [SerializeField] private TextMeshProUGUI tipText;
+        public ContentCarousel contentCarousel;
         private TextMeshProUGUI currentDelayButtonTxt;
         public CanvasGroup cvg;
         private Coroutine showButtonCoroutine;
@@ -41,7 +39,6 @@ namespace _0.DucTALib.Splash.Scripts
             cvg.FadeInPopup();
             SplashTracking.OnboardingShow(1);
             index = 0;
-            SetImage();
             ShowMrec();
         }
 
@@ -52,6 +49,9 @@ namespace _0.DucTALib.Splash.Scripts
             var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
             currentDelayButtonTxt = delayButtonTxts.Find(x => x.pos == config.buttonPos).tmp;
             currentButton = button;
+            currentButton.CustomButtonColor(config.buttonColor);
+            currentButton.CustomTxt(config.textValue);
+            currentButton.CustomTxtColor(config.textColor);
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.delayShowButtonTime);
         }
 
@@ -59,6 +59,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             AudioManager.Instance.PlayClickSound();
             NextStep();
+            contentCarousel.MoveToNextPage();
         }
 
         private void NextStep()
@@ -76,7 +77,6 @@ namespace _0.DucTALib.Splash.Scripts
 
             SplashTracking.OnboardingShow(index + 1);
             ShowMrec();
-            SetImage();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
@@ -110,18 +110,18 @@ namespace _0.DucTALib.Splash.Scripts
             }
         }
 
-        private void SetImage()
-        {
-            var count = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
-            var cindex = index;
-            if (sprites.Count <= count) cindex = Random.Range(0, sprites.Count);
-            tipText.text = tips[cindex];
-            fadeImg.DOFade(1.0f, 0.12f).OnComplete(() =>
-            {
-                screenshotImage.sprite = sprites[cindex];
-                fadeImg.DOFade(0, 0.12f);
-            });
-        }
+        // private void SetImage()
+        // {
+        //     var count = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
+        //     var cindex = index;
+        //     if (sprites.Count <= count) cindex = Random.Range(0, sprites.Count);
+        //     tipText.text = tips[cindex];
+        //     fadeImg.DOFade(1.0f, 0.12f).OnComplete(() =>
+        //     {
+        //         screenshotImage.sprite = sprites[cindex];
+        //         fadeImg.DOFade(0, 0.12f);
+        //     });
+        // }
 
         public override void Next()
         {

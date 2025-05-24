@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
 using BG_Library.NET;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
 {
-    public class SplashRemoteConfig : MonoBehaviour
+    public class SplashRemoteConfig : SingletonMono<SplashRemoteConfig>
     {
         public static SplashCustomConfigValue CustomConfigValue;
         private void Awake()
@@ -28,10 +29,12 @@ namespace _0.DucTALib.Scripts.Common
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
-
+            LogHelper.LogLine();
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
             SplashTracking.SetUserProperty();
         }
+
+       
     }
 }

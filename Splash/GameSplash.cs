@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
@@ -9,6 +10,7 @@ using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.NET;
+using BG_Library.NET.Native_custom;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -60,7 +62,7 @@ namespace _0.DucTALib.Splash
         public TextMeshProUGUI currentProgressTxt;
         private float loadingDuration = 12f;
         private float[] speedStages = { 2f, 1f, 0.5f, 1.5f, 2.5f };
-        public float loadDuration = 12f;
+        private float loadDuration;
         private int currentMessageIndex = 0;
         private float currentTime = 0f;
 
@@ -74,15 +76,42 @@ namespace _0.DucTALib.Splash
         private int currentStep = 0;
         private BaseStepSplash currentStepPanel;
 
+        [BoxGroup("Native")] public NativeUIManager native;
+
         private void Start()
         {
             SplashTracking.loading_duration.Reset();
             SplashTracking.loading_duration.Start();
+            StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
+        }
+
+        IEnumerator AdsControl()
+        {
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            native.Request("loading");
+
+            yield return new WaitUntil(() => native.IsReady);
+            native.Show();
         }
 
         IEnumerator WaitToLoadScene()
         {
+            yield return new WaitForEndOfFrame();
+            float fbTimeout = 5;
+            while (fbTimeout > 0 && (RemoteConfig.Ins == null || RemoteConfig.Ins.isDataFetched))
+            {
+                fbTimeout -= Time.deltaTime;
+                yield return null;
+            }
+            if (RemoteConfig.Ins.isDataFetched)
+            {
+                loadDuration = SplashRemoteConfig.CustomConfigValue.timeoutMin;
+            }
+            else
+            {
+                loadDuration = 7;
+            }
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"{(int)(loadingBar.fillAmount * 100)}%";
             while (currentTime < loadDuration)
@@ -118,14 +147,25 @@ namespace _0.DucTALib.Splash
 
             loadingText.text = "Starting game...";
 #if IGNORE_INTRO
-             loadingBar.DOFillAmount(1, 0.5f);
-                currentProgressTxt.text = $"{100}%";
-                CompleteAllStep();
-                yield return new WaitForSeconds(1f);
-                yield break;
+            native.FinishNative();
+            AdsManager.InitBannerManually();
+            loadingBar.DOFillAmount(1, 0.5f);
+            currentProgressTxt.text = $"{100}%";
+            CompleteAllStep();
+            yield return new WaitForSeconds(1f);
+            yield break;
 #endif
-            if (!SplashRemoteConfig.CustomConfigValue.loadIntro)
+            if (SplashRemoteConfig.CustomConfigValue == null)
             {
+                LogHelper.LogLine();
+                SplashRemoteConfig.instance.FetchComplete();
+            }
+            if (!RemoteConfig.Ins.isDataFetched || !SplashRemoteConfig.CustomConfigValue.loadIntro)
+            {
+                // remove native
+                native.FinishNative();
+                AdsManager.InitBannerManually();
+                // init banner
                 loadingBar.DOFillAmount(1, 0.5f);
                 currentProgressTxt.text = $"{100}%";
                 CompleteAllStep();
@@ -133,30 +173,20 @@ namespace _0.DucTALib.Splash
                 yield break;
             }
 
-            /// add timeout
             float timer = 0f;
-            float timeoutSeconds = 10f;
-            while (!AdsManager.IsMrecReady && timer < timeoutSeconds)
+            float timeoutLater = SplashRemoteConfig.CustomConfigValue.timeoutMax -
+                                 SplashRemoteConfig.CustomConfigValue.timeoutMin;
+            while (!AdsManager.IsMrecReady && timer < timeoutLater)
             {
                 timer += Time.deltaTime;
                 yield return null;
             }
-
-            if (!AdsManager.IsMrecReady)
-            {
-                LogHelper.CheckPoint("MREC not ready after timeout.");
-            }
-            else
-            {
-                LogHelper.CheckPoint("MREC is ready.");
-            }
-
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = $"{100}%";
-
-
             SetUpStep();
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForEndOfFrame();
+            native.FinishNative();
+            AdsManager.InitBannerManually();
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];

@@ -22,6 +22,14 @@ namespace _0.DucLib.Scripts.Common
         {
             Debug.Log($"<color=yellow>[CHECK POINT]-[{memberName}]</color>");
         }
+        
+        public static void LogLine(
+            [System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
+            [System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0
+        )
+        {
+            Debug.Log($"<color=yellow>[CHECK POINT]-[{memberName}] at line {lineNumber}</color>");
+        }
         public static void Todo(string todo,[System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
             Debug.Log($"<color=#1AFFFF>[TODO]-[{memberName}] - {todo}</color>");
