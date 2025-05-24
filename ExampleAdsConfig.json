@@ -193,11 +193,11 @@
     ]
   },
   "native": {
-    "isEnable": false,
+    "isEnable": true,
     "posInfos": [
       {
         "isEnable": true,
-        "pos": "intro",
+        "pos": "loading",
         "reloadTime": 5
       }
     ]
