@@ -46,7 +46,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif 
             if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f) // size >= 65%
             {
-                HideMREC();
+                // HideMREC();
                 content.HideObject();
                 return;
             }
@@ -54,17 +54,19 @@ namespace _0.DucLib.Scripts.Ads
             // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
-            HideMREC();
             CallAdsManager.ShowMRECApplovin(content.gameObject, camera, pos);
             // StartCoroutine(WaitFrame());
         }
 
-        public 
+        public void UpdateMREC(Camera camera)
+        {
+            CallAdsManager.ResizeMREC(content.rectTransform());
+            content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
+            ResizeObjects();
+            CallAdsManager.UpdateMRECPosition(content.gameObject, camera, pos);
+        }
      
 
-        public void HideMREC()
-        {
-            CallAdsManager.HideMRECApplovin();
-        }
+        
     }
 }

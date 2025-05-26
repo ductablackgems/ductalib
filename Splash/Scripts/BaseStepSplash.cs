@@ -16,8 +16,9 @@ namespace _0.DucTALib.Splash.Scripts
         protected abstract void GetCurrentButton();
         public List<ButtonCustom> buttons;
         [ReadOnly] public ButtonCustom currentButton;
-        
+
         public MRECObject mrecObject;
+
         public virtual void Complete()
         {
             gameObject.HideObject();
@@ -26,19 +27,13 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected void ShowMrec()
         {
-            mrecObject.ShowMREC(Camera.main);
+            if (!GameSplash.instance.hasShowNative)
+            {
+                mrecObject.ShowMREC(Camera.main);
+                GameSplash.instance.hasShowNative = true;
+            }
+            else
+                mrecObject.UpdateMREC(Camera.main);
         }
-
-        protected void HideMrec()
-        {
-            CallAdsManager.HideMRECApplovin();
-        }
-
-        protected void DestroyMrec()
-        {
-            CallAdsManager.DestroyMRECApplovin();
-        }
-        
-        
     }
 }

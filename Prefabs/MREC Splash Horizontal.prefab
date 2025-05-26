@@ -1325,7 +1325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2080199709274428241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2170,7 +2170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5741199841138639260
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13453,6 +13453,7 @@ MonoBehaviour:
   - Loading in-game tutorials...
   - Setting up user preferences...
   - Finalizing game setup...
+  hasShowNative: 0
 --- !u!1 &5138215665302738769
 GameObject:
   m_ObjectHideFlags: 0
@@ -13910,7 +13911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4108460532042746462
 RectTransform:
   m_ObjectHideFlags: 0

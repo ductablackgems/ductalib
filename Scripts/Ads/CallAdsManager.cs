@@ -94,14 +94,7 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.HideMrec();
         }
 
-        public static void DestroyMRECApplovin()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.HideMrec();
-            // AdsManager.DesTroyMrec();
-        }
+    
 
         public static bool CheckInternet()
         {

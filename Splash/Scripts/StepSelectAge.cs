@@ -93,7 +93,6 @@ namespace _0.DucTALib.Splash.Scripts
             }
 
             loadingText.text = "";
-            HideMrec();
             SplashTracking.PolicyEnd(autoClose);
             Complete();
         }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using BG_Library.Common;
 using BG_Library.NET;
+using GoogleMobileAds.Api;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _0.DucLib.Scripts.Ads
 {
@@ -10,6 +13,12 @@ namespace _0.DucLib.Scripts.Ads
         private void Awake()
         {
             DontDestroyOnLoad(this);
+            BG_Event.AdmobMediation.Mrec.OnAdLoaded += DestroyAds;
+        }
+
+        private void OnDestroy()
+        {
+            BG_Event.AdmobMediation.Mrec.OnAdLoaded -= DestroyAds;
         }
 
         private void Start()
@@ -17,6 +26,15 @@ namespace _0.DucLib.Scripts.Ads
             StartCoroutine(LoadAds());
         }
 
+        public void DestroyAds(string adUnitId, ResponseInfo info)
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            if (currentSceneName != "Splash")
+            {
+                AdsManager.DestroyMrec();
+            }
+        }
+        
         private IEnumerator LoadAds()
         {
             yield return new WaitForEndOfFrame();
