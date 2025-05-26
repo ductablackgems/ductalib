@@ -81,6 +81,11 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.ShowMrec(target, cam);
         }
 
+        public static void UpdateMRECPosition(GameObject target, Camera cam, string pos)
+        {
+            AdsManager.ScreenName = pos;
+            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
+        }
         public static void HideMRECApplovin()
         {
 #if IGNORE_ADS

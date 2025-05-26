@@ -59,7 +59,7 @@ namespace _0.DucLib.Scripts.Ads
             // StartCoroutine(WaitFrame());
         }
 
-
+        public 
      
 
         public void HideMREC()
