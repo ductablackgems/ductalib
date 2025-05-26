@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using _0.DucTALib.Scripts.Common;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -114,6 +115,7 @@ namespace _0.DucTALib.Splash
 
         private void InitializeNavigationDots()
         {
+            var total = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
             for (int i = 0; i < totalPages; i++)
             {
                 GameObject dot = Instantiate(dotPrefab, dotsContainer.transform);
@@ -272,7 +274,8 @@ namespace _0.DucTALib.Splash
 
         private void UpdateDotSizes()
         {
-            for (int i = 0; i < dotsContainer.transform.childCount; i++)
+            var count = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
+            for (int i = 0; i < count; i++)
             {
                 GameObject dot = dotsContainer.transform.GetChild(i).gameObject;
                 Vector2 targetSize = i == currentIndex ? activeDotSize : inactiveDotSize;

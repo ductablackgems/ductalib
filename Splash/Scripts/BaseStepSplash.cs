@@ -18,7 +18,7 @@ namespace _0.DucTALib.Splash.Scripts
         [ReadOnly] public ButtonCustom currentButton;
         
         public MRECObject mrecObject;
-        public void Complete()
+        public virtual void Complete()
         {
             gameObject.HideObject();
             GameSplash.instance.NextStep();

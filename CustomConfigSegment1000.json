@@ -3,8 +3,8 @@
     "loadIntro": true,
     "testSegment": 1000,
     "interComplete": true,
-    "timeoutMin" : 7,
-    "timeoutMax" : 15,
+    "timeoutMin": 7,
+    "timeoutMax": 15,
     "splashConfigs": [
       {
         "type": "Age"

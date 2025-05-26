@@ -176,7 +176,7 @@
   },
   "banner": {
     "isEnable": true,
-    "isAutoShow": true,
+    "isAutoShow": false,
     "pos": 1
   },
   "openApp": {
@@ -187,8 +187,8 @@
     "isEnable": true,
     "posInfos": [
       {
-        "isEnable": false,
-        "pos": "temp"
+        "isEnable": true,
+        "pos": "loading"
       }
     ]
   },
@@ -199,6 +199,15 @@
         "isEnable": true,
         "pos": "loading",
         "reloadTime": 5
+      },{
+        "isEnable": true,
+        "pos": "select_age",
+        "reloadTime": 100
+      }
+      ,{
+        "isEnable": true,
+        "pos": "intro",
+        "reloadTime": 100
       }
     ]
   }

@@ -27,13 +27,12 @@ namespace _0.DucLib.Scripts.Ads
                 currentTime += Time.deltaTime;
                 yield return null;
             }
-
             StartCoroutine(LoadOtherAds());
         }
 
         private IEnumerator LoadOtherAds()
         {
-            // AdsManager.InitBannerManually();
+            AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
             // AdsManager.ShowBanner();

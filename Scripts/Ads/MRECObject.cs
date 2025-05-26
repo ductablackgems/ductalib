@@ -51,7 +51,7 @@ namespace _0.DucLib.Scripts.Ads
                 return;
             }
             CallAdsManager.ResizeMREC(content.rectTransform());
-            parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
+            // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
             HideMREC();

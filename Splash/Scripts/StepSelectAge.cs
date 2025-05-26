@@ -1,45 +1,94 @@
 using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
 using _0.Custom.Scripts;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+using BG_Library.NET;
+using BG_Library.NET.Native_custom;
 
 namespace _0.DucTALib.Splash.Scripts
 {
     public class StepSelectAge : BaseStepSplash
     {
-        [SerializeField] private float durationShowButton;
+        [Header("UI Elements")]
         [SerializeField] private Toggle policyToggle;
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
-        public TextMeshProUGUI loadingText;
-        public CanvasGroup cvg;
+        [SerializeField] private TextMeshProUGUI loadingText;
+        [SerializeField] private CanvasGroup cvg;
+
+        [Header("Ads")]
+        // public NativeUIManager native;
+
+        [Header("Config")]
+        [SerializeField] private float durationShowButton;
+
+        // Internal
         private int currentAge = 2012;
-        private bool autoClose = true;
         private float cd;
+        private bool isClick = false;
+        private bool autoClose = true;
+
+        //============================//
+        //         Lifecycle          //
+        //============================//
 
         public override void Enter()
         {
             gameObject.ShowObject();
             cvg.FadeInPopup();
+
             SplashTracking.PolicyShow();
             GetCurrentButton();
-            StartCoroutine(LoadIE());
+
+            StartCoroutine(LoadNative());
+            StartCoroutine(AutoCloseCountdown());
+
+            // native.Show();
             ShowMrec();
         }
 
-        private IEnumerator LoadIE()
+        public override void Complete()
+        {
+            // native.FinishNative();
+            base.Complete();
+        }
+
+        public override void Next()
+        {
+            cd = 0;
+            autoClose = false;
+        }
+
+        //============================//
+        //          Logic             //
+        //============================//
+
+        private IEnumerator LoadNative()
+        {
+            // yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            //
+            // native.Request("select_age");
+            // yield return new WaitUntil(() => native.IsReady);
+            //
+            // native.Show();
+            yield break;
+        }
+
+        private IEnumerator AutoCloseCountdown()
         {
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+
             while (cd > 0)
             {
-                cd -= Time.deltaTime;
                 loadingText.text = $"AUTO CLOSE LATER {(int)cd}S";
+                cd -= Time.deltaTime;
                 yield return null;
             }
 
@@ -49,37 +98,64 @@ namespace _0.DucTALib.Splash.Scripts
             Complete();
         }
 
+        private void RefreshAds()
+        {
+            if (!isClick)
+            {
+                isClick = true;
+                // native.RefreshAd();
+            }
+        }
+
+        //============================//
+        //         UI Events          //
+        //============================//
+
         public void ToggleOnChange(bool isOn)
         {
             AudioManager.Instance.PlayClickSound();
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
-            if (!policyToggle.isOn) currentButton.HideObject();
-            else if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
+
+            if (policyToggle.isOn)
+            {
+                if (!currentButton.gameObject.activeSelf)
+                    currentButton.ShowButtonTween();
+            }
+            else
+            {
+                currentButton.HideObject();
+            }
+
+            RefreshAds();
         }
 
-        public void ChangeAge(int age)
+        public void ChangeAge(int ageDelta)
         {
             AudioManager.Instance.PlayClickSound();
-            currentAge += age;
+
+            currentAge += ageDelta;
             ageText.text = currentAge.ToString();
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
-            if (policyToggle.isOn && !currentButton.gameObject.activeSelf) currentButton.ShowButtonTween();
-            else if (!policyToggle.isOn) currentButton.HideObject();
+
+            if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
+                currentButton.ShowButtonTween();
+            else if (!policyToggle.isOn)
+                currentButton.HideObject();
+
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            RefreshAds();
         }
 
-        public override void Next()
-        {
-            cd = 0;
-            autoClose = false;
-        }
+        //============================//
+        //        Setup Button        //
+        //============================//
 
         protected override void GetCurrentButton()
         {
             var config = SplashRemoteConfig.CustomConfigValue.selectAgeConfig;
-            var button = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
-            currentButton = button;
+
+            currentButton = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
             currentButton.CustomButtonColor(config.buttonColor);
             currentButton.CustomTxt(config.textValue);
             currentButton.CustomTxtColor(config.textColor);
