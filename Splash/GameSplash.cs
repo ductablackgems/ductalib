@@ -34,7 +34,7 @@ namespace _0.DucTALib.Splash
         private int currentStep = 0;
         private BaseStepSplash currentStepPanel;
             
-        // [BoxGroup("Native")] public NativeUIManager native;
+        [BoxGroup("Native")] public NativeUIManager native;
 
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
@@ -76,11 +76,10 @@ namespace _0.DucTALib.Splash
 
         private IEnumerator AdsControl()
         {
-            // yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
-            // native.Request("loading");
-            // yield return new WaitUntil(() => native.IsReady);
-            // native.Show();
-            yield break;
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            native.Request("loading");
+            yield return new WaitUntil(() => native.IsReady);
+            native.Show();
         }
 
         private IEnumerator WaitToLoadScene()
@@ -93,48 +92,39 @@ namespace _0.DucTALib.Splash
                 fbTimeout -= Time.deltaTime;
                 yield return null;
             }
-
+            LogHelper.LogLine();
             loadDuration = RemoteConfig.Ins.isDataFetched
                 ? SplashRemoteConfig.CustomConfigValue.timeoutMin
                 : 12f;
-
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
-
             while (currentTime < loadDuration)
             {
                 HandleLoadingProgress();
                 yield return null;
             }
-
             FinishLoadingPhase();
-
             if (!RemoteConfig.Ins.isDataFetched || !SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield return new WaitForSeconds(1f);
                 yield break;
             }
-
             float timeoutLater = SplashRemoteConfig.CustomConfigValue.timeoutMax -
                                  SplashRemoteConfig.CustomConfigValue.timeoutMin;
             float timer = 0f;
-
             while (!AdsManager.IsMrecReady && timer < timeoutLater)
             {
                 timer += Time.deltaTime;
                 yield return null;
             }
-
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = "100%";
             SetUpStep();
             yield return new WaitForEndOfFrame();
-
-            // native.FinishNative();
+            native.FinishNative();
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
-
             currentStepPanel = steps[currentStep];
             StartStep();
         }
