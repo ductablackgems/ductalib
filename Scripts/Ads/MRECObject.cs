@@ -44,12 +44,12 @@ namespace _0.DucLib.Scripts.Ads
             content.HideObject();
             return;
 #endif 
-            if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f) // size >= 65%
-            {
-                // HideMREC();
-                content.HideObject();
-                return;
-            }
+            // if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f) // size >= 65%
+            // {
+            //     // HideMREC();
+            //     content.HideObject();
+            //     return;
+            // }
             CallAdsManager.ResizeMREC(content.rectTransform());
             // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
@@ -60,6 +60,10 @@ namespace _0.DucLib.Scripts.Ads
 
         public void UpdateMREC(Camera camera)
         {
+#if UNITY_EDITOR
+            content.HideObject();
+            return;
+#endif 
             CallAdsManager.ResizeMREC(content.rectTransform());
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
