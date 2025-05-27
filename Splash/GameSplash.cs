@@ -35,7 +35,7 @@ namespace _0.DucTALib.Splash
         private BaseStepSplash currentStepPanel;
             
         [BoxGroup("Native")] public NativeUIManager native;
-
+        public bool ignoreNative;
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -76,6 +76,7 @@ namespace _0.DucTALib.Splash
 
         private IEnumerator AdsControl()
         {
+            if (ignoreNative) yield break;
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
@@ -124,7 +125,8 @@ namespace _0.DucTALib.Splash
             SetUpStep();
             LogHelper.LogLine();
             yield return new WaitForEndOfFrame();
-            native.FinishNative();
+            if(!ignoreNative)
+                native.FinishNative();
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
