@@ -31,9 +31,8 @@ namespace _0.DucTALib.Splash.Scripts
             }
         }
 
-        private IEnumerator ShowNext()
+        private void ShowNext()
         {
-            yield return new WaitForSeconds(3.5f);
             currentButton.ShowObject();
         }
 
@@ -44,7 +43,7 @@ namespace _0.DucTALib.Splash.Scripts
             canvasGroup.FadeInPopup();
             SelectLanguage(GlobalData.Language);
             ShowMrec();
-            StartCoroutine(ShowNext());
+            ShowNext();
         }
 
         public override void Next()
