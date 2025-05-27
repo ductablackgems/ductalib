@@ -116,7 +116,7 @@ namespace _0.DucTALib.Splash
         private void InitializeNavigationDots()
         {
             var total = SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
-            for (int i = 0; i < totalPages; i++)
+            for (int i = 0; i < total; i++)
             {
                 GameObject dot = Instantiate(dotPrefab, dotsContainer.transform);
                 SetDotSize(dot, i == currentIndex ? activeDotSize : inactiveDotSize);
