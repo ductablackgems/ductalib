@@ -80,6 +80,7 @@ namespace _0.DucTALib.Splash
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
             native.Show();
+            LogHelper.LogLine();
         }
 
         private IEnumerator WaitToLoadScene()
@@ -121,6 +122,7 @@ namespace _0.DucTALib.Splash
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = "100%";
             SetUpStep();
+            LogHelper.LogLine();
             yield return new WaitForEndOfFrame();
             native.FinishNative();
             SplashTracking.LoadingEnd();
