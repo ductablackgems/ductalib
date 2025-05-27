@@ -2,14 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-using _0.Custom.Scripts;
-using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
-using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
-using BG_Library.NET;
-using BG_Library.NET.Native_custom;
 
 namespace _0.DucTALib.Splash.Scripts
 {
