@@ -3673,7 +3673,6 @@ MonoBehaviour:
   isFrom: 0
   isIndependentUpdate: 0
   autoKill: 1
-  autoGenerate: 1
   isActive: 1
   isValid: 1
   target: {fileID: 1366657024344193747}
@@ -3695,7 +3694,6 @@ MonoBehaviour:
     height: 0
   endValueTransform: {fileID: 0}
   optionalBool0: 0
-  optionalBool1: 0
   optionalFloat0: 0
   optionalInt0: 0
   optionalRotationMode: 0
