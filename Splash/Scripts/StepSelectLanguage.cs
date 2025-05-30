@@ -1,13 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
-using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
-using DG.Tweening;
-using Sirenix.OdinInspector;
+
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _0.DucTALib.Splash.Scripts
 {

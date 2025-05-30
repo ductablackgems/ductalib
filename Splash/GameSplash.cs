@@ -106,6 +106,8 @@ namespace _0.DucTALib.Splash
                 yield return null;
             }
             FinishLoadingPhase();
+            Debug.Log($"{RemoteConfig.Ins==null} _ n1111");
+            Debug.Log($"{SplashRemoteConfig.CustomConfigValue==null} _ n2");
             if (!RemoteConfig.Ins.isDataFetched || !SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
