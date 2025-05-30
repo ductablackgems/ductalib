@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
+using BG_Library.Common;
 using BG_Library.NET;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
 {
@@ -20,6 +20,7 @@ namespace _0.DucTALib.Scripts.Common
 
         private void OnDestroy()
         {
+            LogHelper.LogError();
             RemoteConfig.OnFetchComplete -= FetchComplete;
         }
 
@@ -33,7 +34,7 @@ namespace _0.DucTALib.Scripts.Common
             LogHelper.LogLine();
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            SplashTracking.SetUserProperty();
+            // SplashTracking.SetUserProperty();
         }
        
     }
