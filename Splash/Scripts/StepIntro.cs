@@ -109,7 +109,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public void NextOnClick()
         {
-            D_AudioManager.Instance.PlayClickSound();
+            AudioManager.Instance.PlayClickSound();
             NextStep();
             contentCarousel.MoveToNextPage();
         }

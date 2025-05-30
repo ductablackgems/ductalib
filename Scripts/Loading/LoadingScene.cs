@@ -59,7 +59,7 @@ namespace _0.DucTALib.Scripts.Loading
             }
             if (sceneName != menu)
             {
-                D_AudioManager.Instance.StopBGMMenu();
+                AudioManager.Instance.StopBGMMenu();
             }
         }
         private IEnumerator Hide()

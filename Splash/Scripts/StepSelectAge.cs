@@ -106,7 +106,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public void ToggleOnChange(bool isOn)
         {
-            D_AudioManager.Instance.PlayClickSound();
+            AudioManager.Instance.PlayClickSound();
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
 
             if (policyToggle.isOn)
@@ -124,7 +124,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public void ChangeAge(int ageDelta)
         {
-            D_AudioManager.Instance.PlayClickSound();
+            AudioManager.Instance.PlayClickSound();
 
             currentAge += ageDelta;
             ageText.text = currentAge.ToString();
