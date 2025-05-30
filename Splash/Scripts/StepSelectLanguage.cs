@@ -18,7 +18,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public void SelectLanguage(LocalizedManager.Language language)
         {
-            AudioManager.Instance.PlayClickSound();
+            AudioController.Instance.PlayClickSound();
             LocalizedManager.instance.ChangeLocal(language);
             RefreshButton(language);
         }

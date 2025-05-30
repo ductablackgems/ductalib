@@ -31,9 +31,9 @@ namespace _0.DucLib.Scripts.Ads
         {
             foreach (var rect in resizedObjects)
             {
-                var delta = rect.rectTransform().sizeDelta;
+                var delta = rect.sizeDelta;
                 delta.x = content.sizeDelta.x;
-                rect.rectTransform().sizeDelta = delta;
+                rect.sizeDelta = delta;
             }
         }
 
@@ -50,7 +50,7 @@ namespace _0.DucLib.Scripts.Ads
             //     content.HideObject();
             //     return;
             // }
-            CallAdsManager.ResizeMREC(content.rectTransform());
+            CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
             // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
@@ -64,7 +64,7 @@ namespace _0.DucLib.Scripts.Ads
             content.HideObject();
             return;
 #endif 
-            CallAdsManager.ResizeMREC(content.rectTransform());
+            CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
             content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
             CallAdsManager.UpdateMRECPosition(content.gameObject, camera, pos);

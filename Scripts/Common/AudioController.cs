@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
 {
-    [CreateAssetMenu(fileName = "AudioManager", menuName = "DucLib/AudioManager")]
+    [CreateAssetMenu(fileName = "AudioController", menuName = "DucLib/AudioController")]
 
-    public class AudioManager : ResourceSOManager<AudioManager>
+    public class AudioController : ResourceSOManager<AudioController>
     {
         [FoldoutGroup("Music")] [SerializeField]
         private PlayAudioChannelSO BGM;
