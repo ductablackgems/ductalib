@@ -28,7 +28,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void Hide()
         {
-            AudioManager.Instance.PlayClickSound();
+            D_AudioManager.Instance.PlayClickSound();
             parent.HideObject();
         }
     }

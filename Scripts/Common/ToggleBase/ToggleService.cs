@@ -32,7 +32,7 @@ namespace _0.DucTALib.Scripts.Common.ToggleBase
         public void IsOnItem()
         {
             isOn?.Invoke();
-            if(isInitialized) AudioManager.Instance.PlayClickSound();
+            if(isInitialized) D_AudioManager.Instance.PlayClickSound();
         }
 
         protected void IsOffItem()
