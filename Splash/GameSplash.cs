@@ -13,7 +13,6 @@ using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.NET;
 using BG_Library.NET.Native_custom;
-using Scripts.Common;
 
 namespace _0.DucTALib.Splash
 {
