@@ -9,6 +9,7 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class MRECObject : MonoBehaviour
     {
+        public bool anchorLeft = false;
         public int spaceTop;
         public int spaceRight;
         public RectTransform content;
@@ -52,7 +53,8 @@ namespace _0.DucLib.Scripts.Ads
             // }
             CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
             // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
-            content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
+            var anchor = anchorLeft ? 1 : -1;
+            content.anchoredPosition = new Vector2(anchor *(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
             CallAdsManager.ShowMRECApplovin(content.gameObject, camera, pos);
             // StartCoroutine(WaitFrame());
@@ -65,7 +67,8 @@ namespace _0.DucLib.Scripts.Ads
             return;
 #endif 
             CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
-            content.anchoredPosition = new Vector2(-(content.sizeDelta.x / 2), content.anchoredPosition.y);
+            var anchor = anchorLeft ? 1 : -1;
+            content.anchoredPosition = new Vector2(anchor *(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
             CallAdsManager.UpdateMRECPosition(content.gameObject, camera, pos);
         }

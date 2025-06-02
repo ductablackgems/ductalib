@@ -54,7 +54,8 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
             // AdsManager.ShowBanner();
-            AdsManager.InitAppOpenManually();
+            if(NetConfigsSO.Ins.IsInitAOManually)
+                AdsManager.InitAppOpenManually();
             yield return new WaitUntil(AdsManager.IsOpenAppReady);
             AdsManager.InitRewardManually();
             yield return new WaitUntil(() => AdsManager.IsRewardedReady);
