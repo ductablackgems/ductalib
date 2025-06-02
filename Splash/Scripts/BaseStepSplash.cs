@@ -35,5 +35,6 @@ namespace _0.DucTALib.Splash.Scripts
             else
                 mrecObject.UpdateMREC(Camera.main);
         }
+
     }
 }

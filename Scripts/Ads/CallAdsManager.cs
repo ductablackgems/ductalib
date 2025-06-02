@@ -50,17 +50,6 @@ namespace _0.DucLib.Scripts.Ads
         {
         }
 
-        public static void ShowMRECAdmob(Transform pos)
-        {
-        }
-
-        public static void HideMRECAdmob()
-        {
-        }
-
-        public static void DestroyMRECAdmob()
-        {
-        }
 
         public static void ShowMRECApplovin(GameObject target)
         {

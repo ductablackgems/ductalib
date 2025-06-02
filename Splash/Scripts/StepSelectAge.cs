@@ -19,7 +19,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         [Header("Ads")]
         // public NativeUIManager native;
-
+        
         [Header("Config")]
         [SerializeField] private float durationShowButton;
 

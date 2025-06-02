@@ -20,7 +20,6 @@ namespace _0.DucTALib.Scripts.Common
 
         private void OnDestroy()
         {
-            LogHelper.LogError();
             RemoteConfig.OnFetchComplete -= FetchComplete;
         }
 

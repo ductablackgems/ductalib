@@ -19,12 +19,17 @@ namespace _0.DucTALib.Splash
 {
     public enum SplashType
     {
-        Age,
+        AgeLeft,
+        AgeRight,
         Intro,
         Language,
         Reward
     }
 
+    public enum PagePosition
+    {
+        Left, Right
+    }
     public class GameSplash : SingletonMono<GameSplash>
     {
         [Header("UI")] public Image loadingBar;
@@ -196,11 +201,9 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-                CompleteAllStep();
-
                 if (SplashRemoteConfig.CustomConfigValue.interComplete)
                     CallAdsManager.ShowInter("complete_all_step");
-
+                CompleteAllStep();
                 return;
             }
 
