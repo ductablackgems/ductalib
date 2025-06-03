@@ -9,8 +9,15 @@ namespace _0.DucTALib.Splash.Scripts
 {
     public class StepSelectAge : BaseStepSplash
     {
-        [Header("UI Elements")]
-        [SerializeField] private Toggle policyToggle;
+        public enum NextType
+        {
+            AnyClick,
+            ClickPolicy
+        }
+
+        [Header("UI Elements")] [SerializeField]
+        private Toggle policyToggle;
+
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
@@ -19,9 +26,9 @@ namespace _0.DucTALib.Splash.Scripts
 
         [Header("Ads")]
         // public NativeUIManager native;
-        
         [Header("Config")]
-        [SerializeField] private float durationShowButton;
+        [SerializeField]
+        private float durationShowButton;
 
         // Internal
         private int currentAge = 2012;
@@ -29,6 +36,7 @@ namespace _0.DucTALib.Splash.Scripts
         private bool isClick = false;
         private bool autoClose = true;
 
+        private bool hasAnyChange;
         //============================//
         //         Lifecycle          //
         //============================//
@@ -108,15 +116,23 @@ namespace _0.DucTALib.Splash.Scripts
         {
             AudioController.Instance.PlayClickSound();
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
-
-            if (policyToggle.isOn)
+            hasAnyChange = true;
+            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            {
+                if (policyToggle.isOn)
+                {
+                    if (!currentButton.gameObject.activeSelf)
+                        currentButton.ShowButtonTween();
+                }
+                else
+                {
+                    currentButton.HideObject();
+                }
+            }
+            else if (hasAnyChange)
             {
                 if (!currentButton.gameObject.activeSelf)
                     currentButton.ShowButtonTween();
-            }
-            else
-            {
-                currentButton.HideObject();
             }
 
             RefreshAds();
@@ -125,16 +141,25 @@ namespace _0.DucTALib.Splash.Scripts
         public void ChangeAge(int ageDelta)
         {
             AudioController.Instance.PlayClickSound();
-
+            hasAnyChange = true;
             currentAge += ageDelta;
             ageText.text = currentAge.ToString();
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
 
-            if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
-                currentButton.ShowButtonTween();
-            else if (!policyToggle.isOn)
-                currentButton.HideObject();
+
+            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            {
+                if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
+                    currentButton.ShowButtonTween();
+                else if (!policyToggle.isOn)
+                    currentButton.HideObject();
+            }
+            else if (hasAnyChange)
+            {
+                if (!currentButton.gameObject.activeSelf)
+                    currentButton.ShowButtonTween();
+            }
 
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
             RefreshAds();

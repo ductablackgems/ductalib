@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _0.DucTALib.CustomButton;
+using _0.DucTALib.Splash.Scripts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -29,6 +30,7 @@ namespace _0.DucTALib.Splash
         public string textValue;
         public string buttonColor;
         public string textColor;
+        public StepSelectAge.NextType nextType;
     }
     [Serializable]
     public class IntroConfig : SplashBaseConfig
