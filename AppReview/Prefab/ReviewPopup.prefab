@@ -495,12 +495,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9cf9523c4c442b8d384e8b1380063a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 0}
-  startReview: {fileID: 0}
-  badReview: {fileID: 0}
-  goodReview: {fileID: 0}
-  star: []
-  submitButton: {fileID: 0}
+  content: {fileID: 6553262873659904590}
+  startReview: {fileID: 6042510525420353101}
+  badReview: {fileID: 375813332469907332}
+  goodReview: {fileID: 5197528988460017542}
+  star:
+  - {fileID: 5752041219236452634}
+  - {fileID: 7725543302822538440}
+  - {fileID: 5961524366854242207}
+  - {fileID: 4922601876714413702}
+  - {fileID: 5107742483672154561}
+  submitButton: {fileID: 4277220492012357551}
 --- !u!1 &3211068988981854493
 GameObject:
   m_ObjectHideFlags: 0
