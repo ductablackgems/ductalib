@@ -22,13 +22,13 @@ namespace _0.DucLib.Scripts.Common
         {
             Debug.Log($"<color=yellow>[CHECK POINT]-[{memberName}]</color>");
         }
-        
         public static void LogLine(
+            string value = "",
             [System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0
         )
         {
-            Debug.Log($"<color=yellow>[CHECK POINT]-[{memberName}] at line {lineNumber}</color>");
+            Debug.Log($"<color=yellow>[CHECK LINE]-[{memberName}] at line {lineNumber} : {value}</color>");
         }
         public static void Todo(string todo,[System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
