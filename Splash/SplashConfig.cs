@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _0.DucTALib.CustomButton;
 using _0.DucTALib.Splash.Scripts;
+using GoogleMobileAds.Api;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -18,11 +19,15 @@ namespace _0.DucTALib.Splash
     public class SplashBaseConfig
     {
         [JsonConverter(typeof(StringEnumConverter))]
+        public AdFormatType adsType;
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public ButtonCustom.ButtonType buttonType;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ButtonCustom.ButtonPosition buttonPos;
     }
+
     [Serializable]
     public class SelectAgeConfig : SplashBaseConfig
     {
@@ -32,6 +37,7 @@ namespace _0.DucTALib.Splash
         public string textColor;
         public StepSelectAge.NextType nextType;
     }
+
     [Serializable]
     public class IntroConfig : SplashBaseConfig
     {
@@ -43,11 +49,12 @@ namespace _0.DucTALib.Splash
         public string buttonColor;
         public string textColor;
     }
+
     [Serializable]
     public class SelectLanguageConfig : SplashBaseConfig
     {
-        
     }
+
     [Serializable]
     public class SplashCustomConfigValue
     {

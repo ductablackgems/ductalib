@@ -26,6 +26,8 @@ namespace _0.DucTALib.Splash.Scripts
 
     public class StepIntro : BaseStepSplash
     {
+        #region Serialized Fields
+
         [Header("UI References")]
         public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
         public List<string> tips = new List<string>();
@@ -33,37 +35,42 @@ namespace _0.DucTALib.Splash.Scripts
         public CanvasGroup cvg;
 
         [Header("Ad & Content")]
-        // public NativeUIManager native;
         public ContentCarousel contentCarousel;
 
-        // Private state
+        #endregion
+
+        #region Private Fields
+
         private TextMeshProUGUI currentDelayButtonTxt;
         private Coroutine showButtonCoroutine;
         private int index = 0;
         private bool isClick = false;
 
-        // ======================= //
-        //        LIFE CYCLE       //
-        // ======================= //
+        #endregion
+
+        #region Unity Lifecycle
+
+        protected override void Awake()
+        {
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            {
+                LoadNative();
+            }
+            base.Awake();
+        }
+
+        #endregion
+
+        #region BaseStepSplash Overrides
 
         public override void Enter()
         {
             gameObject.ShowObject();
-            StartCoroutine(LoadNative());
-
+            ShowAds();
             GetCurrentButton();
             cvg.FadeInPopup();
-
             SplashTracking.OnboardingShow(1);
             index = 0;
-
-            ShowMrec();
-        }
-
-        public override void Complete()
-        {
-            // native.FinishNative();
-            base.Complete();
         }
 
         public override void Next()
@@ -71,25 +78,17 @@ namespace _0.DucTALib.Splash.Scripts
             // Intentionally left blank
         }
 
-        // ======================= //
-        //      TRACKING + ADS     //
-        // ======================= //
-
-        private IEnumerator LoadNative()
+        public override void ShowAds()
         {
-            // yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
-            //
-            // native.Request("intro");
-            // yield return new WaitUntil(() => native.IsReady);
-            //
-            // native.Show();
-            yield break;
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            {
+                StartCoroutine(ShowNative());
+            }
+            else if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
+            {
+                ShowMrec();
+            }
         }
-
-      
-        // ======================= //
-        //      BUTTON LOGIC       //
-        // ======================= //
 
         protected override void GetCurrentButton()
         {
@@ -106,6 +105,10 @@ namespace _0.DucTALib.Splash.Scripts
 
             StartDelayShowButton(config.delayShowButtonTime);
         }
+
+        #endregion
+
+        #region Button Logic
 
         public void NextOnClick()
         {
@@ -130,6 +133,7 @@ namespace _0.DucTALib.Splash.Scripts
                 Complete();
                 return;
             }
+
             tipText.text = tips[index];
             SplashTracking.OnboardingShow(index + 1);
             ShowMrec();
@@ -170,5 +174,7 @@ namespace _0.DucTALib.Splash.Scripts
                 currentButton.ShowObject();
             }
         }
+
+        #endregion
     }
 }

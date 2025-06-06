@@ -1,40 +1,60 @@
-using System.Collections.Generic;
-using _0.DucLib.Scripts.Ads;
-using _0.DucLib.Scripts.Common;
-using _0.DucTALib.CustomButton;
-using Sirenix.OdinInspector;
-using UnityEngine;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using _0.DucLib.Scripts.Ads;
+    using _0.DucLib.Scripts.Common;
+    using _0.DucTALib.CustomButton;
+    using BG_Library.NET.Native_custom;
+    using Sirenix.OdinInspector;
+    using UnityEngine;
 
-namespace _0.DucTALib.Splash.Scripts
-{
-    public abstract class BaseStepSplash : MonoBehaviour
+    namespace _0.DucTALib.Splash.Scripts
     {
-        public SplashType splashType;
-        public abstract void Enter();
-        public abstract void Next();
-
-        protected abstract void GetCurrentButton();
-        public List<ButtonCustom> buttons;
-        [ReadOnly] public ButtonCustom currentButton;
-
-        public MRECObject mrecObject;
-
-        public virtual void Complete()
+        public abstract class BaseStepSplash : MonoBehaviour
         {
-            gameObject.HideObject();
-            GameSplash.instance.NextStep();
-        }
+            public SplashType splashType;
+            public abstract void Enter();
+            public abstract void Next();
+            public abstract void ShowAds();
+            protected abstract void GetCurrentButton();
+            public List<ButtonCustom> buttons;
 
-        protected void ShowMrec()
-        {
-            if (!GameSplash.instance.hasShowNative)
+            public NativeUIManager native;
+            public string nativePosition;
+            [ReadOnly] public ButtonCustom currentButton;
+
+            public MRECObject mrecObject;
+
+            protected virtual void Awake()
             {
-                mrecObject.ShowMREC(Camera.main);
-                GameSplash.instance.hasShowNative = true;
+                gameObject.HideObject();
             }
-            else
-                mrecObject.UpdateMREC(Camera.main);
-        }
+            protected void LoadNative()
+            {
+                native.Request(nativePosition);
+            }
 
+            protected IEnumerator ShowNative()
+            {
+                yield return new WaitUntil(() => native.IsReady);
+                native.Show();
+            }
+            public virtual void Complete()
+            {
+                gameObject.HideObject();
+                GameSplash.instance.NextStep();
+            }
+
+            protected void ShowMrec()
+            {
+                if (!GameSplash.instance.hasShowNative)
+                {
+                    mrecObject.ShowMREC(Camera.main);
+                    GameSplash.instance.hasShowNative = true;
+                }
+                else
+                    mrecObject.UpdateMREC(Camera.main);
+            }
+
+        }
     }
-}

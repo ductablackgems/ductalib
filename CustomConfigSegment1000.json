@@ -3,11 +3,11 @@
     "loadIntro": true,
     "testSegment": 1000,
     "interComplete": true,
-    "timeoutMin": 7,
-    "timeoutMax": 15,
+    "timeoutMin": 12,
+    "timeoutMax": 20,
     "splashConfigs": [
       {
-        "type": "Age"
+        "type": "AgeLeft"
       },
       {
         "type": "Intro"
@@ -16,7 +16,9 @@
     "selectAgeConfig": {
       "buttonType": "WithImage",
       "buttonPos": "BottomLeft",
-      "nextTime": 10,
+      "nextType": "AnyClick",
+      "adsType" : "MREC",
+      "nextTime": 6,
       "textValue": "none",
       "buttonColor": "#4285F4",
       "textColor": "#FFFFFF"
@@ -25,7 +27,8 @@
       "delayShowButtonTime": 5,
       "isAutoNext": false,
       "nextTime": 5,
-      "tutorialCount": 4,
+      "tutorialCount": 1,
+      "adsType" : "MREC",
       "buttonType": "ScreenButton",
       "buttonPos": "Center",
       "textValue": "none",
@@ -33,6 +36,7 @@
       "textColor": "#FFFFFF"
     },
     "selectLanguageConfig": {
+      "adsType" : "MREC",
       "buttonType": "WithImage",
       "buttonPos": "BottomLeft"
     }

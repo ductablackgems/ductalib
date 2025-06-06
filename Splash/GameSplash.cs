@@ -16,6 +16,15 @@ using BG_Library.NET.Native_custom;
 
 namespace _0.DucTALib.Splash
 {
+    public enum AdFormatType
+    {
+        Native, 
+        MREC,
+        Inter, 
+        Banner, 
+        AppOpen,
+        
+    }
     public enum SplashType
     {
         AgeLeft,
