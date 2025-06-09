@@ -1,4 +1,5 @@
 using System.Collections;
+using _0.DucLib.Scripts.Ads;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,16 +20,16 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Serialized Fields
 
-        [Header("UI Elements")]
-        [SerializeField] private Toggle policyToggle;
+        [Header("UI Elements")] [SerializeField]
+        private Toggle policyToggle;
+
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
         [SerializeField] private TextMeshProUGUI loadingText;
         [SerializeField] private CanvasGroup cvg;
 
-        [Header("Config")]
-        [SerializeField] private float durationShowButton;
+        [Header("Config")] [SerializeField] private float durationShowButton;
 
         #endregion
 
@@ -44,7 +45,6 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Unity Lifecycle
 
-   
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
@@ -55,9 +55,10 @@ namespace _0.DucTALib.Splash.Scripts
 
             gameObject.SetActive(false);
         }
+
         public override void RefreshAds()
         {
-            if (!isClick )
+            if (!isClick)
             {
                 isClick = true;
                 if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
@@ -70,6 +71,7 @@ namespace _0.DucTALib.Splash.Scripts
                 }
             }
         }
+
         #endregion
 
         #region BaseStepSplash Overrides
@@ -192,7 +194,9 @@ namespace _0.DucTALib.Splash.Scripts
         {
             base.Complete();
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-             native.FinishNative();
+            {
+                native.FinishNative();
+            }
         }
 
         #endregion

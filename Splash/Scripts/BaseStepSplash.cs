@@ -54,18 +54,13 @@
             public virtual void Complete()
             {
                 gameObject.HideObject();
+                CallAdsManager.HideMRECApplovin();
                 GameSplash.instance.NextStep();
             }
 
             protected void ShowMrec()
             {
-                if (!GameSplash.instance.hasShowNative)
-                {
-                    mrecObject.ShowMREC(Camera.main);
-                    GameSplash.instance.hasShowNative = true;
-                }
-                else
-                    mrecObject.UpdateMREC(Camera.main);
+                mrecObject.ShowMREC(Camera.main);
             }
 
         }
