@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using BG_Library.NET;
 
 namespace _0.DucTALib.Splash.Scripts
 {
@@ -11,19 +12,33 @@ namespace _0.DucTALib.Splash.Scripts
         #region Serialized Fields
 
         [SerializeField] private List<ButtonLanguage> languageButtons = new List<ButtonLanguage>();
-        [SerializeField] private CanvasGroup canvasGroup;
+        public CanvasGroup anim;
 
         #endregion
 
         #region Unity Lifecycle
 
-        protected override void Awake()
+        protected override IEnumerator InitNA()
         {
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.Native)
             {
                 LoadNative();
             }
-            base.Awake();
+
+            gameObject.SetActive(false);
+        }
+
+        public override void RefreshAds()
+        {
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            {
+                native.RefreshAd();
+            }
+            else
+            {
+                ShowMrec();
+            }
         }
 
         #endregion
@@ -32,12 +47,10 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void Enter()
         {
-            gameObject.ShowObject();
-            ShowAds();
-            GetCurrentButton();
-            canvasGroup.FadeInPopup();
+            base.Enter();
             SelectLanguage(GlobalData.Language);
             ShowNext();
+            anim.FadeInPopup();
         }
 
         public override void Next()
@@ -50,6 +63,7 @@ namespace _0.DucTALib.Splash.Scripts
             if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.Native)
             {
                 StartCoroutine(ShowNative());
+                mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.MREC)
             {
@@ -92,7 +106,12 @@ namespace _0.DucTALib.Splash.Scripts
         {
             currentButton.ShowObject();
         }
-
+        public override void Complete()
+        {
+            base.Complete();
+            if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.Native)
+                native.FinishNative();
+        }
         #endregion
     }
 }

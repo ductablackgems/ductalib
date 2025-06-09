@@ -4,6 +4,7 @@
     using _0.DucLib.Scripts.Ads;
     using _0.DucLib.Scripts.Common;
     using _0.DucTALib.CustomButton;
+    using _0.DucTALib.Scripts.Common;
     using BG_Library.NET.Native_custom;
     using Sirenix.OdinInspector;
     using UnityEngine;
@@ -12,10 +13,12 @@
     {
         public abstract class BaseStepSplash : MonoBehaviour
         {
+            public CanvasGroup canvasGroup;
             public SplashType splashType;
-            public abstract void Enter();
             public abstract void Next();
             public abstract void ShowAds();
+            
+            public abstract void RefreshAds();
             protected abstract void GetCurrentButton();
             public List<ButtonCustom> buttons;
 
@@ -24,11 +27,20 @@
             [ReadOnly] public ButtonCustom currentButton;
 
             public MRECObject mrecObject;
-
-            protected virtual void Awake()
+            public virtual void Enter()
             {
-                gameObject.HideObject();
+                canvasGroup.alpha = 1;
+                gameObject.ShowObject();
+                ShowAds();
+                GetCurrentButton();
             }
+            
+            private void Awake()
+            {
+                StartCoroutine(InitNA());
+            }
+
+            protected abstract IEnumerator InitNA();
             protected void LoadNative()
             {
                 native.Request(nativePosition);

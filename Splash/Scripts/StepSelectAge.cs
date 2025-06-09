@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using BG_Library.NET;
 using BG_Library.NET.Native_custom;
 
 namespace _0.DucTALib.Splash.Scripts
@@ -43,28 +44,41 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Unity Lifecycle
 
-        protected override void Awake()
+   
+        protected override IEnumerator InitNA()
         {
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 LoadNative();
             }
 
-            base.Awake();
+            gameObject.SetActive(false);
         }
-
+        public override void RefreshAds()
+        {
+            if (!isClick )
+            {
+                isClick = true;
+                if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+                {
+                    native.RefreshAd();
+                }
+                else
+                {
+                    ShowMrec();
+                }
+            }
+        }
         #endregion
 
         #region BaseStepSplash Overrides
 
         public override void Enter()
         {
-            gameObject.ShowObject();
-            cvg.FadeInPopup();
+            base.Enter();
             SplashTracking.PolicyShow();
-            GetCurrentButton();
             StartCoroutine(AutoCloseCountdown());
-            ShowAds();
         }
 
         public override void Next()
@@ -78,6 +92,7 @@ namespace _0.DucTALib.Splash.Scripts
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 StartCoroutine(ShowNative());
+                mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
             {
@@ -173,13 +188,11 @@ namespace _0.DucTALib.Splash.Scripts
             Complete();
         }
 
-        private void RefreshAds()
+        public override void Complete()
         {
-            if (!isClick)
-            {
-                isClick = true;
-                // native.RefreshAd();
-            }
+            base.Complete();
+            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+             native.FinishNative();
         }
 
         #endregion

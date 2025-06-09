@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using Random = UnityEngine.Random;
-
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.CustomButton;
@@ -28,14 +27,12 @@ namespace _0.DucTALib.Splash.Scripts
     {
         #region Serialized Fields
 
-        [Header("UI References")]
-        public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
+        [Header("UI References")] public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
         public List<string> tips = new List<string>();
         public TextMeshProUGUI tipText;
         public CanvasGroup cvg;
 
-        [Header("Ad & Content")]
-        public ContentCarousel contentCarousel;
+        [Header("Ad & Content")] public ContentCarousel contentCarousel;
 
         #endregion
 
@@ -50,13 +47,15 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Unity Lifecycle
 
-        protected override void Awake()
+        protected override IEnumerator InitNA()
         {
+            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 LoadNative();
             }
-            base.Awake();
+
+            gameObject.SetActive(false);
         }
 
         #endregion
@@ -65,10 +64,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void Enter()
         {
-            gameObject.ShowObject();
-            ShowAds();
-            GetCurrentButton();
-            cvg.FadeInPopup();
+            base.Enter();
+            contentCarousel.ShowObject();
             SplashTracking.OnboardingShow(1);
             index = 0;
         }
@@ -83,8 +80,21 @@ namespace _0.DucTALib.Splash.Scripts
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 StartCoroutine(ShowNative());
+                mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
+            {
+                ShowMrec();
+            }
+        }
+
+        public override void RefreshAds()
+        {
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            {
+                native.RefreshAd();
+            }
+            else
             {
                 ShowMrec();
             }
@@ -136,8 +146,7 @@ namespace _0.DucTALib.Splash.Scripts
 
             tipText.text = tips[index];
             SplashTracking.OnboardingShow(index + 1);
-            ShowMrec();
-
+            RefreshAds();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
@@ -174,7 +183,12 @@ namespace _0.DucTALib.Splash.Scripts
                 currentButton.ShowObject();
             }
         }
-
+        public override void Complete()
+        {
+            base.Complete();
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+                native.FinishNative();
+        }
         #endregion
     }
 }
