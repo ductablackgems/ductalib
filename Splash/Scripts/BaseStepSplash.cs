@@ -1,67 +1,115 @@
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using _0.DucLib.Scripts.Ads;
-    using _0.DucLib.Scripts.Common;
-    using _0.DucTALib.CustomButton;
-    using _0.DucTALib.Scripts.Common;
-    using BG_Library.NET.Native_custom;
-    using Sirenix.OdinInspector;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Common;
+using _0.DucTALib.CustomButton;
+using BG_Library.NET.Native_custom;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
-    namespace _0.DucTALib.Splash.Scripts
+namespace _0.DucTALib.Splash.Scripts
+{
+    public abstract class BaseStepSplash : MonoBehaviour
     {
-        public abstract class BaseStepSplash : MonoBehaviour
+        #region Serialized Fields
+
+        public CanvasGroup canvasGroup;
+        public SplashType splashType;
+        public List<ButtonCustom> buttons;
+        public string nativePosition;
+        [ReadOnly] public ButtonCustom currentButton;
+        public List<NativeUIManager> nativeUIManagers;
+        public MRECObject mrecObject;
+
+        #endregion
+
+        #region Private Fields
+
+        [ReadOnly] private NativeUIManager currentNativeUIManager;
+        protected int indexNative = 0;
+
+        #endregion
+
+        #region Unity Lifecycle
+
+        private void Awake()
         {
-            public CanvasGroup canvasGroup;
-            public SplashType splashType;
-            public abstract void Next();
-            public abstract void ShowAds();
-            
-            public abstract void RefreshAds();
-            protected abstract void GetCurrentButton();
-            public List<ButtonCustom> buttons;
-
-            public NativeUIManager native;
-            public string nativePosition;
-            [ReadOnly] public ButtonCustom currentButton;
-
-            public MRECObject mrecObject;
-            public virtual void Enter()
-            {
-                canvasGroup.alpha = 1;
-                gameObject.ShowObject();
-                ShowAds();
-                GetCurrentButton();
-            }
-            
-            private void Awake()
-            {
-                StartCoroutine(InitNA());
-            }
-
-            protected abstract IEnumerator InitNA();
-            protected void LoadNative()
-            {
-                native.Request(nativePosition);
-            }
-
-            protected IEnumerator ShowNative()
-            {
-                yield return new WaitUntil(() => native.IsReady);
-                native.Show();
-            }
-            public virtual void Complete()
-            {
-                gameObject.HideObject();
-                CallAdsManager.HideMRECApplovin();
-                GameSplash.instance.NextStep();
-            }
-
-            protected void ShowMrec()
-            {
-                mrecObject.ShowMREC(Camera.main);
-            }
-
+            StartCoroutine(InitNA());
         }
+
+        protected abstract IEnumerator InitNA();
+
+        #endregion
+
+        #region Public Methods
+
+        public virtual void Enter()
+        {
+            canvasGroup.alpha = 1;
+            gameObject.ShowObject();
+            ShowAds();
+            GetCurrentButton();
+        }
+
+        public virtual void Complete()
+        {
+            gameObject.HideObject();
+            CallAdsManager.HideMRECApplovin();
+            GameSplash.instance.NextStep();
+        }
+
+        public abstract void Next();
+        public abstract void ShowAds();
+        public abstract void RefreshAds();
+
+        #endregion
+
+        #region Protected Methods
+
+        protected abstract void GetCurrentButton();
+
+        protected virtual void LoadNative()
+        {
+            var pos = $"{nativePosition}_{indexNative}";
+            nativeUIManagers[indexNative].Request(pos);
+        }
+
+        protected void ShowCurrentNative()
+        {
+            StartCoroutine(ShowCurrentNativeIE());
+        }
+
+        private IEnumerator ShowCurrentNativeIE()
+        {
+            if(currentNativeUIManager != null) FinishCurrentNative();
+            currentNativeUIManager = nativeUIManagers[indexNative];
+            yield return new WaitUntil(() => currentNativeUIManager.IsReady);
+            var pos = $"{nativePosition}_{indexNative}";
+            LogHelper.LogPurple($"Show Native : {pos}");
+            currentNativeUIManager.Show();
+            LoadNextNative();
+        }
+
+        private void LoadNextNative()
+        {
+            indexNative++;
+            if (indexNative < nativeUIManagers.Count)
+            {
+                LoadNative();
+            }
+        }
+
+        protected void FinishCurrentNative()
+        {
+            currentNativeUIManager.FinishNative();
+        }
+
+        protected void ShowMrec()
+        {
+            mrecObject.ShowObject();
+            mrecObject.ShowMREC(Camera.main);
+        }
+
+        #endregion
     }
+}

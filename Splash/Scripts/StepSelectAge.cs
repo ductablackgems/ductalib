@@ -1,8 +1,9 @@
 using System.Collections;
-using _0.DucLib.Scripts.Ads;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using BG_Library.NET;
@@ -20,16 +21,16 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Serialized Fields
 
-        [Header("UI Elements")] [SerializeField]
-        private Toggle policyToggle;
-
+        [Header("UI Elements")]
+        [SerializeField] private Toggle policyToggle;
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
         [SerializeField] private TextMeshProUGUI loadingText;
         [SerializeField] private CanvasGroup cvg;
 
-        [Header("Config")] [SerializeField] private float durationShowButton;
+        [Header("Config")]
+        [SerializeField] private float durationShowButton;
 
         #endregion
 
@@ -40,6 +41,7 @@ namespace _0.DucTALib.Splash.Scripts
         private bool isClick = false;
         private bool autoClose = true;
         private bool hasAnyChange;
+        private bool buttonShowed;
 
         #endregion
 
@@ -48,10 +50,9 @@ namespace _0.DucTALib.Splash.Scripts
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-            {
                 LoadNative();
-            }
 
             gameObject.SetActive(false);
         }
@@ -61,14 +62,11 @@ namespace _0.DucTALib.Splash.Scripts
             if (!isClick)
             {
                 isClick = true;
+
                 if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-                {
-                    native.RefreshAd();
-                }
+                    ShowCurrentNative();
                 else
-                {
                     ShowMrec();
-                }
             }
         }
 
@@ -93,7 +91,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
-                StartCoroutine(ShowNative());
+                ShowCurrentNative();
                 mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
@@ -112,6 +110,14 @@ namespace _0.DucTALib.Splash.Scripts
             currentButton.CustomTxtColor(config.textColor);
         }
 
+        public override void Complete()
+        {
+            base.Complete();
+
+            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+                FinishCurrentNative();
+        }
+
         #endregion
 
         #region UI Event Handlers
@@ -126,18 +132,26 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 if (policyToggle.isOn)
                 {
-                    if (!currentButton.gameObject.activeSelf)
-                        currentButton.ShowButtonTween();
+                    if (!buttonShowed)
+                    {
+                        buttonShowed = true;
+                        DOVirtual.DelayedCall(
+                            SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                            () => { currentButton.ShowButtonTween(0.12f); });
+                    }
                 }
                 else
                 {
+                    buttonShowed = false;
                     currentButton.HideObject();
                 }
             }
-            else if (hasAnyChange)
+            else if (!buttonShowed)
             {
-                if (!currentButton.gameObject.activeSelf)
-                    currentButton.ShowButtonTween();
+                buttonShowed = true;
+                DOVirtual.DelayedCall(
+                    SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    () => { currentButton.ShowButtonTween(0.12f); });
             }
 
             RefreshAds();
@@ -156,14 +170,16 @@ namespace _0.DucTALib.Splash.Scripts
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
             {
                 if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
-                    currentButton.ShowButtonTween();
+                    currentButton.ShowButtonTween(0.12f);
                 else if (!policyToggle.isOn)
                     currentButton.HideObject();
             }
-            else if (hasAnyChange)
+            else if (!buttonShowed)
             {
-                if (!currentButton.gameObject.activeSelf)
-                    currentButton.ShowButtonTween();
+                buttonShowed = true;
+                DOVirtual.DelayedCall(
+                    SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    () => { currentButton.ShowButtonTween(0.12f); });
             }
 
             cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
@@ -188,15 +204,6 @@ namespace _0.DucTALib.Splash.Scripts
             loadingText.text = "";
             SplashTracking.PolicyEnd(autoClose);
             Complete();
-        }
-
-        public override void Complete()
-        {
-            base.Complete();
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-            {
-                native.FinishNative();
-            }
         }
 
         #endregion

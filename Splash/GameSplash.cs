@@ -49,6 +49,7 @@ namespace _0.DucTALib.Splash
         private BaseStepSplash currentStepPanel;
             
         [BoxGroup("Native")] public NativeUIManager native;
+        public GameObject loading;
         public bool ignoreNative;
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
@@ -77,7 +78,6 @@ namespace _0.DucTALib.Splash
         private float smoothSpeed = 0.02f;
         private int currentMessageIndex;
 
-        public bool hasShowNative;
         private void Start()
         {
             SplashTracking.loading_duration.Reset();
@@ -95,7 +95,8 @@ namespace _0.DucTALib.Splash
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
             native.Show();
-            LogHelper.LogLine();
+            loading.HideObject();
+            LogHelper.CheckPoint("hide loading");
         }
 
         private IEnumerator WaitToLoadScene()

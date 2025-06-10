@@ -72,6 +72,12 @@ namespace _0.DucTALib.Splash
             FirebaseEvent.LogEvent(eventName);
         }
 
+        public static void ShowNativeFull()
+        {
+            string eventName = $"fn_show_native_full";
+            LogHelper.LogPurple($"[TRACKING] {eventName}");
+            FirebaseEvent.LogEvent(eventName);
+        }
         public static void HomeShow()
         {
             if(isFirstTime) return;

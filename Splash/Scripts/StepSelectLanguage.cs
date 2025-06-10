@@ -34,7 +34,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                native.RefreshAd();
+                ShowCurrentNative();
             }
             else
             {
@@ -63,7 +63,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.Native)
             {
-                StartCoroutine(ShowNative());
+                ShowCurrentNative();
                 mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.MREC)
@@ -111,7 +111,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             base.Complete();
             if (SplashRemoteConfig.CustomConfigValue.selectLanguageConfig.adsType == AdFormatType.Native)
-                native.FinishNative();
+                FinishCurrentNative();
         }
         #endregion
     }

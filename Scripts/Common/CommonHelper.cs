@@ -123,14 +123,14 @@ namespace _0.DucLib.Scripts.Common
         #endregion
 
         #region Object
-        public static void ShowButtonTween(this object obj)
+        public static void ShowButtonTween(this object obj, float time = 0.2f)
         {
             if (obj is Transform gameObject)
                 
             {
                 gameObject.ShowObject();
                 gameObject.transform.localScale = Vector3.zero * 0.5f;
-                gameObject.DOScale(1, 0.2f).SetUpdate(true);
+                gameObject.DOScale(1, time).SetUpdate(true);
             }
             else if (obj is Component component)
             {

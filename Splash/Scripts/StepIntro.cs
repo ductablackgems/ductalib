@@ -31,8 +31,11 @@ namespace _0.DucTALib.Splash.Scripts
         public List<string> tips = new List<string>();
         public TextMeshProUGUI tipText;
         public CanvasGroup cvg;
-
+        public NativeUIManager nativeFull;
         [Header("Ad & Content")] public ContentCarousel contentCarousel;
+        public Image closeNativeFullImg;
+        public Text closeNativeFullTimeTxt;
+        public GameObject closeNativeFullButton;
 
         #endregion
 
@@ -55,7 +58,57 @@ namespace _0.DucTALib.Splash.Scripts
                 LoadNative();
             }
 
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.isShowNativeFull)
+            {
+                nativeFull.Request("TutorialFull");
+            }
+
             gameObject.SetActive(false);
+        }
+
+        public void HideNativeFull()
+        {
+            nativeFull.FinishNative();
+            NextStep();
+        }
+
+        private void ShowNativeFull()
+        {
+            if (nativeFull.IsReady)
+            {
+                FinishCurrentNative();
+                nativeFull.Show();
+                StartCoroutine(DelayShowCloseNative());
+                contentCarousel.HideObject();
+                currentButton.HideObject();
+                currentDelayButtonTxt.HideObject();
+                mrecObject.HideObject();
+            }
+            else
+            {
+                NextStep();
+            }
+        }
+
+        private IEnumerator DelayShowCloseNative()
+        {
+            float totalDelay = SplashRemoteConfig.CustomConfigValue.introConfig.delayShowClose;
+            float elapsed = 0f;
+
+            while (elapsed < totalDelay)
+            {
+                elapsed += Time.deltaTime;
+                float remaining = Mathf.Max(0, totalDelay - elapsed);
+
+                closeNativeFullTimeTxt.text = ((int)remaining).ToString();
+                closeNativeFullImg.fillAmount = elapsed / totalDelay;
+
+                yield return null;
+            }
+
+            closeNativeFullTimeTxt.HideObject();
+            closeNativeFullImg.HideObject();
+            closeNativeFullButton.ShowObject();
         }
 
         #endregion
@@ -79,7 +132,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                StartCoroutine(ShowNative());
+                ShowCurrentNative();
                 mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
@@ -92,7 +145,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                native.RefreshAd();
+                ShowCurrentNative();
             }
             else
             {
@@ -127,10 +180,24 @@ namespace _0.DucTALib.Splash.Scripts
             contentCarousel.MoveToNextPage();
         }
 
+        private bool isShowNativeFull = false;
+
         private void NextStep()
         {
+            if (!isShowNativeFull && index ==
+                SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount - 2 && SplashRemoteConfig
+                .CustomConfigValue.introConfig.isShowNativeFull)
+            {
+                isShowNativeFull = true;
+                ShowNativeFull();
+                SplashTracking.ShowNativeFull();
+                return;
+            }
+
+            contentCarousel.ShowObject();
             index++;
             SplashTracking.OnboardingNext(index);
+
 
             if (showButtonCoroutine != null)
             {
@@ -183,12 +250,14 @@ namespace _0.DucTALib.Splash.Scripts
                 currentButton.ShowObject();
             }
         }
+
         public override void Complete()
         {
             base.Complete();
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-                native.FinishNative();
+                FinishCurrentNative();
         }
+
         #endregion
     }
 }

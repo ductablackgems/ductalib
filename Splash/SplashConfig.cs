@@ -35,6 +35,7 @@ namespace _0.DucTALib.Splash
         public string textValue;
         public string buttonColor;
         public string textColor;
+        public int delayShowButtonTime;
         public StepSelectAge.NextType nextType;
     }
 
@@ -44,6 +45,8 @@ namespace _0.DucTALib.Splash
         public int delayShowButtonTime;
         public int tutorialCount;
         public bool isAutoNext;
+        public bool isShowNativeFull;
+        public int delayShowClose;
         public int nextTime;
         public string textValue;
         public string buttonColor;
