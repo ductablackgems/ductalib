@@ -109,7 +109,6 @@ namespace _0.DucTALib.Splash
                 fbTimeout -= Time.deltaTime;
                 yield return null;
             }
-            LogHelper.LogLine();
             loadDuration = RemoteConfig.Ins.isDataFetched
                 ? SplashRemoteConfig.CustomConfigValue.timeoutMin
                 : 12f;
@@ -121,6 +120,7 @@ namespace _0.DucTALib.Splash
                 yield return null;
             }
             FinishLoadingPhase();
+            AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
             if (!RemoteConfig.Ins.isDataFetched || !SplashRemoteConfig.CustomConfigValue.loadIntro)
             {
@@ -226,6 +226,7 @@ namespace _0.DucTALib.Splash
             AdsManager.ShowBanner();
             CallAdsManager.HideMRECApplovin();
             LoadingScene.instance.LoadMenu();
+            AppOpenCaller.IgnoreAppOpenResume = false;
         }
 
         #endregion
