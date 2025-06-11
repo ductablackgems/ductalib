@@ -3,9 +3,11 @@
     "loadIntro": true,
     "testSegment": 1000,
     "interComplete": true,
+    "timeoutMin": 12,
+    "timeoutMax": 20,
     "splashConfigs": [
       {
-        "type": "Age"
+        "type": "AgeLeft"
       },
       {
         "type": "Intro"
@@ -14,25 +16,41 @@
     "selectAgeConfig": {
       "buttonType": "WithImage",
       "buttonPos": "BottomLeft",
-      "nextTime": 10,
+      "delayShowButtonTime": 1,
+      "nextType": "AnyClick",
+      "adsType": "MREC",
+      "nextTime": 6,
       "textValue": "none",
       "buttonColor": "#4285F4",
       "textColor": "#FFFFFF"
     },
     "introConfig": {
-      "delayShowButtonTime": 5,
+      "delayShowButtonTime": 2,
       "isAutoNext": false,
-      "nextTime": 5,
-      "tutorialCount": 4,
+      "nextTime": 2,
+      "tutorialCount": 3,
+      "isShowNativeFull": true,
+      "delayShowClose": 5,
+      "adsType": "Native",
       "buttonType": "ScreenButton",
-      "buttonPos": "Center"
+      "buttonPos": "Center",
+      "textValue": "none",
+      "buttonColor": "#4285F4",
+      "textColor": "#FFFFFF"
     },
     "selectLanguageConfig": {
+      "adsType": "Native",
       "buttonType": "WithImage",
       "buttonPos": "BottomLeft"
     }
   },
   "Custom": {
-    "startGem": 0
+    "moneyEarnPerMiles": 120,
+    "moneyEarnPerOverTake": 20,
+    "moneyEarnPerPoint": 0.1,
+    "dataMoto": 1,
+    "startGem": 0,
+    "startCash": 0,
+    "unlockAllMoto": true
   }
 }
