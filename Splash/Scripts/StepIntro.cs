@@ -83,6 +83,7 @@ namespace _0.DucTALib.Splash.Scripts
                 currentButton.HideObject();
                 currentDelayButtonTxt.HideObject();
                 mrecObject.HideObject();
+                CallAdsManager.HideMRECApplovin();
             }
             else
             {
@@ -149,6 +150,7 @@ namespace _0.DucTALib.Splash.Scripts
             }
             else
             {
+                mrecObject.ShowObject();
                 ShowMrec();
             }
         }
