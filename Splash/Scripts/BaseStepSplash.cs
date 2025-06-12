@@ -101,7 +101,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected void FinishCurrentNative()
         {
-            currentNativeUIManager.FinishNative();
+            if(currentNativeUIManager != null)
+                currentNativeUIManager.FinishNative();
         }
 
         protected void ShowMrec()
