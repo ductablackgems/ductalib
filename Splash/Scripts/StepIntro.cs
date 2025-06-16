@@ -28,7 +28,6 @@ namespace _0.DucTALib.Splash.Scripts
         #region Serialized Fields
 
         [Header("UI References")] public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
-        public List<string> tips = new List<string>();
         public TextMeshProUGUI tipText;
         public CanvasGroup cvg;
         public NativeUIManager nativeFull;
@@ -36,7 +35,7 @@ namespace _0.DucTALib.Splash.Scripts
         public Image closeNativeFullImg;
         public Text closeNativeFullTimeTxt;
         public GameObject closeNativeFullButton;
-
+        public List<string> listTips = new List<string>();
         #endregion
 
         #region Private Fields
@@ -122,6 +121,7 @@ namespace _0.DucTALib.Splash.Scripts
             contentCarousel.ShowObject();
             SplashTracking.OnboardingShow(1);
             index = 0;
+            GetTip(index);
         }
 
         public override void Next()
@@ -213,7 +213,7 @@ namespace _0.DucTALib.Splash.Scripts
                 return;
             }
 
-            tipText.text = tips[index];
+            tipText.text = GetTip(index);
             SplashTracking.OnboardingShow(index + 1);
             RefreshAds();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
@@ -260,6 +260,12 @@ namespace _0.DucTALib.Splash.Scripts
                 FinishCurrentNative();
         }
 
+        private string GetTip(int index)
+        {
+            listTips ??= SplashRemoteConfig.CustomConfigValue.introConfig.tipText;
+            
+            return listTips[index];
+        }
         #endregion
     }
 }

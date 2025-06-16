@@ -35,7 +35,7 @@ namespace _0.DucTALib.Splash
         public string textValue;
         public string buttonColor;
         public string textColor;
-        public int delayShowButtonTime;
+        public float delayShowButtonTime;
         public StepSelectAge.NextType nextType;
     }
 
@@ -51,6 +51,7 @@ namespace _0.DucTALib.Splash
         public string textValue;
         public string buttonColor;
         public string textColor;
+        public List<string> tipText;
     }
 
     [Serializable]
