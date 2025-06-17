@@ -262,7 +262,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         private string GetTip(int index)
         {
-            listTips ??= SplashRemoteConfig.CustomConfigValue.introConfig.tipText;
+            if(listTips == null || listTips.Count == 0)
+                listTips = SplashRemoteConfig.CustomConfigValue.introConfig.tipText;
             
             return listTips[index];
         }
