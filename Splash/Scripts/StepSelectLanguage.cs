@@ -19,6 +19,9 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Unity Lifecycle
 
+        
+        
+        
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
