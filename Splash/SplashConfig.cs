@@ -73,4 +73,17 @@ namespace _0.DucTALib.Splash
         public IntroConfig introConfig;
         public SelectLanguageConfig selectLanguageConfig;
     }
+
+    [Serializable]
+    public class GameplayNativeConfig
+    {
+        public List<GameplayNative> configs;
+    }
+    [Serializable]
+    public class GameplayNative
+    {
+        public int id;
+        public string adsPosition;
+        public bool active;
+    }
 }

@@ -23,17 +23,15 @@
       "textValue": "none",
       "buttonColor": "#4285F4",
       "textColor": "#FFFFFF",
-      "adsPosition" : [
-        "SelectAge_0",
-        "SelectAge_1"
+      "adsPosition": [
+        "SelectAge_0"
       ]
     },
     "introConfig": {
       "delayShowButtonTime": 3,
       "isAutoNext": false,
       "nextTime": 3,
-      "tutorialCount": 2,
-      "isShowNativeFull": true,
+      "tutorialCount": 3,
       "delayShowClose": 5,
       "adsType": "Native",
       "buttonType": "ScreenButton",
@@ -41,7 +39,7 @@
       "textValue": "none",
       "buttonColor": "#4285F4",
       "textColor": "#FFFFFF",
-      "adsPosition" : [
+      "adsPosition": [
         "Tutorial_0",
         "TutorialFull",
         "Tutorial_1",
@@ -60,8 +58,26 @@
       "buttonPos": "BottomLeft"
     }
   },
+  "Gameplay": {
+    "configs": [
+      {
+        "id": 0,
+        "adsPosition": "loading",
+        "active": false
+      },{
+        "id":1,
+        "adsPosition": "Tutorial_0",
+        "active": true
+      }
+    ]
+  },
   "Custom": {
+    "moneyEarnPerMiles": 120,
+    "moneyEarnPerOverTake": 20,
+    "moneyEarnPerPoint": 0.1,
+    "dataMoto": 1,
     "startGem": 0,
-    "playMiniGame": false
+    "startCash": 0,
+    "unlockAllMoto": true
   }
 }

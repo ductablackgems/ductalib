@@ -12,6 +12,7 @@ namespace _0.DucTALib.Scripts.Common
     public class SplashRemoteConfig : SingletonMono<SplashRemoteConfig>
     {
         public static SplashCustomConfigValue CustomConfigValue;
+        public static GameplayNativeConfig GameplayNativeConfig;
         private void Awake()
         {
             RemoteConfig.OnFetchComplete += FetchComplete;
@@ -31,6 +32,7 @@ namespace _0.DucTALib.Scripts.Common
             };
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
+            GameplayNativeConfig = root["Gameplay"]?.ToObject<GameplayNativeConfig>(JsonSerializer.Create(settings));
         }
        
     }
