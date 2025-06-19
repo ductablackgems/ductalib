@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using _0.DucTALib.Splash;
 using BG_Library.Common;
 using BG_Library.NET;
 using GoogleMobileAds.Api;
@@ -30,6 +31,11 @@ namespace _0.DucLib.Scripts.Ads
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
             if (currentSceneName != "Splash")
+            {
+                AdsManager.DestroyMrec();
+            }
+            else if(currentSceneName == "Splash" && 
+                    (GameSplash.instance.currentStepPanel != null && GameSplash.instance.currentStepPanel.splashType > SplashType.AgeRight))
             {
                 AdsManager.DestroyMrec();
             }

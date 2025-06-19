@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -36,6 +37,7 @@ namespace _0.DucTALib.Splash.Scripts
         public Text closeNativeFullTimeTxt;
         public GameObject closeNativeFullButton;
         public List<string> listTips = new List<string>();
+
         #endregion
 
         #region Private Fields
@@ -54,29 +56,32 @@ namespace _0.DucTALib.Splash.Scripts
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                LoadNative();
-            }
+                indexNative = 0;
+                isFlowInProgress = false;
+                List<string> positionList = SplashRemoteConfig.CustomConfigValue.introConfig.adsPosition;
 
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.isShowNativeFull)
-            {
-                nativeFull.Request("TutorialFull");
+                nativeObjects = nativeObjects
+                    .Where(n => positionList.Contains(n.adsPosition))               
+                    .OrderBy(n => positionList.IndexOf(n.adsPosition))          
+                    .ToList();
+                
+                if (nativeObjects.Count > 0)
+                {
+                    nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
+                   LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
+                }
+
+              
             }
 
             gameObject.SetActive(false);
         }
 
-        public void HideNativeFull()
-        {
-            nativeFull.FinishNative();
-            NextStep();
-        }
 
-        private void ShowNativeFull()
+        protected override void ShowNativeFull()
         {
             if (nativeFull.IsReady)
             {
-                FinishCurrentNative();
-                nativeFull.Show();
                 StartCoroutine(DelayShowCloseNative());
                 contentCarousel.HideObject();
                 currentButton.HideObject();
@@ -84,10 +89,11 @@ namespace _0.DucTALib.Splash.Scripts
                 mrecObject.HideObject();
                 CallAdsManager.HideMRECApplovin();
             }
-            else
-            {
-                NextStep();
-            }
+        }
+
+        protected override void HideNativeFull()
+        {
+
         }
 
         private IEnumerator DelayShowCloseNative()
@@ -133,7 +139,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                ShowCurrentNative();
+                ShowAdNative();
                 mrecObject.HideObject();
             }
             else if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
@@ -141,20 +147,7 @@ namespace _0.DucTALib.Splash.Scripts
                 ShowMrec();
             }
         }
-
-        public override void RefreshAds()
-        {
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-            {
-                ShowCurrentNative();
-            }
-            else
-            {
-                mrecObject.ShowObject();
-                ShowMrec();
-            }
-        }
-
+        
         protected override void GetCurrentButton()
         {
             if (currentButton != null) return;
@@ -183,24 +176,29 @@ namespace _0.DucTALib.Splash.Scripts
         }
 
         private bool isShowNativeFull = false;
-
-        private void NextStep()
+        public override void HideAds()
         {
-            if (!isShowNativeFull && index ==
-                SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount - 2 && SplashRemoteConfig
-                .CustomConfigValue.introConfig.isShowNativeFull)
+            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            {
+                  OnAdClosed();
+                mrecObject.HideObject();
+            }
+        }
+
+        public void NextStep()
+        {
+            HideAds();
+            ShowAds();
+            if (!isShowNativeFull && nativeObjects[indexNative].isNativeFull)
             {
                 isShowNativeFull = true;
-                ShowNativeFull();
-                SplashTracking.ShowNativeFull();
+                LogHelper.CheckPoint("is full");
                 return;
             }
-
             contentCarousel.ShowObject();
             index++;
             SplashTracking.OnboardingNext(index);
-
-
+            
             if (showButtonCoroutine != null)
             {
                 StopCoroutine(showButtonCoroutine);
@@ -215,7 +213,6 @@ namespace _0.DucTALib.Splash.Scripts
 
             tipText.text = GetTip(index);
             SplashTracking.OnboardingShow(index + 1);
-            RefreshAds();
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
@@ -256,17 +253,17 @@ namespace _0.DucTALib.Splash.Scripts
         public override void Complete()
         {
             base.Complete();
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-                FinishCurrentNative();
+           
         }
 
         private string GetTip(int index)
         {
-            if(listTips == null || listTips.Count == 0)
+            if (listTips == null || listTips.Count == 0)
                 listTips = SplashRemoteConfig.CustomConfigValue.introConfig.tipText;
-            
+
             return listTips[index];
         }
+
         #endregion
     }
 }

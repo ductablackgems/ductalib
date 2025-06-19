@@ -47,7 +47,6 @@ namespace _0.DucTALib.Splash
         public int delayShowButtonTime;
         public int tutorialCount;
         public bool isAutoNext;
-        public bool isShowNativeFull;
         public int delayShowClose;
         public int nextTime;
         public string textValue;

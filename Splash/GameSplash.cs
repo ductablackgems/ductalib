@@ -23,6 +23,7 @@ namespace _0.DucTALib.Splash
     {
         public string adsPosition;
         public NativeUIManager native;
+        public bool isNativeFull;
     }
     public enum AdFormatType
     {
@@ -54,7 +55,7 @@ namespace _0.DucTALib.Splash
 
         [Header("Steps")] public List<BaseStepSplash> steps = new List<BaseStepSplash>();
         private int currentStep = 0;
-        private BaseStepSplash currentStepPanel;
+        [ReadOnly]public BaseStepSplash currentStepPanel;
             
         [BoxGroup("Native")] public NativeUIManager native;
         public GameObject loading;

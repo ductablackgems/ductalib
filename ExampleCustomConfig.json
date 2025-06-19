@@ -22,13 +22,17 @@
       "nextTime": 6,
       "textValue": "none",
       "buttonColor": "#4285F4",
-      "textColor": "#FFFFFF"
+      "textColor": "#FFFFFF",
+      "adsPosition" : [
+        "SelectAge_0",
+        "SelectAge_1"
+      ]
     },
     "introConfig": {
-      "delayShowButtonTime": 2,
+      "delayShowButtonTime": 3,
       "isAutoNext": false,
-      "nextTime": 2,
-      "tutorialCount": 3,
+      "nextTime": 3,
+      "tutorialCount": 2,
       "isShowNativeFull": true,
       "delayShowClose": 5,
       "adsType": "Native",
@@ -36,7 +40,19 @@
       "buttonPos": "Center",
       "textValue": "none",
       "buttonColor": "#4285F4",
-      "textColor": "#FFFFFF"
+      "textColor": "#FFFFFF",
+      "adsPosition" : [
+        "Tutorial_0",
+        "TutorialFull",
+        "Tutorial_1",
+        "Tutorial_2"
+      ],
+      "tipText": [
+        "Tap the rope button to swing across buildings and move faster through the city.",
+        "Use the punch button to attack enemies and clean up the city.",
+        "Tap the running icon to sprint quickly and escape danger.",
+        "Press the hook icon to swing between buildings. Great for fast travel!"
+      ]
     },
     "selectLanguageConfig": {
       "adsType": "Native",
@@ -45,12 +61,7 @@
     }
   },
   "Custom": {
-    "moneyEarnPerMiles": 120,
-    "moneyEarnPerOverTake": 20,
-    "moneyEarnPerPoint": 0.1,
-    "dataMoto": 1,
     "startGem": 0,
-    "startCash": 0,
-    "unlockAllMoto": true
+    "playMiniGame": false
   }
 }

@@ -16,7 +16,6 @@ namespace _0.DucTALib.Splash.Scripts
         public CanvasGroup canvasGroup;
         public SplashType splashType;
         public List<ButtonCustom> buttons;
-        public string nativePosition;
         [ReadOnly] public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
         public MRECObject mrecObject;
@@ -60,7 +59,6 @@ namespace _0.DucTALib.Splash.Scripts
 
         public abstract void Next();
         public abstract void ShowAds();
-        public abstract void RefreshAds();
 
         #endregion
 
@@ -68,42 +66,53 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected abstract void GetCurrentButton();
 
-        protected virtual void LoadNative()
+        protected bool isFlowInProgress = false;
+
+        public void ShowAdNative()
         {
-            var pos = $"{nativePosition}_{indexNative}";
-            nativeObjects[indexNative].native.Request(pos);
+            if (isFlowInProgress || indexNative >= nativeObjects.Count)
+                return;
+
+            var ad = nativeObjects[indexNative];
+
+            // Show ad
+            ad.native.Show();
+            if(ad.isNativeFull)  ShowNativeFull();
+            LogHelper.CheckPoint($"show native {ad.adsPosition}");
+
+            isFlowInProgress = true;
+
+            PreloadNextAd();
         }
 
-        protected void ShowCurrentNative()
+        public abstract void HideAds();
+        protected abstract void ShowNativeFull();
+        protected abstract void HideNativeFull();
+        public void OnAdClosed()
         {
-            StartCoroutine(ShowCurrentNativeIE());
-        }
+            if (indexNative >= nativeObjects.Count)
+                return;
 
-        private IEnumerator ShowCurrentNativeIE()
-        {
-            if(currentNativeObject != null) FinishCurrentNative();
-            currentNativeObject = nativeObjects[indexNative];
-            yield return new WaitUntil(() => currentNativeObject.native.IsReady);
-            var pos = $"{nativePosition}_{indexNative}";
-            LogHelper.LogPurple($"Show Native : {pos}");
-            currentNativeObject.native.Show();
-            LoadNextNative();
-        }
+            var ad = nativeObjects[indexNative];
+            ad.native.FinishNative();   
+            if(ad.isNativeFull)  HideNativeFull();
+            LogHelper.CheckPoint($"finish native {ad.adsPosition}");
 
-        private void LoadNextNative()
-        {
             indexNative++;
-            if (indexNative < nativeObjects.Count)
+            isFlowInProgress = false;
+        }
+
+        private void PreloadNextAd()
+        {
+            int next = indexNative + 1;
+            if (next < nativeObjects.Count)
             {
-                LoadNative();
+                var nextAd = nativeObjects[next];
+                nextAd.native.Request(nextAd.adsPosition);
+                LogHelper.CheckPoint($"load native {nextAd.adsPosition}");
             }
         }
-
-        protected void FinishCurrentNative()
-        {
-            if(currentNativeObject != null)
-                currentNativeObject.native.FinishNative();
-        }
+      
 
         protected void ShowMrec()
         {
