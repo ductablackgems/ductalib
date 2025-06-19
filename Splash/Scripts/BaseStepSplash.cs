@@ -18,14 +18,14 @@ namespace _0.DucTALib.Splash.Scripts
         public List<ButtonCustom> buttons;
         public string nativePosition;
         [ReadOnly] public ButtonCustom currentButton;
-        public List<NativeUIManager> nativeUIManagers;
+        public List<NativeObject> nativeObjects;
         public MRECObject mrecObject;
-
+        
         #endregion
 
         #region Private Fields
 
-        [ReadOnly] private NativeUIManager currentNativeUIManager;
+        [ReadOnly] public NativeObject currentNativeObject;
         protected int indexNative = 0;
 
         #endregion
@@ -71,7 +71,7 @@ namespace _0.DucTALib.Splash.Scripts
         protected virtual void LoadNative()
         {
             var pos = $"{nativePosition}_{indexNative}";
-            nativeUIManagers[indexNative].Request(pos);
+            nativeObjects[indexNative].native.Request(pos);
         }
 
         protected void ShowCurrentNative()
@@ -81,19 +81,19 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator ShowCurrentNativeIE()
         {
-            if(currentNativeUIManager != null) FinishCurrentNative();
-            currentNativeUIManager = nativeUIManagers[indexNative];
-            yield return new WaitUntil(() => currentNativeUIManager.IsReady);
+            if(currentNativeObject != null) FinishCurrentNative();
+            currentNativeObject = nativeObjects[indexNative];
+            yield return new WaitUntil(() => currentNativeObject.native.IsReady);
             var pos = $"{nativePosition}_{indexNative}";
             LogHelper.LogPurple($"Show Native : {pos}");
-            currentNativeUIManager.Show();
+            currentNativeObject.native.Show();
             LoadNextNative();
         }
 
         private void LoadNextNative()
         {
             indexNative++;
-            if (indexNative < nativeUIManagers.Count)
+            if (indexNative < nativeObjects.Count)
             {
                 LoadNative();
             }
@@ -101,8 +101,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected void FinishCurrentNative()
         {
-            if(currentNativeUIManager != null)
-                currentNativeUIManager.FinishNative();
+            if(currentNativeObject != null)
+                currentNativeObject.native.FinishNative();
         }
 
         protected void ShowMrec()

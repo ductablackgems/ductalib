@@ -26,6 +26,8 @@ namespace _0.DucTALib.Splash
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ButtonCustom.ButtonPosition buttonPos;
+        
+        public List<string> adsPosition;
     }
 
     [Serializable]

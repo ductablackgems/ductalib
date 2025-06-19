@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,16 @@ using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.NET;
 using BG_Library.NET.Native_custom;
+using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash
 {
+    [Serializable]
+    public class NativeObject
+    {
+        public string adsPosition;
+        public NativeUIManager native;
+    }
     public enum AdFormatType
     {
         Native, 

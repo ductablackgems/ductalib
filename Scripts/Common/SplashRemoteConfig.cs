@@ -25,15 +25,12 @@ namespace _0.DucTALib.Scripts.Common
 
         public void FetchComplete()
         {
-            LogHelper.LogLine();
             var settings = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
-            LogHelper.LogLine();
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            // SplashTracking.SetUserProperty();
         }
        
     }
