@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
 using BG_Library.NET.Native_custom;
-using Scripts.Common;
 using UnityEngine;
 
 namespace _0.DucTALib.Gameplay
