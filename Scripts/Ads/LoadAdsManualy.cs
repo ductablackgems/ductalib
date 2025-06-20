@@ -34,23 +34,28 @@ namespace _0.DucLib.Scripts.Ads
             {
                 AdsManager.DestroyMrec();
             }
-            else if(currentSceneName == "Splash" && 
-                    (GameSplash.instance.currentStepPanel != null && GameSplash.instance.currentStepPanel.splashType > SplashType.AgeRight))
+            else if (currentSceneName == "Splash" &&
+                     (GameSplash.instance.currentStepPanel != null &&
+                      GameSplash.instance.currentStepPanel.splashType > SplashType.AgeRight))
             {
                 AdsManager.DestroyMrec();
             }
         }
-        
+
         private IEnumerator LoadAds()
         {
             yield return new WaitForEndOfFrame();
             float timeout = 7;
             float currentTime = 0;
-            while (!AdsManager.IsMrecReady && currentTime < timeout)
+            if (AdsManager.Ins.NetInfor.TypeMediation == 0)
             {
-                currentTime += Time.deltaTime;
-                yield return null;
+                while (!AdsManager.IsMrecReady && currentTime < timeout)
+                {
+                    currentTime += Time.deltaTime;
+                    yield return null;
+                }
             }
+
             StartCoroutine(LoadOtherAds());
         }
 
@@ -60,7 +65,7 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.InitInterstitialManually();
             yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
             // AdsManager.ShowBanner();
-            if(NetConfigsSO.Ins.IsInitAOManually)
+            if (NetConfigsSO.Ins.IsInitAOManually)
                 AdsManager.InitAppOpenManually();
             yield return new WaitUntil(AdsManager.IsOpenAppReady);
             AdsManager.InitRewardManually();

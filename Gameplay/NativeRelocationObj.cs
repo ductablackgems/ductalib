@@ -12,6 +12,7 @@ namespace _0.DucTALib.Gameplay
         public int id;
         public NativeUIManager nativeUI;
         private Coroutine loadNativeIE;
+        public bool active;
 
         public void Show(string pos)
         {

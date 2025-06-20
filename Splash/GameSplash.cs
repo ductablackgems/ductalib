@@ -25,15 +25,16 @@ namespace _0.DucTALib.Splash
         public NativeUIManager native;
         public bool isNativeFull;
     }
+
     public enum AdFormatType
     {
-        Native, 
+        Native,
         MREC,
-        Inter, 
-        Banner, 
+        Inter,
+        Banner,
         AppOpen,
-        
     }
+
     public enum SplashType
     {
         AgeLeft,
@@ -45,8 +46,10 @@ namespace _0.DucTALib.Splash
 
     public enum PagePosition
     {
-        Left, Right
+        Left,
+        Right
     }
+
     public class GameSplash : SingletonMono<GameSplash>
     {
         [Header("UI")] public Image loadingBar;
@@ -55,11 +58,12 @@ namespace _0.DucTALib.Splash
 
         [Header("Steps")] public List<BaseStepSplash> steps = new List<BaseStepSplash>();
         private int currentStep = 0;
-        [ReadOnly]public BaseStepSplash currentStepPanel;
-            
+        [ReadOnly] public BaseStepSplash currentStepPanel;
+
         [BoxGroup("Native")] public NativeUIManager native;
         public GameObject loading;
         public bool ignoreNative;
+
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -118,6 +122,7 @@ namespace _0.DucTALib.Splash
                 fbTimeout -= Time.deltaTime;
                 yield return null;
             }
+
             loadDuration = RemoteConfig.Ins.isDataFetched
                 ? SplashRemoteConfig.CustomConfigValue.timeoutMin
                 : 12f;
@@ -128,6 +133,7 @@ namespace _0.DucTALib.Splash
                 HandleLoadingProgress();
                 yield return null;
             }
+
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
@@ -137,20 +143,25 @@ namespace _0.DucTALib.Splash
                 yield return new WaitForSeconds(1f);
                 yield break;
             }
+
             float timeoutLater = SplashRemoteConfig.CustomConfigValue.timeoutMax -
                                  SplashRemoteConfig.CustomConfigValue.timeoutMin;
             float timer = 0f;
-            while (!AdsManager.IsMrecReady && timer < timeoutLater)
+            if (AdsManager.Ins.NetInfor.TypeMediation == 0)
             {
-                timer += Time.deltaTime;
-                yield return null;
+                while (!AdsManager.IsMrecReady && timer < timeoutLater)
+                {
+                    timer += Time.deltaTime;
+                    yield return null;
+                }
             }
+
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = "100%";
             SetUpStep();
             LogHelper.LogLine();
             yield return new WaitForEndOfFrame();
-            if(!ignoreNative)
+            if (!ignoreNative)
                 native.FinishNative();
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();

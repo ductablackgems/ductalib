@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace _0.DucTALib.Gameplay
 {
-    public class NativeRelocationController : MonoBehaviour
+    public class NativeRelocationController : SingletonMono<NativeRelocationController>
     {
         public List<NativeRelocationObj> NativeObjects;
         private void Awake()
@@ -23,6 +23,7 @@ namespace _0.DucTALib.Gameplay
             {
                 var obj = NativeObjects[i];
                 var c = config.Find(x=>x.id == NativeObjects[i].id);
+                obj.active = c.active;
                 if (c.active)
                 {
                     obj.Show(c.adsPosition);
@@ -34,7 +35,17 @@ namespace _0.DucTALib.Gameplay
             }
         }
 
-        
-      
+        public void ShowId(int id)
+        {
+          var obj =   NativeObjects.Find(x => x.id == id);
+          if (obj == null || !obj.active) return;
+          obj.ShowObject();
+        }
+        public void HideId(int id)
+        {
+            var obj =   NativeObjects.Find(x => x.id == id);
+            if (obj == null || !obj.active) return;
+            obj.HideObject();
+        }
     }
 }
