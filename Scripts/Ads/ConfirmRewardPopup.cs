@@ -13,6 +13,7 @@ namespace _0.DucLib.Scripts.Ads
         private Transform currentContent;
         public void Show(int id, Action callback)
         {
+            gameObject.ShowObject();
             currentContent = content[id];
             currentContent.ShowObject();
             currentContent.ScaleInPopup();
