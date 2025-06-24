@@ -204,13 +204,13 @@ namespace _0.DucTALib.Splash.Scripts
                 StopCoroutine(showButtonCoroutine);
                 showButtonCoroutine = null;
             }
-            SplashTracking.OnboardingShow(index + 1);
+           
             if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
                 return;
             }
-
+            SplashTracking.OnboardingShow(index + 1);
             tipText.text = GetTip(index);
            
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
