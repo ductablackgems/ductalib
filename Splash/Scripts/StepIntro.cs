@@ -192,7 +192,7 @@ namespace _0.DucTALib.Splash.Scripts
             if (!isShowNativeFull && nativeObjects[indexNative].isNativeFull)
             {
                 isShowNativeFull = true;
-                LogHelper.CheckPoint("is full");
+               
                 return;
             }
             contentCarousel.ShowObject();
@@ -204,7 +204,7 @@ namespace _0.DucTALib.Splash.Scripts
                 StopCoroutine(showButtonCoroutine);
                 showButtonCoroutine = null;
             }
-
+            SplashTracking.OnboardingShow(index + 1);
             if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
@@ -212,7 +212,7 @@ namespace _0.DucTALib.Splash.Scripts
             }
 
             tipText.text = GetTip(index);
-            SplashTracking.OnboardingShow(index + 1);
+           
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
