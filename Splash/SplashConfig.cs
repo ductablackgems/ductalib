@@ -78,6 +78,7 @@ namespace _0.DucTALib.Splash
     public class GameplayNativeConfig
     {
         public List<GameplayNative> configs;
+        public bool isFakeRating;
     }
     [Serializable]
     public class GameplayNative

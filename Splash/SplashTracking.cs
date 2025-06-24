@@ -18,7 +18,6 @@ namespace _0.DucTALib.Splash
             set => PlayerPrefs.SetInt("CurrentGame", value);
         }
 
-
         public static void SetUserProperty()
         {
             CurrentGame += 1;
@@ -99,6 +98,14 @@ namespace _0.DucTALib.Splash
         {
             LogHelper.LogPurple($"[TRACKING] fn_language_hide");
             FirebaseEvent.LogEvent("fn_language_hide");
+        }
+        
+        public static void Rating(int star)
+        {
+            string eventName = $"game_rating";
+            LogHelper.LogPurple($"[TRACKING] {eventName}");
+            Parameter paramTime = new Parameter("value", star.ToString());
+            FirebaseEvent.LogEvent(eventName, paramTime);
         }
     }
 }

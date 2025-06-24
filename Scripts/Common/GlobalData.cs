@@ -15,6 +15,12 @@ namespace _0.DucLib.Scripts.Common
             get => PlayerPrefHelper.GetBool("Reviewed");
             set => PlayerPrefHelper.SetBool("Reviewed", value);
         }
+
+        public static int PlayDay
+        {
+            get => PlayerPrefHelper.GetInt("PlayDay");
+            set => PlayerPrefHelper.SetInt("PlayDay", value);
+        }
         public static bool IAP_RemoveAds
         {
             get => PlayerPrefs.GetInt("IAP_RemoveAds", 0) == 1;

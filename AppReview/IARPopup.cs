@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using _0.DucTALib.Splash;
 using BG_Library.IAR;
 using DG.Tweening;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace _0.DucTALib.AppReview
 {
     public class IARPopup : MonoBehaviour
     {
+        public static bool isFirstTime = true;
         public Transform content;
         public CanvasGroup startReview;
         public CanvasGroup badReview;
@@ -19,17 +22,30 @@ namespace _0.DucTALib.AppReview
         private CanvasGroup currentCvg;
         private int currentStar;
 
+        public void GetFirstTime()
+        {
+            isFirstTime = false;
+        }
+
         public void Show()
         {
-            if (GlobalData.Reviewed )
+            if (isFirstTime)
+            {
+                gameObject.HideObject();
+                return;
+            }
+
+            if (GlobalData.Reviewed)
             {
                 return;
             }
+
             Time.timeScale = 0;
             gameObject.ShowObject();
             content.ScaleInPopup();
             currentStar = 0;
             currentCvg = startReview;
+            submitButton.interactable = false;
             ShowDefault();
         }
 
@@ -72,11 +88,19 @@ namespace _0.DucTALib.AppReview
 
         public void Submit()
         {
-            if (currentStar >= 4)
+            if (SplashRemoteConfig.GameplayNativeConfig.isFakeRating)
             {
-                GlobalData.Reviewed = true;
-                InAppReviewManager.ShowReview();
+                SplashTracking.Rating(currentStar);
             }
+            else
+            {
+                if (currentStar >= 4)
+                {
+                    GlobalData.Reviewed = true;
+                    InAppReviewManager.ShowReview();
+                }
+            }
+
 
             Hide();
             gameObject.HideObject();
