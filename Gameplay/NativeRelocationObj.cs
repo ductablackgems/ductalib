@@ -22,15 +22,21 @@ namespace _0.DucTALib.Gameplay
 
         private IEnumerator LoadNative(string pos)
         {
+#if USE_ADMOB_NATIVE
             nativeUI.Request(pos);
             yield return new WaitUntil(() => nativeUI.IsReady);
             nativeUI.Show();
             LogHelper.CheckPoint($"Relocation native {pos}");
+#endif
+            yield return null;
         }
 
         private void OnDestroy()
         {
+#if USE_ADMOB_NATIVE
             nativeUI.FinishNative();
+#endif
+            
             if (loadNativeIE != null) StopCoroutine(loadNativeIE);
         }
     }

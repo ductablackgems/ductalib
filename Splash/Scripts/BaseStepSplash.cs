@@ -19,7 +19,7 @@ namespace _0.DucTALib.Splash.Scripts
         [ReadOnly] public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
         public MRECObject mrecObject;
-        
+
         #endregion
 
         #region Private Fields
@@ -76,9 +76,12 @@ namespace _0.DucTALib.Splash.Scripts
             var ad = nativeObjects[indexNative];
 
             // Show ad
+#if USE_ADMOB_NATIVE
             ad.native.Show();
             if(ad.isNativeFull)  ShowNativeFull();
             LogHelper.CheckPoint($"show native {ad.adsPosition}");
+#endif
+
 
             isFlowInProgress = true;
 
@@ -88,14 +91,18 @@ namespace _0.DucTALib.Splash.Scripts
         public abstract void HideAds();
         protected abstract void ShowNativeFull();
         protected abstract void HideNativeFull();
+
         public void OnAdClosed()
         {
             if (indexNative >= nativeObjects.Count)
                 return;
 
             var ad = nativeObjects[indexNative];
-            ad.native.FinishNative();   
+#if USE_ADMOB_NATIVE
+              ad.native.FinishNative();   
             if(ad.isNativeFull)  HideNativeFull();
+#endif
+
             LogHelper.CheckPoint($"finish native {ad.adsPosition}");
 
             indexNative++;
@@ -108,11 +115,14 @@ namespace _0.DucTALib.Splash.Scripts
             if (next < nativeObjects.Count)
             {
                 var nextAd = nativeObjects[next];
+#if USE_ADMOB_NATIVE
                 nextAd.native.Request(nextAd.adsPosition);
+#endif
+
                 LogHelper.CheckPoint($"load native {nextAd.adsPosition}");
             }
         }
-      
+
 
         protected void ShowMrec()
         {

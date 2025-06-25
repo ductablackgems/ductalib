@@ -105,11 +105,14 @@ namespace _0.DucTALib.Splash
         {
             if (ignoreNative) yield break;
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
-            native.Request("loading");
+#if USE_ADMOB_NATIVE
+             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
             native.Show();
             loading.HideObject();
             LogHelper.CheckPoint("hide loading");
+
+#endif
         }
 
         private IEnumerator WaitToLoadScene()
@@ -161,8 +164,11 @@ namespace _0.DucTALib.Splash
             SetUpStep();
             LogHelper.LogLine();
             yield return new WaitForEndOfFrame();
+#if USE_ADMOB_NATIVE
             if (!ignoreNative)
                 native.FinishNative();
+#endif
+            
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];

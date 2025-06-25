@@ -14,12 +14,18 @@ namespace _0.DucLib.Scripts.Ads
         private void Awake()
         {
             DontDestroyOnLoad(this);
+#if USE_ADMOB_MEDIATION
             BG_Event.AdmobMediation.Mrec.OnAdLoaded += DestroyAds;
+#endif
+            
         }
 
         private void OnDestroy()
         {
+#if USE_ADMOB_MEDIATION
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= DestroyAds;
+#endif
+            
         }
 
         private void Start()

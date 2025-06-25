@@ -23,16 +23,16 @@ namespace _0.DucTALib.Splash.Scripts
 
         #region Serialized Fields
 
-        [Header("UI Elements")]
-        [SerializeField] private Toggle policyToggle;
+        [Header("UI Elements")] [SerializeField]
+        private Toggle policyToggle;
+
         [SerializeField] private TextMeshProUGUI ageText;
         [SerializeField] private TextMeshProUGUI leftAgeText;
         [SerializeField] private TextMeshProUGUI rightAgeText;
         [SerializeField] private TextMeshProUGUI loadingText;
         [SerializeField] private CanvasGroup cvg;
 
-        [Header("Config")]
-        [SerializeField] private float durationShowButton;
+        [Header("Config")] [SerializeField] private float durationShowButton;
 
         #endregion
 
@@ -60,15 +60,16 @@ namespace _0.DucTALib.Splash.Scripts
                 List<string> positionList = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
 
                 nativeObjects = nativeObjects
-                    .Where(n => positionList.Contains(n.adsPosition))               
-                    .OrderBy(n => positionList.IndexOf(n.adsPosition))          
+                    .Where(n => positionList.Contains(n.adsPosition))
+                    .OrderBy(n => positionList.IndexOf(n.adsPosition))
                     .ToList();
                 if (nativeObjects.Count > 0)
                 {
-                    nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
+#if USE_ADMOB_NATIVE
+                     nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
                     Debug.Log($"[Preload First] {nativeObjects[0].adsPosition}");
+#endif
                 }
-                
             }
 
             gameObject.SetActive(false);
@@ -93,7 +94,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void ShowAds()
         {
-            if(isClick) return;
+            if (isClick) return;
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 ShowAdNative();
@@ -107,7 +108,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void HideAds()
         {
-            if(isClick) return;
+            if (isClick) return;
             if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 OnAdClosed();
@@ -131,7 +132,6 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected override void ShowNativeFull()
         {
-            
         }
 
         protected override void HideNativeFull()
@@ -141,8 +141,6 @@ namespace _0.DucTALib.Splash.Scripts
         public override void Complete()
         {
             base.Complete();
-
-          
         }
 
         #endregion
@@ -182,7 +180,6 @@ namespace _0.DucTALib.Splash.Scripts
                     SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
                     () => { currentButton.ShowButtonTween(0.12f); });
             }
-            
         }
 
         public void ChangeAge(int ageDelta)

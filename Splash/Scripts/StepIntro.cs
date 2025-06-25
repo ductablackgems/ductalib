@@ -62,17 +62,16 @@ namespace _0.DucTALib.Splash.Scripts
                 List<string> positionList = SplashRemoteConfig.CustomConfigValue.introConfig.adsPosition;
 
                 nativeObjects = nativeObjects
-                    .Where(n => positionList.Contains(n.adsPosition))               
-                    .OrderBy(n => positionList.IndexOf(n.adsPosition))          
+                    .Where(n => positionList.Contains(n.adsPosition))
+                    .OrderBy(n => positionList.IndexOf(n.adsPosition))
                     .ToList();
-                
-                if (nativeObjects.Count > 0)
+#if USE_ADMOB_NATIVE
+                 if (nativeObjects.Count > 0)
                 {
                     nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
-                   LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
+                    LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
                 }
-
-              
+#endif
             }
 
             gameObject.SetActive(false);
@@ -81,7 +80,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected override void ShowNativeFull()
         {
-            if (nativeFull.IsReady)
+#if USE_ADMOB_NATIVE
+        if (nativeFull.IsReady)
             {
                 StartCoroutine(DelayShowCloseNative());
                 contentCarousel.HideObject();
@@ -90,11 +90,11 @@ namespace _0.DucTALib.Splash.Scripts
                 mrecObject.HideObject();
                 CallAdsManager.HideMRECApplovin();
             }
+#endif
         }
 
         protected override void HideNativeFull()
         {
-
         }
 
         private IEnumerator DelayShowCloseNative()
@@ -148,7 +148,7 @@ namespace _0.DucTALib.Splash.Scripts
                 ShowMrec();
             }
         }
-        
+
         protected override void GetCurrentButton()
         {
             if (currentButton != null) return;
@@ -177,11 +177,12 @@ namespace _0.DucTALib.Splash.Scripts
         }
 
         private bool isShowNativeFull = false;
+
         public override void HideAds()
         {
             if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
-                  OnAdClosed();
+                OnAdClosed();
                 mrecObject.HideObject();
             }
         }
@@ -193,27 +194,29 @@ namespace _0.DucTALib.Splash.Scripts
             if (!isShowNativeFull && nativeObjects[indexNative].isNativeFull)
             {
                 isShowNativeFull = true;
-               
+
                 return;
             }
+
             contentCarousel.ShowObject();
             index++;
             SplashTracking.OnboardingNext(index);
-            
+
             if (showButtonCoroutine != null)
             {
                 StopCoroutine(showButtonCoroutine);
                 showButtonCoroutine = null;
             }
-           
+
             if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
                 return;
             }
+
             SplashTracking.OnboardingShow(index + 1);
             tipText.text = GetTip(index);
-           
+
             StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
@@ -254,7 +257,6 @@ namespace _0.DucTALib.Splash.Scripts
         public override void Complete()
         {
             base.Complete();
-           
         }
 
         private string GetTip(int index)
@@ -266,7 +268,5 @@ namespace _0.DucTALib.Splash.Scripts
         }
 
         #endregion
-
-
     }
 }
