@@ -69,7 +69,6 @@ namespace _0.DucLib.Scripts.Ads
                 obj.ShowBeforeAds();
                 currentNativeAd = obj;
                 onAfterInterFinished = () => { currentNativeAd.Show(); };
-
                 break;
             }
         }
