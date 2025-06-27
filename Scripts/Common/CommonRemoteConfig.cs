@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
 using BG_Library.Common;
@@ -13,8 +14,8 @@ namespace _0.DucTALib.Scripts.Common
     {
         public static SplashCustomConfigValue CustomConfigValue;
         public static GameplayNativeConfig GameplayNativeConfig;
-        
-        
+        public static D_AdsConfig adsConfig;
+        public static Action FetchDone;
         private void Awake()
         {
             RemoteConfig.OnFetchComplete += FetchComplete;
@@ -35,6 +36,8 @@ namespace _0.DucTALib.Scripts.Common
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
             GameplayNativeConfig = root["Gameplay"]?.ToObject<GameplayNativeConfig>(JsonSerializer.Create(settings));
+            adsConfig = root["AdsConfig"]?.ToObject<D_AdsConfig>(JsonSerializer.Create(settings));
+            FetchDone?.Invoke();
         }
        
     }

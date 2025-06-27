@@ -93,13 +93,21 @@ namespace _0.DucTALib.Splash
     public class D_AdsConfig
     {
         public List<NativeAfterInterConfig> naConfigs;
-
+        public List<NativeInterConfig> naInterConfigs;
         public bool IsUIActive(string uiName)
         {
             return naConfigs.Find(x => x.nativeUIName == uiName).isEnabled;
         }
     }
 
+    [Serializable]
+    public class NativeInterConfig
+    {
+        public bool isEnabled;
+        public List<string> pos;
+        public List<string> displayName;
+        public bool isAutoReload;
+    }
     [Serializable]
     public class NativeAfterInterConfig
     {

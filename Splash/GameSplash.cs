@@ -163,13 +163,12 @@ namespace _0.DucTALib.Splash
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = "100%";
             SetUpStep();
-            LogHelper.LogLine();
             yield return new WaitForEndOfFrame();
 #if USE_ADMOB_NATIVE
             if (!ignoreNative)
                 native.FinishNative();
 #endif
-            
+            CallAdsManager.LoadNAInter("Native_complete_intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
@@ -238,8 +237,15 @@ namespace _0.DucTALib.Splash
             if (currentStep >= steps.Count)
             {
                 if (CommonRemoteConfig.CustomConfigValue.interComplete)
+                {
                     CallAdsManager.ShowInter("complete_all_step");
-                CompleteAllStep();
+                    CompleteAllStep();
+                }
+                else
+                {
+                    CallAdsManager.ShowNAInter("Native_complete_intro", CompleteAllStep);
+                }
+                
                 return;
             }
 

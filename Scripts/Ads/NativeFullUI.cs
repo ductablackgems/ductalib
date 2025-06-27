@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
@@ -13,34 +14,39 @@ namespace _0.DucLib.Scripts.Ads
     [RequireComponent(typeof(NativeUIManager))]
     public class NativeFullUI : MonoBehaviour
     {
+        public string displayName;
         public NativeUIManager native;
         [SerializeField] private float timeClose;
         [SerializeField] private Image closeNativeFullImg;
         [SerializeField] private Text closeNativeFullTimeTxt;
         [SerializeField] private GameObject closeNativeFullButton;
-        public NativeAdContainer controller;
-        public bool isLastAds;
+        [ReadOnly] public bool isLastAds;
         public bool IsReady => native.IsReady;
-        public void DelayShow()
-        {
-            StartCoroutine(DelayShowClose());
-        }
+        private Action onClose;
+        private Action onShowNext;
 
-        private string poss;
+
         public void Request(string pos, bool isLastAds)
         {
-            poss = pos;
             this.isLastAds = isLastAds;
             native.Request(pos);
         }
 
+        public void SetAction(Action close, Action showNext)
+        {
+            onClose = null;
+            onShowNext = null;
+            onClose = close;
+            onShowNext = showNext;
+        }
+
         public void Show()
         {
-          LogHelper.CheckPoint($"native rd {poss} {native.IsReady}");
-            if(!native.IsReady) return;
+            if (!native.IsReady) return;
             native.Show();
             StartCoroutine(DelayShowClose());
         }
+
         private IEnumerator DelayShowClose()
         {
             closeNativeFullTimeTxt.HideObject();
@@ -62,26 +68,24 @@ namespace _0.DucLib.Scripts.Ads
 
             if (!isLastAds)
             {
-                controller.Show();
+                onShowNext?.Invoke();
                 OnCloseAds();
                 yield break;
             }
+
             closeNativeFullTimeTxt.HideObject();
             closeNativeFullImg.HideObject();
             closeNativeFullButton.ShowObject();
         }
+
         public void OnCloseAds()
         {
             native.FinishNative();
             gameObject.HideObject();
             if (isLastAds)
             {
-                controller.Refresh();
-                controller.Request();
+                onClose?.Invoke();
             }
         }
-
-       
-       
     }
 }

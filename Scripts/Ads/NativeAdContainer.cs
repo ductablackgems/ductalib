@@ -17,7 +17,6 @@ namespace _0.DucLib.Scripts.Ads
         
         public void Refresh()
         {
-            LogHelper.CheckPoint("NativeAdContainer refresh");
             currentNative = null;
             CallAdsManager.ShowBanner();
         }
@@ -28,6 +27,11 @@ namespace _0.DucLib.Scripts.Ads
             Request();
         }
 
+        private void Close()
+        {
+            Refresh();
+            Request();
+        }
         public void Request()
         {
             if (!currentData.isEnabled) return;
@@ -37,6 +41,7 @@ namespace _0.DucLib.Scripts.Ads
             currentNative = (currentNative == null || native.IndexOf(currentNative) == 1) 
                 ? native[0] 
                 : native[1];
+            currentNative.SetAction(Close, Show);
             currentNative.Request(pos, naPos.Count <= 0);
         }
 
