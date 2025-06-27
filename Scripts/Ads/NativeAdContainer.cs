@@ -66,17 +66,20 @@ namespace _0.DucLib.Scripts.Ads
 
         public void Show()
         {
-            if (!currentData.isEnabled || !currentNative.IsReady) return;
+            if (!currentData.isEnabled || !currentNative.IsReady)
+            {
+                currentNative.HideObject();
+                CallAdsManager.ShowBanner();
+                return;
+            }
             CallAdsManager.HideBanner();
-            currentNative.Show();
-            Request();
+            if (currentNative.ShowNA())
+            {
+                Request();
+            }
+           
         }
-
-        public bool IsLastNative()
-        {
-            LogHelper.CheckPoint($"NativeAdContainer isLastNative {naPos.Count} ");
-            return naPos.Count <= 0;
-        }
+        
 
         public bool ShouldShowForInter(string interPos)
         {

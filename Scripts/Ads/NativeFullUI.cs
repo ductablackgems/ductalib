@@ -40,11 +40,16 @@ namespace _0.DucLib.Scripts.Ads
             onShowNext = showNext;
         }
 
-        public void Show()
+        public bool ShowNA()
         {
-            if (!native.IsReady) return;
+            if (!native.IsReady)
+            {
+                gameObject.HideObject();
+                return false;
+            }
             native.Show();
             StartCoroutine(DelayShowClose());
+            return true;
         }
 
         private IEnumerator DelayShowClose()

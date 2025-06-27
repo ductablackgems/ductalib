@@ -48,8 +48,8 @@ namespace _0.DucLib.Scripts.Ads
         public void CallNA(string pos, Action complete)
         {
             var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-
-            if (nativeObj == null)
+            bool fakeNotrd = false;
+            if (nativeObj == null || !nativeObj.native.IsReady)
             {
                 complete?.Invoke();
                 return;
@@ -57,14 +57,14 @@ namespace _0.DucLib.Scripts.Ads
 
             if (adsPosition.Count > 0)
             {
-                LoadNext();
                 nativeObj.SetAction(null, () => { CallNA(pos, complete); });
-                nativeObj.Show();
+                if(nativeObj.ShowNA())
+                    LoadNext();
             }
             else
             {
                 nativeObj.SetAction(complete, null);
-                nativeObj.Show();
+                nativeObj.ShowNA();
             }
 
 
