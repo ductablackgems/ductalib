@@ -21,6 +21,7 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class NativeObject
     {
+        public string nativeUIName;
         public string adsPosition;
         public NativeUIManager native;
         public bool isNativeFull;
@@ -127,7 +128,7 @@ namespace _0.DucTALib.Splash
             }
 
             loadDuration = RemoteConfig.Ins.isDataFetched
-                ? SplashRemoteConfig.CustomConfigValue.timeoutMin
+                ? CommonRemoteConfig.CustomConfigValue.timeoutMin
                 : 12f;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
@@ -140,15 +141,15 @@ namespace _0.DucTALib.Splash
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
-            if (!RemoteConfig.Ins.isDataFetched || !SplashRemoteConfig.CustomConfigValue.loadIntro)
+            if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.CustomConfigValue.loadIntro)
             {
                 CompleteAllStep();
                 yield return new WaitForSeconds(1f);
                 yield break;
             }
 
-            float timeoutLater = SplashRemoteConfig.CustomConfigValue.timeoutMax -
-                                 SplashRemoteConfig.CustomConfigValue.timeoutMin;
+            float timeoutLater = CommonRemoteConfig.CustomConfigValue.timeoutMax -
+                                 CommonRemoteConfig.CustomConfigValue.timeoutMin;
             float timer = 0f;
             if (AdsManager.Ins.NetInfor.TypeMediation == 0)
             {
@@ -218,7 +219,7 @@ namespace _0.DucTALib.Splash
         private void SetUpStep()
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
-            var orderedSteps = SplashRemoteConfig.CustomConfigValue.splashConfigs
+            var orderedSteps = CommonRemoteConfig.CustomConfigValue.splashConfigs
                 .Select(cfg => panelMap[cfg.type])
                 .ToList();
 
@@ -236,7 +237,7 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-                if (SplashRemoteConfig.CustomConfigValue.interComplete)
+                if (CommonRemoteConfig.CustomConfigValue.interComplete)
                     CallAdsManager.ShowInter("complete_all_step");
                 CompleteAllStep();
                 return;

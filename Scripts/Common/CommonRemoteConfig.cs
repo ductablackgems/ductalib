@@ -9,10 +9,12 @@ using Newtonsoft.Json.Linq;
 
 namespace _0.DucTALib.Scripts.Common
 {
-    public class SplashRemoteConfig : SingletonMono<SplashRemoteConfig>
+    public class CommonRemoteConfig : SingletonMono<CommonRemoteConfig>
     {
         public static SplashCustomConfigValue CustomConfigValue;
         public static GameplayNativeConfig GameplayNativeConfig;
+        
+        
         private void Awake()
         {
             RemoteConfig.OnFetchComplete += FetchComplete;
@@ -24,7 +26,7 @@ namespace _0.DucTALib.Scripts.Common
             RemoteConfig.OnFetchComplete -= FetchComplete;
         }
 
-        public void FetchComplete()
+        private void FetchComplete()
         {
             var settings = new JsonSerializerSettings
             {

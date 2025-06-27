@@ -185,8 +185,20 @@ namespace _0.DucLib.Scripts.Common
                 component.gameObject.SetActive(false);
             }
         }
-       
 
+        public static void ActiveCvg(this CanvasGroup obj)
+        {
+            obj.interactable = true;
+            obj.blocksRaycasts = true;
+            obj.alpha = 1;
+        }
+
+        public static void HideCvg(this CanvasGroup obj)
+        {
+            obj.interactable = false;
+            obj.blocksRaycasts = false;
+            obj.alpha = 0;
+        }
         #endregion
     }
 }

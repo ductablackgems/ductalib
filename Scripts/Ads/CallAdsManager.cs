@@ -10,10 +10,11 @@ namespace _0.DucLib.Scripts.Ads
     public class CallAdsManager : ResourceSOManager<CallAdsManager>
     {
         public static Action rewardNotReadyAction;
+        public static string currentInterstitial;
 
         public static void ShowInter(string pos, Action actionDone = null)
         {
-            LogHelper.CheckPoint($"Show FA {pos}");
+            currentInterstitial = pos;
 #if IGNORE_ADS
             actionDone?.Invoke();
             return;
@@ -44,10 +45,12 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void ShowBanner()
         {
+            AdsManager.ShowBanner();
         }
 
         public static void HideBanner()
         {
+            AdsManager.HideBanner();
         }
 
 

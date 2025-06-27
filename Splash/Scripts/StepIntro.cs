@@ -55,11 +55,11 @@ namespace _0.DucTALib.Splash.Scripts
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 indexNative = 0;
                 isFlowInProgress = false;
-                List<string> positionList = SplashRemoteConfig.CustomConfigValue.introConfig.adsPosition;
+                List<string> positionList = CommonRemoteConfig.CustomConfigValue.introConfig.adsPosition;
 
                 nativeObjects = nativeObjects
                     .Where(n => positionList.Contains(n.adsPosition))
@@ -99,7 +99,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator DelayShowCloseNative()
         {
-            float totalDelay = SplashRemoteConfig.CustomConfigValue.introConfig.delayShowClose;
+            float totalDelay = CommonRemoteConfig.CustomConfigValue.introConfig.delayShowClose;
             float elapsed = 0f;
 
             while (elapsed < totalDelay)
@@ -138,12 +138,12 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void ShowAds()
         {
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 ShowAdNative();
                 mrecObject.HideObject();
             }
-            else if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
+            else if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
             {
                 ShowMrec();
             }
@@ -153,7 +153,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (currentButton != null) return;
 
-            var config = SplashRemoteConfig.CustomConfigValue.introConfig;
+            var config = CommonRemoteConfig.CustomConfigValue.introConfig;
 
             currentButton = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
             currentDelayButtonTxt = delayButtonTxts.Find(x => x.pos == config.buttonPos).tmp;
@@ -180,7 +180,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void HideAds()
         {
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 OnAdClosed();
                 mrecObject.HideObject();
@@ -208,7 +208,7 @@ namespace _0.DucTALib.Splash.Scripts
                 showButtonCoroutine = null;
             }
 
-            if (index >= SplashRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
+            if (index >= CommonRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
             {
                 Complete();
                 return;
@@ -217,7 +217,7 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.OnboardingShow(index + 1);
             tipText.text = GetTip(index);
 
-            StartDelayShowButton(SplashRemoteConfig.CustomConfigValue.introConfig.nextTime);
+            StartDelayShowButton(CommonRemoteConfig.CustomConfigValue.introConfig.nextTime);
         }
 
         private void StartDelayShowButton(int time)
@@ -244,7 +244,7 @@ namespace _0.DucTALib.Splash.Scripts
 
             currentDelayButtonTxt.HideObject();
 
-            if (SplashRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
+            if (CommonRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
             {
                 NextStep();
             }
@@ -262,7 +262,7 @@ namespace _0.DucTALib.Splash.Scripts
         private string GetTip(int index)
         {
             if (listTips == null || listTips.Count == 0)
-                listTips = SplashRemoteConfig.CustomConfigValue.introConfig.tipText;
+                listTips = CommonRemoteConfig.CustomConfigValue.introConfig.tipText;
 
             return listTips[index];
         }

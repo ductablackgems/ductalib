@@ -22,7 +22,7 @@ namespace _0.DucTALib.Splash
         {
             CurrentGame += 1;
             FirebaseEvent.SetUserProperty("current_game", $"{CurrentGame}");
-            FirebaseEvent.SetUserProperty("test_segment", $"{SplashRemoteConfig.CustomConfigValue.testSegment}");
+            FirebaseEvent.SetUserProperty("test_segment", $"{CommonRemoteConfig.CustomConfigValue.testSegment}");
             LoadingStart();
         }
 

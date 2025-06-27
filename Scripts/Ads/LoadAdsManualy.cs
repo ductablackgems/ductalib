@@ -67,9 +67,9 @@ namespace _0.DucLib.Scripts.Ads
 
         private IEnumerator LoadOtherAds()
         {
-            AdsManager.InitBannerManually();
             AdsManager.InitInterstitialManually();
-            yield return new WaitUntil(() => AdsManager.IsInterstitialReady);
+            AdsManager.InitBannerManually();
+            yield return new WaitForSeconds(4f);
             // AdsManager.ShowBanner();
             if (NetConfigsSO.Ins.IsInitAOManually)
                 AdsManager.InitAppOpenManually();

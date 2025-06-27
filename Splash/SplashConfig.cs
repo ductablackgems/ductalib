@@ -26,7 +26,7 @@ namespace _0.DucTALib.Splash
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ButtonCustom.ButtonPosition buttonPos;
-        
+
         public List<string> adsPosition;
     }
 
@@ -80,11 +80,32 @@ namespace _0.DucTALib.Splash
         public List<GameplayNative> configs;
         public bool isFakeRating;
     }
+
     [Serializable]
     public class GameplayNative
     {
         public int id;
         public string adsPosition;
         public bool active;
+    }
+
+    [Serializable]
+    public class D_AdsConfig
+    {
+        public List<NativeAfterInterConfig> naConfigs;
+
+        public bool IsUIActive(string uiName)
+        {
+            return naConfigs.Find(x => x.nativeUIName == uiName).isEnabled;
+        }
+    }
+
+    [Serializable]
+    public class NativeAfterInterConfig
+    {
+        public bool isEnabled;
+        public List<string> nativePosition;
+        public string nativeUIName;
+        public List<string> interAdPositions;
     }
 }

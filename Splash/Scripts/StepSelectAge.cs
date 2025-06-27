@@ -53,11 +53,11 @@ namespace _0.DucTALib.Splash.Scripts
         {
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
 
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 indexNative = 0;
                 isFlowInProgress = false;
-                List<string> positionList = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
+                List<string> positionList = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
 
                 nativeObjects = nativeObjects
                     .Where(n => positionList.Contains(n.adsPosition))
@@ -95,12 +95,12 @@ namespace _0.DucTALib.Splash.Scripts
         public override void ShowAds()
         {
             if (isClick) return;
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 ShowAdNative();
                 mrecObject.HideObject();
             }
-            else if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
+            else if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
             {
                 ShowMrec();
             }
@@ -109,12 +109,12 @@ namespace _0.DucTALib.Splash.Scripts
         public override void HideAds()
         {
             if (isClick) return;
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
+            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {
                 OnAdClosed();
                 mrecObject.HideObject();
             }
-            else if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
+            else if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
             {
                 ShowMrec();
             }
@@ -122,7 +122,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected override void GetCurrentButton()
         {
-            var config = SplashRemoteConfig.CustomConfigValue.selectAgeConfig;
+            var config = CommonRemoteConfig.CustomConfigValue.selectAgeConfig;
 
             currentButton = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
             currentButton.CustomButtonColor(config.buttonColor);
@@ -150,12 +150,12 @@ namespace _0.DucTALib.Splash.Scripts
         public void ToggleOnChange(bool isOn)
         {
             AudioController.Instance.PlayClickSound();
-            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
             hasAnyChange = true;
             // HideAds();
             // ShowAds();
             isClick = true;
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
             {
                 if (policyToggle.isOn)
                 {
@@ -163,7 +163,7 @@ namespace _0.DucTALib.Splash.Scripts
                     {
                         buttonShowed = true;
                         DOVirtual.DelayedCall(
-                            SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                            CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
                             () => { currentButton.ShowButtonTween(0.12f); });
                     }
                 }
@@ -177,7 +177,7 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 buttonShowed = true;
                 DOVirtual.DelayedCall(
-                    SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
                     () => { currentButton.ShowButtonTween(0.12f); });
             }
         }
@@ -194,7 +194,7 @@ namespace _0.DucTALib.Splash.Scripts
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
 
-            if (SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
             {
                 if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
                     currentButton.ShowButtonTween(0.12f);
@@ -205,11 +205,11 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 buttonShowed = true;
                 DOVirtual.DelayedCall(
-                    SplashRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
                     () => { currentButton.ShowButtonTween(0.12f); });
             }
 
-            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator AutoCloseCountdown()
         {
-            cd = SplashRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
 
             while (cd > 0)
             {

@@ -1,0 +1,44 @@
+﻿{
+  "typeMediation": 0,
+  "maxInforIns": {
+    "idOA": "",
+    "idFA": "",
+    "idRW": "",
+    "idBN": "",
+    "idMREC": ""
+  },
+  "admobInforIns": {
+    "idRW": "",
+    "idAO": "",
+    "idBN": "",
+    "idMREC": "",
+    "interstitialInfos": [
+      {
+        "pos": [
+          "test",
+          "test1"
+        ],
+        "id": "",
+        "reloadAfterShow": false
+      }
+    ],
+    "nativeInfos": [
+      {
+        "pos": "test",
+        "isUseAllPrice": true,
+        "idAllPrice": "",
+        "idMediumPrice": "",
+        "idHighPrice": ""
+      }
+    ]
+  },
+  "type0": {
+    "ao_UseAllAdmob": false,
+    "ao_ShowAfterFullScreenAds": false,
+    "ao_ShowAfterFullScreenAds2": false,
+    "mrec_UseAllAdmob": false
+  },
+  "type1": {
+    "mrec_UseAllMax": false
+  }
+}

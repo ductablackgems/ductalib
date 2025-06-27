@@ -88,7 +88,7 @@ namespace _0.DucTALib.AppReview
 
         public void Submit()
         {
-            if (SplashRemoteConfig.GameplayNativeConfig.isFakeRating)
+            if (CommonRemoteConfig.GameplayNativeConfig.isFakeRating)
             {
                 SplashTracking.Rating(currentStar);
             }
