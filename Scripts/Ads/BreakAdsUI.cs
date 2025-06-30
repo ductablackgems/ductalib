@@ -21,8 +21,6 @@ namespace _0.DucLib.Scripts.Ads
         private void Awake()
         {
             BreakAdsInterstitial.Ins.IsPause = false;
-            
-            content.ShowObject();
             BreakAdsInterstitial.OnBreakAdsFAComing += OnBreakAdsFAComing;
             BreakAdsInterstitial.OnStartCountdown += OnBreakAdsReset;
             BreakAdsInterstitial.OnPause += OnBreakAdsReset;
@@ -71,6 +69,7 @@ namespace _0.DucLib.Scripts.Ads
         private IEnumerator IERunCountDown(float time)
         {
             content.ShowObject();
+            CallAdsManager.currentInterstitial = BG_ConstValue.Firebase_Tracking.break_ads;
             float endTime = Time.realtimeSinceStartup + time;
             while (Time.realtimeSinceStartup < endTime)
             {
@@ -79,7 +78,7 @@ namespace _0.DucLib.Scripts.Ads
                 _timeTxt.text = $"{(int)currentTime}";
                 yield return null;
             }
-            gameObject.HideObject();
+            content.HideObject();
         }
     }
 }

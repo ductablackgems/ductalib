@@ -45,9 +45,11 @@ namespace _0.DucLib.Scripts.Ads
         {
             if (!native.IsReady)
             {
+                LogHelper.CheckPoint($"{gameObject.name} native not ready");
                 gameObject.HideObject();
                 return false;
             }
+            LogHelper.CheckPoint($"{gameObject.name} show");
             native.Show();
             StartCoroutine(DelayShowClose());
             return true;
@@ -60,18 +62,15 @@ namespace _0.DucLib.Scripts.Ads
             closeNativeFullButton.HideObject();
             float totalDelay = timeClose;
             float elapsed = 0f;
-
             while (elapsed < totalDelay)
             {
                 elapsed += Time.deltaTime;
                 float remaining = Mathf.Max(0, totalDelay - elapsed);
-
                 closeNativeFullTimeTxt.text = ((int)remaining).ToString();
                 closeNativeFullImg.fillAmount = elapsed / totalDelay;
 
                 yield return null;
             }
-
             if (!isLastAds)
             {
                 onShowNext?.Invoke();

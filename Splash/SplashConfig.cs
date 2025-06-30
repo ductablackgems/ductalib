@@ -94,10 +94,6 @@ namespace _0.DucTALib.Splash
     {
         public List<NativeAfterInterConfig> naConfigs;
         public List<NativeInterConfig> naInterConfigs;
-        public bool IsUIActive(string uiName)
-        {
-            return naConfigs.Find(x => x.nativeUIName == uiName).isEnabled;
-        }
     }
 
     [Serializable]
@@ -113,7 +109,7 @@ namespace _0.DucTALib.Splash
     {
         public bool isEnabled;
         public List<string> nativePosition;
-        public string nativeUIName;
+        public List<string> nativeUIName;
         public List<string> interAdPositions;
     }
 }
