@@ -6,42 +6,80 @@ using BG_Library.Common;
 using BG_Library.NET;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _0.DucLib.Scripts.Ads
 {
     public class BreakAdsUI : MonoBehaviour
     {
-        public CanvasGroup cvg;
-        public TextMeshProUGUI tmpNoti;
-        private Coroutine cr;
+        public GameObject content;
+        [SerializeField] private Image _fillCountDown;
+        [SerializeField] private TMP_Text _timeTxt;
+        
+        private Coroutine _countDownCoroutine;
+
         private void Awake()
         {
-            transform.SetParent(DDOL.Instance.transform);
-            BreakAdsInterstitial.OnBreakAdsFAComing += Show;
+            BreakAdsInterstitial.Ins.IsPause = false;
+            
+            content.ShowObject();
+            BreakAdsInterstitial.OnBreakAdsFAComing += OnBreakAdsFAComing;
+            BreakAdsInterstitial.OnStartCountdown += OnBreakAdsReset;
+            BreakAdsInterstitial.OnPause += OnBreakAdsReset;
+            BreakAdsInterstitial.OnResume += OnBreakAdsResume;
         }
 
         private void OnDestroy()
         {
-            BreakAdsInterstitial.OnBreakAdsFAComing -= Show;
+            BreakAdsInterstitial.OnBreakAdsFAComing -= OnBreakAdsFAComing;
+            BreakAdsInterstitial.OnStartCountdown -= OnBreakAdsReset;
+            BreakAdsInterstitial.OnPause -= OnBreakAdsReset;
+            BreakAdsInterstitial.OnResume -= OnBreakAdsResume;
+            
+            BreakAdsInterstitial.Ins.IsPause = true;
+        }
+        
+        private void OnBreakAdsFAComing(int countdown)
+        {
+            if(!AdsManager.IAP_RemoveAds) DisplayTime(countdown);
+        }
+        
+        private void OnBreakAdsResume(bool isResume, float time)
+        {
+            if(isResume && !AdsManager.IAP_RemoveAds) DisplayTime(time);
+        }
+        
+        private void OnBreakAdsReset()
+        {
+            StopDisplay();
         }
 
-        private void Show(int time)
+        private void DisplayTime(float time)
         {
-            if (cr != null) StopCoroutine(cr);
-            cr = StartCoroutine(ShowBreakAdsUI(time));
+            if(_countDownCoroutine != null)
+                StopCoroutine(_countDownCoroutine);
+            _countDownCoroutine = StartCoroutine(IERunCountDown(time));
         }
 
-        private IEnumerator ShowBreakAdsUI(int time)
+        private void StopDisplay()
         {
-            cvg.ShowObject();
-            cvg.FadeInPopup();
-            while (time > 0)
+            if(_countDownCoroutine != null)
+                StopCoroutine(_countDownCoroutine);
+            content.HideObject();
+        }
+
+        private IEnumerator IERunCountDown(float time)
+        {
+            content.ShowObject();
+            float endTime = Time.realtimeSinceStartup + time;
+            while (Time.realtimeSinceStartup < endTime)
             {
-                time -= 1;
-                yield return new WaitForSecondsRealtime(1);
-                tmpNoti.text = $"Get ready! An ad is coming in {time} seconds.";
+                float currentTime = endTime - Time.realtimeSinceStartup;
+                _fillCountDown.fillAmount = currentTime / time;
+                _timeTxt.text = $"{(int)currentTime}";
+                yield return null;
             }
-            cvg.HideObject();
+            gameObject.HideObject();
         }
     }
 }

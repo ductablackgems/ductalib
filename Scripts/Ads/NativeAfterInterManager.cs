@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-    public class NativeAfterInterManager : SingletonMono<NativeAfterInterManager>
+    public class NativeAfterInterManager : MonoBehaviour
     {
         public List<NativeAdContainer> nativeObjects;
         private Action onAfterInterFinished;
@@ -20,23 +20,17 @@ namespace _0.DucLib.Scripts.Ads
 
         #region Init
 
-        protected override void Init()
+        private void Awake()
         {
-            base.Init();
-            DontDestroyOnLoadSelf();
             RegisterEvents();
-        }
-
-        private void DontDestroyOnLoadSelf()
-        {
-            gameObject.transform.SetParent(DDOL.Instance.transform);
         }
 
         private void RegisterEvents()
         {
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnBeforeShowInter;
-            CommonRemoteConfig.FetchDone += FetchComplete;
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += OnInterstitialHiddenEvent;
+
+            FetchComplete();
         }
 
         private void FetchComplete()
@@ -51,13 +45,11 @@ namespace _0.DucLib.Scripts.Ads
 
         private void OnDestroy()
         {
-            CommonRemoteConfig.FetchDone -= FetchComplete;
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnBeforeShowInter;
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= OnInterstitialHiddenEvent;
         }
 
         #endregion
-
         private void OnBeforeShowInter(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             onAfterInterFinished = null;

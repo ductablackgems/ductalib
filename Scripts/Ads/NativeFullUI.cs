@@ -24,6 +24,7 @@ namespace _0.DucLib.Scripts.Ads
         public bool IsReady => native.IsReady;
         private Action onClose;
         private Action onShowNext;
+        private Action adNotReady;
 
 
         public void Request(string pos, bool isLastAds)
@@ -91,6 +92,11 @@ namespace _0.DucLib.Scripts.Ads
             {
                 onClose?.Invoke();
             }
+        }
+
+        private void OnDestroy()
+        {
+            native.FinishNative();
         }
     }
 }

@@ -31,13 +31,14 @@ namespace _0.DucLib.Scripts.Ads
 
         private void Close()
         {
+            LogHelper.CheckPoint($"Close native after inter");
             Refresh();
             foreach (var config in CommonRemoteConfig.adsConfig.naConfigs)
             {
                 if (config.nativeUIName == nativeUIName)
                 {
                     SetUp(config);
-                    LogHelper.CheckPoint("reinitialized");
+                    LogHelper.CheckPoint($"reinitialized natuve ");
                     break;
                 }
             }
@@ -69,6 +70,7 @@ namespace _0.DucLib.Scripts.Ads
             if (!currentData.isEnabled || !currentNative.IsReady)
             {
                 currentNative.HideObject();
+                Close();
                 CallAdsManager.ShowBanner();
                 return;
             }
