@@ -29,14 +29,19 @@ namespace _0.DucTALib.Scripts.Common
 
         private void FetchComplete()
         {
+            LogHelper.LogLine();
             var settings = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
+            LogHelper.LogLine();
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
+            LogHelper.LogLine();
             GameplayNativeConfig = root["Gameplay"]?.ToObject<GameplayNativeConfig>(JsonSerializer.Create(settings));
+            LogHelper.LogLine();
             adsConfig = root["AdsConfig"]?.ToObject<D_AdsConfig>(JsonSerializer.Create(settings));
+            LogHelper.LogLine();
             FetchDone?.Invoke();
         }
        

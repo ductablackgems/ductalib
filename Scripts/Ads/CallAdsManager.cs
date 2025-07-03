@@ -10,11 +10,11 @@ namespace _0.DucLib.Scripts.Ads
     public class CallAdsManager : ResourceSOManager<CallAdsManager>
     {
         public static Action rewardNotReadyAction;
-        public static string currentInterstitial;
+        public static string currentInterstitial => AdsManager.LastInterstitialPos;
 
         public static void ShowInter(string pos, Action actionDone = null)
         {
-            currentInterstitial = pos;
+            // currentInterstitial = pos;
 #if IGNORE_ADS
             actionDone?.Invoke();
             return;

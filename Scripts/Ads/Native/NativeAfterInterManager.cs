@@ -16,11 +16,11 @@ namespace _0.DucLib.Scripts.Ads.Native
         private Dictionary<string, UINativeController> uiControllers = new();
 
         private NativeAfterInterConfig activeConfig;
-        private bool interCallbackRegistered = false;
 
         private void Awake()
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Awake → Register OnAdDisplayedEvent");
+            MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
         }
 
@@ -29,10 +29,7 @@ namespace _0.DucLib.Scripts.Ads.Native
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnInterstitialDisplayed;
 
-            if (interCallbackRegistered)
-            {
-                MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
-            }
+            MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
         }
 
         private void Start()
@@ -70,11 +67,7 @@ namespace _0.DucLib.Scripts.Ads.Native
 
                 activeConfig = config;
 
-                if (!interCallbackRegistered)
-                {
-                    MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
-                    interCallbackRegistered = true;
-                }
+              
 
                 break;
             }

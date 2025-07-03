@@ -69,7 +69,6 @@ namespace _0.DucLib.Scripts.Ads
         private IEnumerator IERunCountDown(float time)
         {
             content.ShowObject();
-            CallAdsManager.currentInterstitial = BG_ConstValue.Firebase_Tracking.break_ads;
             float endTime = Time.realtimeSinceStartup + time;
             while (Time.realtimeSinceStartup < endTime)
             {
