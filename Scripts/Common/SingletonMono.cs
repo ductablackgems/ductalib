@@ -49,6 +49,7 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
         {
             // Destroy this instances because already exist the singleton of EventsDispatcer
             //Common.Log("An instance of T already exist : <{0}>, So destroy this instance : <{1}>!!", instance.name, name);
+            Debug.Log(GetType().Name + " is already exists.");
             Destroy(gameObject);
         }
         else
