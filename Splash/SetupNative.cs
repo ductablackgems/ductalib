@@ -51,6 +51,7 @@ namespace _0.DucTALib.Splash
         {
             foreach (var a in content)
             {
+                if (contentBg == null) return;
                 var sp = contentBg[Random.Range(0, contentBg.Count)];
                 a.sprite = sp;
             }
