@@ -98,6 +98,7 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
+            AndroidCall.AutoHideBanner = true;
         }
 
         #region Coroutine: Loading + Native

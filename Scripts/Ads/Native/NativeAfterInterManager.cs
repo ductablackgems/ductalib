@@ -25,9 +25,9 @@ namespace _0.DucLib.Scripts.Ads.Native
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
 
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
-           
+
 #else
- BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened += OnInterstitialDisplayed;
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened += OnInterstitialDisplayed;
             BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += HandleOnAdHiddenEvent;
 #endif
         }
@@ -35,15 +35,14 @@ namespace _0.DucLib.Scripts.Ads.Native
         private void OnDestroy()
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
-            
+
 #if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnInterstitialDisplayed;
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
 #else
- BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened -= OnInterstitialDisplayed;
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened -= OnInterstitialDisplayed;
             BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed -= HandleOnAdHiddenEvent;
-#endif      
-            
+#endif
         }
 
         private void Start()
@@ -69,7 +68,7 @@ namespace _0.DucLib.Scripts.Ads.Native
                 }
             }
         }
-            
+
 #if USE_MAX_MEDIATION
         private void OnInterstitialDisplayed(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
@@ -96,7 +95,7 @@ namespace _0.DucLib.Scripts.Ads.Native
             ShowSequence(activeConfig, 0);
         }
 #else
- private void OnInterstitialDisplayed(string adUnitI)
+        private void OnInterstitialDisplayed(string adUnitI)
         {
             string interPos = CallAdsManager.currentInterstitial;
             LogHelper.CheckPoint($"[NativeAfterInterManager] Interstitial DISPLAYED → {interPos}");
@@ -111,6 +110,7 @@ namespace _0.DucLib.Scripts.Ads.Native
                 break;
             }
         }
+
         private void HandleOnAdHiddenEvent(string adUnitId)
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Inter closed → begin native show flow");
@@ -120,10 +120,8 @@ namespace _0.DucLib.Scripts.Ads.Native
 
             ShowSequence(activeConfig, 0);
         }
-#endif   
-        
+#endif
 
-       
 
         private void ShowSequence(NativeAfterInterConfig config, int step)
         {
