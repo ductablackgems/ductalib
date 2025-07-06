@@ -2,6 +2,7 @@
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash;
+using BG_Library.Common;
 using BG_Library.NET.Native_custom;
 using UnityEngine;
 
@@ -16,23 +17,33 @@ namespace _0.DucLib.Scripts.Ads.Native
         private Dictionary<string, UINativeController> uiControllers = new();
 
         private NativeAfterInterConfig activeConfig;
-        private bool interCallbackRegistered = false;
 
         private void Awake()
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Awake → Register OnAdDisplayedEvent");
+#if USE_MAX_MEDIATION
+            MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
+
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
+           
+#else
+ BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened += OnInterstitialDisplayed;
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += HandleOnAdHiddenEvent;
+#endif
         }
 
         private void OnDestroy()
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
+            
+#if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnInterstitialDisplayed;
-
-            if (interCallbackRegistered)
-            {
-                MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
-            }
+            MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
+#else
+ BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentOpened -= OnInterstitialDisplayed;
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed -= HandleOnAdHiddenEvent;
+#endif      
+            
         }
 
         private void Start()
@@ -58,7 +69,8 @@ namespace _0.DucLib.Scripts.Ads.Native
                 }
             }
         }
-
+            
+#if USE_MAX_MEDIATION
         private void OnInterstitialDisplayed(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             string interPos = CallAdsManager.currentInterstitial;
@@ -70,16 +82,10 @@ namespace _0.DucLib.Scripts.Ads.Native
 
                 activeConfig = config;
 
-                if (!interCallbackRegistered)
-                {
-                    MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
-                    interCallbackRegistered = true;
-                }
 
                 break;
             }
         }
-
         private void HandleOnAdHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Inter closed → begin native show flow");
@@ -89,6 +95,35 @@ namespace _0.DucLib.Scripts.Ads.Native
 
             ShowSequence(activeConfig, 0);
         }
+#else
+ private void OnInterstitialDisplayed(string adUnitI)
+        {
+            string interPos = CallAdsManager.currentInterstitial;
+            LogHelper.CheckPoint($"[NativeAfterInterManager] Interstitial DISPLAYED → {interPos}");
+
+            foreach (var config in naConfigs)
+            {
+                if (!config.isEnabled || !config.interAdPositions.Contains(interPos)) continue;
+
+                activeConfig = config;
+
+
+                break;
+            }
+        }
+        private void HandleOnAdHiddenEvent(string adUnitId)
+        {
+            LogHelper.CheckPoint("[NativeAfterInterManager] Inter closed → begin native show flow");
+
+            Time.timeScale = 0;
+            CallAdsManager.HideBanner();
+
+            ShowSequence(activeConfig, 0);
+        }
+#endif   
+        
+
+       
 
         private void ShowSequence(NativeAfterInterConfig config, int step)
         {
@@ -146,7 +181,8 @@ namespace _0.DucLib.Scripts.Ads.Native
                         var m = GetNativeManager(firstUI);
                         if (m != null)
                         {
-                            LogHelper.CheckPoint($"[NativeAfterInterManager] Re-request native {firstPos} for {firstUI}");
+                            LogHelper.CheckPoint(
+                                $"[NativeAfterInterManager] Re-request native {firstPos} for {firstUI}");
                             m.Request(firstPos);
                             loadedUI.Add(firstUI);
                         }
