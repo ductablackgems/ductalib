@@ -106,7 +106,7 @@ namespace _0.DucTALib.Splash
         private IEnumerator AdsControl()
         {
             if (ignoreNative) yield break;
-            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
 #if USE_ADMOB_NATIVE
              native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);

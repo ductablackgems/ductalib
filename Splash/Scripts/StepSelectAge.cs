@@ -51,7 +51,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected override IEnumerator InitNA()
         {
-            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
 
             if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
             {

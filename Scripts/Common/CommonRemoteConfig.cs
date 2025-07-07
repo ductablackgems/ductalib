@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash;
 using BG_Library.Common;
 using BG_Library.NET;
@@ -12,6 +13,7 @@ namespace _0.DucTALib.Scripts.Common
 {
     public class CommonRemoteConfig : SingletonMono<CommonRemoteConfig>
     {
+        public bool fetchComplete = false;
         public static SplashCustomConfigValue CustomConfigValue;
         public static GameplayNativeConfig GameplayNativeConfig;
         public static D_AdsConfig adsConfig;
@@ -38,6 +40,8 @@ namespace _0.DucTALib.Scripts.Common
             GameplayNativeConfig = root["Gameplay"]?.ToObject<GameplayNativeConfig>(JsonSerializer.Create(settings));
             adsConfig = root["AdsConfig"]?.ToObject<D_AdsConfig>(JsonSerializer.Create(settings));
             FetchDone?.Invoke();
+            fetchComplete = true;
+            LogHelper.CheckPoint("fetch complete");
         }
        
     }
