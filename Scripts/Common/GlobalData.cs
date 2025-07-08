@@ -5,11 +5,7 @@ namespace _0.DucLib.Scripts.Common
 {
     public static class GlobalData
     {
-        public static LocalizedManager.Language Language
-        {
-            get => (LocalizedManager.Language)PlayerPrefs.GetInt("Language", -1);
-            set => PlayerPrefs.SetInt("Language", (int)value);
-        }
+       
         public static bool Reviewed
         {
             get => PlayerPrefHelper.GetBool("Reviewed");
