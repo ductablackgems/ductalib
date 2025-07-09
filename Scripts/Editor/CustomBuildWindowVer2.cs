@@ -12,12 +12,14 @@ namespace _0.DucLib.Scripts.Editor
         private int versionCode = 0;
         private string pass;
         private bool withDeveloperBuild;
-
+        
         private List<BuildSymbol> buildSymbols = new List<BuildSymbol>
         {
             new BuildSymbol("ENABLE_CHEAT", "Cheat Mode"),
             new BuildSymbol("IGNORE_ADS", "Ignore Ads"),
-            new BuildSymbol("IGNORE_INTRO", "Ignore Intro"),
+            new BuildSymbol("USE_ADMOB_NATIVE", "Use Admob Native"),
+            new BuildSymbol("USE_ADMOB_MEDIATION", "Use Admob Mediation"),
+            new BuildSymbol("USE_MAX_MEDIATION", "Use Max Mediation"),
         };
 
         [MenuItem("CUSTOM BUILD/CUSTOM BUILD SETTINGS VER 2  %#&C")]
