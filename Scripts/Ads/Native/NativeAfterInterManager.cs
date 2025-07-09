@@ -10,16 +10,16 @@ namespace _0.DucLib.Scripts.Ads.Native
 {
     public class NativeAfterInterManager : MonoBehaviour
     {
-        public List<NativeAfterInterConfig> naConfigs;
+        public NativeAfterInterConfig naConfigs;
         public GameObject parent;
 
         private Dictionary<string, NativeUIManager> managers = new();
         private Dictionary<string, UINativeController> uiControllers = new();
 
-        private NativeAfterInterConfig activeConfig;
 
         private void Awake()
         {
+            if (!CommonRemoteConfig.adsConfig.naConfigs.isEnabled) return;
             LogHelper.CheckPoint("[NativeAfterInterManager] Awake → Register OnAdDisplayedEvent");
 #if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
@@ -34,6 +34,7 @@ namespace _0.DucLib.Scripts.Ads.Native
 
         private void OnDestroy()
         {
+            if (!CommonRemoteConfig.adsConfig.naConfigs.isEnabled) return;
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
 
 #if USE_MAX_MEDIATION
@@ -50,21 +51,19 @@ namespace _0.DucLib.Scripts.Ads.Native
             LogHelper.CheckPoint("[NativeAfterInterManager] Start");
             naConfigs = CommonRemoteConfig.adsConfig.naConfigs;
 
-            foreach (var config in naConfigs)
+
+            if (!naConfigs.isEnabled) return;
+
+            for (int i = 0; i < naConfigs.nativePosition.Count; i++)
             {
-                if (!config.isEnabled) continue;
+                string pos = naConfigs.nativePosition[i];
+                string uiName = naConfigs.nativeUIName[i];
 
-                for (int i = 0; i < config.nativePosition.Count; i++)
+                var manager = GetNativeManager(uiName);
+                if (manager != null)
                 {
-                    string pos = config.nativePosition[i];
-                    string uiName = config.nativeUIName[i];
-
-                    var manager = GetNativeManager(uiName);
-                    if (manager != null)
-                    {
-                        LogHelper.CheckPoint($"[NativeAfterInterManager] Request initial native {pos} for {uiName}");
-                        manager.Request(pos);
-                    }
+                    LogHelper.CheckPoint($"[NativeAfterInterManager] Request initial native {pos} for {uiName}");
+                    manager.Request(pos);
                 }
             }
         }
@@ -98,17 +97,7 @@ namespace _0.DucLib.Scripts.Ads.Native
         private void OnInterstitialDisplayed(string adUnitI)
         {
             string interPos = CallAdsManager.currentInterstitial;
-            LogHelper.CheckPoint($"[NativeAfterInterManager] Interstitial DISPLAYED → {interPos}");
 
-            foreach (var config in naConfigs)
-            {
-                if (!config.isEnabled || !config.interAdPositions.Contains(interPos)) continue;
-
-                activeConfig = config;
-
-
-                break;
-            }
         }
 
         private void HandleOnAdHiddenEvent(string adUnitId)
@@ -118,7 +107,7 @@ namespace _0.DucLib.Scripts.Ads.Native
             Time.timeScale = 0;
             CallAdsManager.HideBanner();
 
-            ShowSequence(activeConfig, 0);
+            ShowSequence(naConfigs, 0);
         }
 #endif
 

@@ -92,7 +92,7 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class D_AdsConfig
     {
-        public List<NativeAfterInterConfig> naConfigs;
+        public NativeAfterInterConfig naConfigs;
         public List<NativeInterConfig> naInterConfigs;
     }
 
