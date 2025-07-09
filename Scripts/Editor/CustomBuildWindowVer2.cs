@@ -119,12 +119,12 @@ namespace _0.DucLib.Scripts.Editor
 
         private GUIContent GetIcon(bool enabled)
         {
-            return  EditorGUIUtility.IconContent( !enabled ? "d_UnityEditor.GameView" : "console.erroricon");
+            return EditorGUIUtility.IconContent(enabled ? "TestPassed" : "TestFailed");
         }
         private GUIStyle GetTextStyle(bool isEnabled)
         {
             GUIStyle style = new GUIStyle(GUI.skin.label);
-            style.normal.textColor = !isEnabled ? new Color(0.1f, 0.7f, 0.1f) : new Color(0.8f, 0.1f, 0.1f);
+            style.normal.textColor = !isEnabled ? Color.green : Color.yellow;
             style.fontStyle = FontStyle.Bold;
             return style;
         }
