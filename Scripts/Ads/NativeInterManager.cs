@@ -14,24 +14,30 @@ namespace _0.DucLib.Scripts.Ads
         private Action showNextAds;
 
         private string nextDisplayName;
+        private bool isActive;
+
         public void Load(string pos, bool isLastAds)
         {
             var ads = CommonRemoteConfig.adsConfig.naInterConfigs.Find(x => x.pos.Contains(pos));
+            if (ads == null) return;
+            isActive = ads.isEnabled;
+            if (!isActive) return;
             adsDisplay.AddRange(ads.displayName);
             nextDisplayName = adsDisplay[0];
             adsDisplay.RemoveAt(0);
-            
+
             adsPosition.AddRange(ads.pos);
             adsPosition.Remove(pos);
 
             var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-           
+
             nativeObj?.Request(pos, adsPosition.Count == 0);
             LogHelper.CheckPoint($"[Load NA] {pos}");
         }
 
         private void LoadNext()
         {
+            if (!isActive) return;
             var pos = adsPosition[0];
             nextDisplayName = adsDisplay[0];
             adsDisplay.RemoveAt(0);
@@ -39,7 +45,7 @@ namespace _0.DucLib.Scripts.Ads
 
 
             var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-          
+
             nativeObj?.Request(pos, adsPosition.Count == 0);
 
             LogHelper.CheckPoint($"[Load NEXT NA] {pos}");
@@ -47,6 +53,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void CallNA(string pos, Action complete)
         {
+            if (!isActive) return;
             var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
             bool fakeNotrd = false;
             if (nativeObj == null || !nativeObj.native.IsReady)
@@ -58,7 +65,7 @@ namespace _0.DucLib.Scripts.Ads
             if (adsPosition.Count > 0)
             {
                 nativeObj.SetAction(null, () => { CallNA(pos, complete); });
-                if(nativeObj.ShowNA())
+                if (nativeObj.ShowNA())
                     LoadNext();
             }
             else

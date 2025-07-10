@@ -36,7 +36,6 @@ namespace _0.DucLib.Scripts.Ads.Native
         {
             if (!CommonRemoteConfig.adsConfig.naConfigs.isEnabled) return;
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
-
 #if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnInterstitialDisplayed;
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent -= HandleOnAdHiddenEvent;
@@ -69,21 +68,12 @@ namespace _0.DucLib.Scripts.Ads.Native
         }
 
 #if USE_MAX_MEDIATION
-        private void OnInterstitialDisplayed(string adUnitId, MaxSdkBase.AdInfo adInfo)
+         private void OnInterstitialDisplayed(string adUnitI, MaxSdkBase.AdInfo adInfo)
         {
             string interPos = CallAdsManager.currentInterstitial;
-            LogHelper.CheckPoint($"[NativeAfterInterManager] Interstitial DISPLAYED → {interPos}");
 
-            foreach (var config in naConfigs)
-            {
-                if (!config.isEnabled || !config.interAdPositions.Contains(interPos)) continue;
-
-                activeConfig = config;
-
-
-                break;
-            }
         }
+
         private void HandleOnAdHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Inter closed → begin native show flow");
@@ -91,7 +81,7 @@ namespace _0.DucLib.Scripts.Ads.Native
             Time.timeScale = 0;
             CallAdsManager.HideBanner();
 
-            ShowSequence(activeConfig, 0);
+            ShowSequence(naConfigs, 0);
         }
 #else
         private void OnInterstitialDisplayed(string adUnitI)
