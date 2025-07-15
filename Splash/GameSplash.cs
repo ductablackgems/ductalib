@@ -149,18 +149,6 @@ namespace _0.DucTALib.Splash
                 yield break;
             }
 
-            float timeoutLater = CommonRemoteConfig.CustomConfigValue.timeoutMax -
-                                 CommonRemoteConfig.CustomConfigValue.timeoutMin;
-            float timer = 0f;
-            if (AdsManager.Ins.NetInfor.TypeMediation == 0)
-            {
-                while (!AdsManager.IsMrecReady && timer < timeoutLater)
-                {
-                    timer += Time.deltaTime;
-                    yield return null;
-                }
-            }
-
             loadingBar.DOFillAmount(1, 0.2f);
             currentProgressTxt.text = "100%";
             SetUpStep();
