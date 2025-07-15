@@ -17,7 +17,7 @@ namespace _0.DucTALib.Gameplay
         private void Awake()
         {
 
-            var config = CommonRemoteConfig.GameplayNativeConfig.configs;
+            var config = CommonRemoteConfig.adsConfig.relocationNative;
             if(NativeObjects.Count == 0) return;
             for (int i = 0; i < NativeObjects.Count; i++)
             {

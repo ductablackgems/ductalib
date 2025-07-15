@@ -19,7 +19,7 @@ namespace _0.DucLib.Scripts.Ads.Native
 
         private void Awake()
         {
-            if (!CommonRemoteConfig.adsConfig.naConfigs.isEnabled) return;
+            if (!CommonRemoteConfig.adsConfig.naAfterInter.isEnabled) return;
             LogHelper.CheckPoint("[NativeAfterInterManager] Awake → Register OnAdDisplayedEvent");
 #if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
@@ -34,7 +34,7 @@ namespace _0.DucLib.Scripts.Ads.Native
 
         private void OnDestroy()
         {
-            if (!CommonRemoteConfig.adsConfig.naConfigs.isEnabled) return;
+            if (!CommonRemoteConfig.adsConfig.naAfterInter.isEnabled) return;
             LogHelper.CheckPoint("[NativeAfterInterManager] OnDestroy → Unregister Events");
 #if USE_MAX_MEDIATION
             MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent -= OnInterstitialDisplayed;
@@ -48,7 +48,7 @@ namespace _0.DucLib.Scripts.Ads.Native
         private void Start()
         {
             LogHelper.CheckPoint("[NativeAfterInterManager] Start");
-            naConfigs = CommonRemoteConfig.adsConfig.naConfigs;
+            naConfigs = CommonRemoteConfig.adsConfig.naAfterInter;
 
 
             if (!naConfigs.isEnabled) return;

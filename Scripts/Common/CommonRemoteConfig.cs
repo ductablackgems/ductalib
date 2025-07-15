@@ -15,8 +15,8 @@ namespace _0.DucTALib.Scripts.Common
     {
         public bool fetchComplete = false;
         public static SplashCustomConfigValue CustomConfigValue;
-        public static GameplayNativeConfig GameplayNativeConfig;
         public static D_AdsConfig adsConfig;
+        public static CommonConfig commonConfig;
         public static Action FetchDone;
         private void Awake()
         {
@@ -38,8 +38,8 @@ namespace _0.DucTALib.Scripts.Common
             };
             JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
             CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            GameplayNativeConfig = root["Gameplay"]?.ToObject<GameplayNativeConfig>(JsonSerializer.Create(settings));
             adsConfig = root["AdsConfig"]?.ToObject<D_AdsConfig>(JsonSerializer.Create(settings));
+            commonConfig = root["CommonConfig"]?.ToObject<CommonConfig>(JsonSerializer.Create(settings));
             FetchDone?.Invoke();
             fetchComplete = true;
             LogHelper.CheckPoint("fetch complete");

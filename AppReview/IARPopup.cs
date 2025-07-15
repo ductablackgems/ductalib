@@ -12,7 +12,6 @@ namespace _0.DucTALib.AppReview
 {
     public class IARPopup : MonoBehaviour
     {
-        public static bool isFirstTime = true;
         public Transform content;
         public CanvasGroup startReview;
         public CanvasGroup badReview;
@@ -22,19 +21,9 @@ namespace _0.DucTALib.AppReview
         private CanvasGroup currentCvg;
         private int currentStar;
 
-        public void GetFirstTime()
-        {
-            isFirstTime = false;
-        }
 
         public void Show()
         {
-            if (isFirstTime)
-            {
-                gameObject.HideObject();
-                return;
-            }
-
             if (GlobalData.Reviewed)
             {
                 return;
@@ -88,11 +77,8 @@ namespace _0.DucTALib.AppReview
 
         public void Submit()
         {
-            if (CommonRemoteConfig.GameplayNativeConfig.isFakeRating)
-            {
-                SplashTracking.Rating(currentStar);
-            }
-            else
+            SplashTracking.Rating(currentStar);
+            if (CommonRemoteConfig.commonConfig.isProduct)
             {
                 if (currentStar >= 4)
                 {

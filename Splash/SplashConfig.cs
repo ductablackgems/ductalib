@@ -74,12 +74,7 @@ namespace _0.DucTALib.Splash
         public SelectLanguageConfig selectLanguageConfig;
     }
 
-    [Serializable]
-    public class GameplayNativeConfig
-    {
-        public List<GameplayNative> configs;
-        public bool isFakeRating;
-    }
+    
 
     [Serializable]
     public class GameplayNative
@@ -92,7 +87,8 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class D_AdsConfig
     {
-        public NativeAfterInterConfig naConfigs;
+        public List<GameplayNative> relocationNative;
+        public NativeAfterInterConfig naAfterInter;
         public List<NativeInterConfig> naInterConfigs;
     }
 
@@ -111,5 +107,11 @@ namespace _0.DucTALib.Splash
         public List<string> nativePosition;
         public List<string> nativeUIName;
         public List<string> interAdPositions;
+    }
+
+    [Serializable]
+    public class CommonConfig
+    {
+        public bool isProduct;
     }
 }
