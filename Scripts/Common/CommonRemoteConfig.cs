@@ -31,6 +31,7 @@ namespace _0.DucTALib.Scripts.Common
 
         private void FetchComplete()
         {
+            LogHelper.CheckPoint("remoote config");
             var settings = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }

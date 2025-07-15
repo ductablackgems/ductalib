@@ -53,7 +53,12 @@ namespace _0.DucLib.Scripts.Ads
 
         public void CallNA(string pos, Action complete)
         {
-            if (!isActive) return;
+            if (!isActive)
+            {
+                CallAdsManager.ShowInter(pos);
+                complete?.Invoke();
+                return;
+            }
             var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
             bool fakeNotrd = false;
             if (nativeObj == null || !nativeObj.native.IsReady)
