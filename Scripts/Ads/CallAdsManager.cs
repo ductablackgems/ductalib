@@ -52,15 +52,7 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.HideBanner();
         }
 
-        public static void ShowNAInter(string pos, Action actionDone)
-        {
-            NativeInterManager.instance.CallNA(pos, actionDone);
-        }
-
-        public static void LoadNAInter(string pos)
-        {
-            NativeInterManager.instance.Load(pos, true);
-        }
+       
         public static void ShowMRECApplovin(GameObject target)
         {
             LogHelper.CheckPoint("Call MREC overlay");

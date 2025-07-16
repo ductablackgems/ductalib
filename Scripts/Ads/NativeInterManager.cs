@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-    public class NativeInterManager : SingletonMono<NativeInterManager>
+    public class NativeInterManager : MonoBehaviour
     {
         public List<NativeFullUI> nativeFullUis;
         private List<string> adsPosition = new List<string>();
@@ -16,12 +17,15 @@ namespace _0.DucLib.Scripts.Ads
         private string nextDisplayName;
         private bool isActive;
 
-        public void Load(string pos, bool isLastAds)
+        public void Load(string pos)
         {
+            LogHelper.LogLine();
             var ads = CommonRemoteConfig.adsConfig.naInterConfigs.Find(x => x.pos.Contains(pos));
             if (ads == null) return;
+            LogHelper.LogLine();
             isActive = ads.isEnabled;
             if (!isActive) return;
+            LogHelper.LogLine();
             adsDisplay.AddRange(ads.displayName);
             nextDisplayName = adsDisplay[0];
             adsDisplay.RemoveAt(0);

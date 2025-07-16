@@ -56,22 +56,16 @@ namespace _0.DucTALib.Splash
     }
 
     [Serializable]
-    public class SelectLanguageConfig : SplashBaseConfig
-    {
-    }
-
-    [Serializable]
     public class SplashCustomConfigValue
     {
         public bool loadIntro = false;
         public int testSegment;
-        public bool interComplete;
+        public CompleteAdsType completeAdsType;
         public int timeoutMin;
         public int timeoutMax;
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;
-        public SelectLanguageConfig selectLanguageConfig;
     }
 
     
@@ -104,6 +98,7 @@ namespace _0.DucTALib.Splash
     public class NativeAfterInterConfig
     {
         public bool isEnabled;
+        public bool isReload;
         public List<string> nativePosition;
         public List<string> nativeUIName;
         public List<string> interAdPositions;
@@ -113,5 +108,10 @@ namespace _0.DucTALib.Splash
     public class CommonConfig
     {
         public bool isProduct;
+    }
+
+    public enum CompleteAdsType
+    {
+        Inter, NA
     }
 }

@@ -8,10 +8,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Ads.Native;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
+using BG_Library.Common;
 using BG_Library.NET;
 using BG_Library.NET.Native_custom;
 using Random = UnityEngine.Random;
@@ -57,11 +59,13 @@ namespace _0.DucTALib.Splash
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
 
+        public NativeInterManager nativeEnd;
         [Header("Steps")] public List<BaseStepSplash> steps = new List<BaseStepSplash>();
         private int currentStep = 0;
         [ReadOnly] public BaseStepSplash currentStepPanel;
 
         [BoxGroup("Native")] public NativeUIManager native;
+        [BoxGroup("Native")] public NativeFullUI naEndCard;
         public GameObject loading;
         public bool ignoreNative;
 
@@ -98,12 +102,39 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
-            AndroidCall.AutoHideBanner = true;
+            AndroidMediation.AutoHideBanner = true;
+#if USE_MAX_MEDIATION
+            // MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
+            // MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
+
+#else
+
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += OnEndAdsCompleteStep;
+#endif
+        }
+
+        private void OnDestroy()
+        {
+#if USE_MAX_MEDIATION
+            // MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
+            //
+            // MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
+
+#else
+            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += OnEndAdsCompleteStep;
+#endif
         }
 
         #region Coroutine: Loading + Native
 
-        private IEnumerator AdsControl()
+        private void OnEndAdsCompleteStep(string adsId)
+        {
+            Time.timeScale = 0;
+            CallAdsManager.HideBanner();
+            naEndCard.ShowNA();
+        }
+
+    private IEnumerator AdsControl()
         {
             if (ignoreNative) yield break;
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
@@ -113,7 +144,6 @@ namespace _0.DucTALib.Splash
             native.Show();
             loading.HideObject();
             LogHelper.CheckPoint("hide loading");
-
 #endif
         }
 
@@ -157,7 +187,18 @@ namespace _0.DucTALib.Splash
             if (!ignoreNative)
                 native.FinishNative();
 #endif
-            CallAdsManager.LoadNAInter("Native_complete_intro");
+            if (CommonRemoteConfig.CustomConfigValue.completeAdsType == CompleteAdsType.NA)
+            {
+                LogHelper.LogLine();
+                nativeEnd.Load("complete_all_step");
+            }
+            else
+            {
+                // load ads
+                LoadAdsManualy.instance.LoadInterByGroup("");
+                LogHelper.LogLine();
+                naEndCard.Request("complete_all_step_end_card", true);
+            }
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
@@ -225,14 +266,14 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-                if (CommonRemoteConfig.CustomConfigValue.interComplete)
+                if (CommonRemoteConfig.CustomConfigValue.completeAdsType == CompleteAdsType.Inter)
                 {
                     CallAdsManager.ShowInter("complete_all_step");
                     CompleteAllStep();
                 }
                 else
                 {
-                    CallAdsManager.ShowNAInter("Native_complete_intro", CompleteAllStep);
+                    nativeEnd.CallNA("complete_all_step", CompleteAllStep);
                 }
                 
                 return;
