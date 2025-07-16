@@ -65,7 +65,6 @@ namespace _0.DucTALib.Splash
         [ReadOnly] public BaseStepSplash currentStepPanel;
 
         [BoxGroup("Native")] public NativeUIManager native;
-        [BoxGroup("Native")] public NativeFullUI naEndCard;
         public GameObject loading;
         public bool ignoreNative;
 
@@ -103,26 +102,12 @@ namespace _0.DucTALib.Splash
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
             AndroidMediation.AutoHideBanner = true;
-#if USE_MAX_MEDIATION
-            // MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
-            // MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
 
-#else
-
-            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += OnEndAdsCompleteStep;
-#endif
         }
 
         private void OnDestroy()
         {
-#if USE_MAX_MEDIATION
-            // MaxSdkCallbacks.Interstitial.OnAdHiddenEvent += HandleOnAdHiddenEvent;
-            //
-            // MaxSdkCallbacks.Interstitial.OnAdDisplayedEvent += OnInterstitialDisplayed;
 
-#else
-            BG_Event.AdmobMediation.Interstitial.OnAdFullScreenContentClosed += OnEndAdsCompleteStep;
-#endif
         }
 
         #region Coroutine: Loading + Native
@@ -131,7 +116,6 @@ namespace _0.DucTALib.Splash
         {
             Time.timeScale = 0;
             CallAdsManager.HideBanner();
-            naEndCard.ShowNA();
         }
 
     private IEnumerator AdsControl()
@@ -195,9 +179,8 @@ namespace _0.DucTALib.Splash
             else
             {
                 // load ads
-                LoadAdsManualy.instance.LoadInterByGroup("");
+                LoadAdsManualy.instance.LoadInterByGroup("intro");
                 LogHelper.LogLine();
-                naEndCard.Request("complete_all_step_end_card", true);
             }
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
@@ -285,6 +268,8 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
+            LoadAdsManualy.instance.LoadInterByGroup("gameplay");
+            LoadAdsManualy.instance.LoadInterByGroup("break");
             currentStepPanel.HideObject();
             AdsManager.ShowBanner();
             CallAdsManager.HideMRECApplovin();

@@ -14,7 +14,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void LoadInterByGroup(string group)
         {
-            AdsManager.InitInterstitialManually();
+            AdsManager.InitInterstitialManually(group);
         }
     }
 }
