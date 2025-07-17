@@ -104,11 +104,7 @@ namespace _0.DucTALib.Splash
             AndroidMediation.AutoHideBanner = true;
 
         }
-
-        private void OnDestroy()
-        {
-
-        }
+        
 
         #region Coroutine: Loading + Native
 
@@ -176,12 +172,7 @@ namespace _0.DucTALib.Splash
                 LogHelper.LogLine();
                 nativeEnd.Load("complete_all_step");
             }
-            else
-            {
-                // load ads
-                LoadAdsManualy.instance.LoadInterByGroup("intro");
-                LogHelper.LogLine();
-            }
+            LoadAdsManualy.instance.LoadInterByGroup("intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
@@ -268,6 +259,7 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
+            AdsManager.InitBannerManually();
             LoadAdsManualy.instance.LoadInterByGroup("gameplay");
             LoadAdsManualy.instance.LoadInterByGroup("break");
             currentStepPanel.HideObject();

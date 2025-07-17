@@ -18,6 +18,7 @@ namespace _0.DucLib.Scripts.Ads
             actionDone?.Invoke();
             return;
 #endif
+            LogHelper.CheckPoint($"show inter {pos}");
             AdsManager.ShowInterstitial(pos.ToString());
             actionDone?.Invoke();
         }

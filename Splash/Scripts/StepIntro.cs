@@ -54,7 +54,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected override IEnumerator InitNA()
         {
-            yield return new WaitUntil(() =>CommonRemoteConfig.instance.fetchComplete);
+            yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
             {
                 indexNative = 0;
@@ -66,7 +66,7 @@ namespace _0.DucTALib.Splash.Scripts
                     .OrderBy(n => positionList.IndexOf(n.adsPosition))
                     .ToList();
 #if USE_ADMOB_NATIVE
-                 if (nativeObjects.Count > 0)
+                if (nativeObjects.Count > 0)
                 {
                     nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
                     LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
@@ -81,8 +81,9 @@ namespace _0.DucTALib.Splash.Scripts
         protected override void ShowNativeFull()
         {
 #if USE_ADMOB_NATIVE
-        if (nativeFull.IsReady)
+            if (nativeFull.IsReady)
             {
+                
                 StartCoroutine(DelayShowCloseNative());
                 contentCarousel.HideObject();
                 currentButton.HideObject();
@@ -191,13 +192,14 @@ namespace _0.DucTALib.Splash.Scripts
         {
             HideAds();
             ShowAds();
-            if (!isShowNativeFull && nativeObjects[indexNative].isNativeFull)
+            if (!isShowNativeFull && indexNative < nativeObjects.Count && nativeObjects[indexNative].isNativeFull)
             {
                 isShowNativeFull = true;
-
                 return;
             }
-
+            CallAdsManager.ShowInter($"next_step_intro_{index}");
+            
+            CallAdsManager.HideBanner();
             contentCarousel.ShowObject();
             index++;
             SplashTracking.OnboardingNext(index);
