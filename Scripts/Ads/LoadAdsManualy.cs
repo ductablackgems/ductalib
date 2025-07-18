@@ -12,9 +12,6 @@ namespace _0.DucLib.Scripts.Ads
     public class LoadAdsManualy : SingletonMono<LoadAdsManualy>
     {
 
-        public void LoadInterByGroup(string group)
-        {
-            AdsManager.InitInterstitialManually(group);
-        }
+       
     }
 }

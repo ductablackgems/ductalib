@@ -172,7 +172,7 @@ namespace _0.DucTALib.Splash
                 LogHelper.LogLine();
                 nativeEnd.Load("complete_all_step");
             }
-            LoadAdsManualy.instance.LoadInterByGroup("intro");
+            CallAdsManager.LoadInterByGroup("intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
@@ -260,8 +260,8 @@ namespace _0.DucTALib.Splash
         private void CompleteAllStep()
         {
             AdsManager.InitBannerManually();
-            LoadAdsManualy.instance.LoadInterByGroup("gameplay");
-            LoadAdsManualy.instance.LoadInterByGroup("break");
+            CallAdsManager.LoadInterByGroup("gameplay");
+            CallAdsManager.LoadInterByGroup("break");
             currentStepPanel.HideObject();
             AdsManager.ShowBanner();
             CallAdsManager.HideMRECApplovin();

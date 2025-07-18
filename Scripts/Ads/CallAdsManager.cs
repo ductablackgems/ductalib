@@ -22,7 +22,10 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.ShowInterstitial(pos.ToString());
             actionDone?.Invoke();
         }
-
+        public  static void LoadInterByGroup(string group)
+        {
+            AdsManager.InitInterstitialManually(group);
+        }
         public static bool RewardedIsReady()
         {
             return AdsManager.IsRewardedReady;
