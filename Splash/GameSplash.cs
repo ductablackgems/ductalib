@@ -101,7 +101,6 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
-            AndroidMediation.AutoHideBanner = true;
 
         }
         
@@ -259,11 +258,12 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
+            
+            AndroidMediation.AutoHideBanner = true;
             AdsManager.InitBannerManually();
             CallAdsManager.LoadInterByGroup("gameplay");
             CallAdsManager.LoadInterByGroup("break");
             currentStepPanel.HideObject();
-            AdsManager.ShowBanner();
             CallAdsManager.HideMRECApplovin();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
