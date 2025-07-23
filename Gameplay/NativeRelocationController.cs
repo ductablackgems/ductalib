@@ -38,7 +38,7 @@ namespace _0.DucTALib.Gameplay
         public void ShowId(int id)
         {
           var obj =   NativeObjects.Find(x => x.id == id);
-          if (obj == null || !obj.active) return;
+          if (obj == null || !obj.active || !obj.nativeUI.IsReady) return;
           obj.ShowObject();
         }
         public void HideId(int id)

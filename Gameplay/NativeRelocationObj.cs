@@ -22,6 +22,7 @@ namespace _0.DucTALib.Gameplay
 
         private IEnumerator LoadNative(string pos)
         {
+            
 #if USE_ADMOB_NATIVE
             nativeUI.Request(pos);
             yield return new WaitUntil(() => nativeUI.IsReady);
