@@ -115,7 +115,6 @@ namespace _0.DucLib.Scripts.Ads
             bool fakeNotrd = false;
             if (nativeObj == null || !nativeObj.native.IsReady)
             {
-                CallAdsManager.ShowInter(pos);
                 complete?.Invoke();
                 return;
             }
