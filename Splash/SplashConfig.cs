@@ -60,6 +60,7 @@ namespace _0.DucTALib.Splash
     {
         public bool loadIntro = false;
         public int testSegment;
+        public bool launchInter;
         public CompleteAdsType completeAdsType;
         public int timeoutMin;
         public int timeoutMax;
@@ -112,6 +113,6 @@ namespace _0.DucTALib.Splash
 
     public enum CompleteAdsType
     {
-        Inter, NA
+        Inter, NA, InterImage, InterVideo, Appopen
     }
 }

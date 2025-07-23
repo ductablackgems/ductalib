@@ -66,7 +66,6 @@ namespace _0.DucTALib.Splash
 
         [BoxGroup("Native")] public NativeUIManager native;
         public GameObject loading;
-        public bool ignoreNative;
 
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
@@ -101,28 +100,20 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
-
-        }
-        
-
-        #region Coroutine: Loading + Native
-
-        private void OnEndAdsCompleteStep(string adsId)
-        {
-            Time.timeScale = 0;
-            CallAdsManager.HideBanner();
         }
 
-    private IEnumerator AdsControl()
+
+
+        private IEnumerator AdsControl()
         {
-            if (ignoreNative) yield break;
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
+            if (CommonRemoteConfig.CustomConfigValue.launchInter)
+                CallAdsManager.LoadInterByGroup("launch");
 #if USE_ADMOB_NATIVE
-             native.Request("loading");
+            native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
             native.Show();
             loading.HideObject();
-            LogHelper.CheckPoint("hide loading");
 #endif
         }
 
@@ -163,14 +154,18 @@ namespace _0.DucTALib.Splash
             SetUpStep();
             yield return new WaitForEndOfFrame();
 #if USE_ADMOB_NATIVE
-            if (!ignoreNative)
-                native.FinishNative();
+            native.FinishNative();
 #endif
+            if (CommonRemoteConfig.CustomConfigValue.launchInter)
+            {
+                CallAdsManager.ShowInter("launch_fa");
+            }
+
             if (CommonRemoteConfig.CustomConfigValue.completeAdsType == CompleteAdsType.NA)
             {
-                LogHelper.LogLine();
                 nativeEnd.Load("complete_all_step");
             }
+
             CallAdsManager.LoadInterByGroup("intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
@@ -214,9 +209,7 @@ namespace _0.DucTALib.Splash
             currentProgressTxt.text = "100%";
         }
 
-        #endregion
 
-        #region Splash Step
 
         private void SetUpStep()
         {
@@ -248,7 +241,7 @@ namespace _0.DucTALib.Splash
                 {
                     nativeEnd.CallNA("complete_all_step", CompleteAllStep);
                 }
-                
+
                 return;
             }
 
@@ -258,7 +251,6 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
-            
             AndroidMediation.AutoHideBanner = true;
             AdsManager.InitBannerManually();
             CallAdsManager.LoadInterByGroup("gameplay");
@@ -269,6 +261,5 @@ namespace _0.DucTALib.Splash
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
 
-        #endregion
     }
 }

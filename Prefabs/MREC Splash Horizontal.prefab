@@ -23545,10 +23545,14 @@ MonoBehaviour:
   - {fileID: 6083573385846905395}
   - {fileID: 8647679923934795966}
   btnSp: []
-  na: []
+  na:
+  - {fileID: 1430723464636937366}
+  - {fileID: 5541067723856551369}
   bgNative: []
   iconSp: {fileID: 0}
-  bg: []
+  bg:
+  - {fileID: 6631827497288419952}
+  - {fileID: 6173745277768901210}
   bgImg: {fileID: 0}
 --- !u!1 &5094269254035322425
 GameObject:
