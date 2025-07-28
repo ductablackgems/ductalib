@@ -50,7 +50,7 @@ namespace _0.DucTALib.Splash.Scripts
 
             indexNative = 0;
             isFlowInProgress = false;
-            List<string> positionList = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
+            List<string> positionList = CommonRemoteConfig.instance.splashConfig.selectAgeConfig.adsPosition;
 
             nativeObjects = nativeObjects
                 .Where(n => positionList.Contains(n.adsPosition))
@@ -94,15 +94,7 @@ namespace _0.DucTALib.Splash.Scripts
             OnAdClosed();
         }
 
-        protected override void GetCurrentButton()
-        {
-            var config = CommonRemoteConfig.CustomConfigValue.selectAgeConfig;
-
-            currentButton = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
-            currentButton.CustomButtonColor(config.buttonColor);
-            currentButton.CustomTxt(config.textValue);
-            currentButton.CustomTxtColor(config.textColor);
-        }
+       
 
         protected override void ShowNativeFull()
         {
@@ -122,12 +114,12 @@ namespace _0.DucTALib.Splash.Scripts
         public void ToggleOnChange(bool isOn)
         {
             AudioController.Instance.PlayClickSound();
-            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextTime;
             hasAnyChange = true;
             // HideAds();
             // ShowAds();
             isClick = true;
-            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            if (CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextType == NextType.ClickPolicy)
             {
                 if (policyToggle.isOn)
                 {
@@ -135,7 +127,7 @@ namespace _0.DucTALib.Splash.Scripts
                     {
                         buttonShowed = true;
                         DOVirtual.DelayedCall(
-                            CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                            CommonRemoteConfig.instance.splashConfig.selectAgeConfig.delayShowButtonTime,
                             () => { currentButton.ShowButtonTween(0.12f); });
                     }
                 }
@@ -149,7 +141,7 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 buttonShowed = true;
                 DOVirtual.DelayedCall(
-                    CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    CommonRemoteConfig.instance.splashConfig.selectAgeConfig.delayShowButtonTime,
                     () => { currentButton.ShowButtonTween(0.12f); });
             }
         }
@@ -166,7 +158,7 @@ namespace _0.DucTALib.Splash.Scripts
             leftAgeText.text = (currentAge - 1).ToString();
             rightAgeText.text = (currentAge + 1).ToString();
 
-            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextType == NextType.ClickPolicy)
+            if (CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextType == NextType.ClickPolicy)
             {
                 if (policyToggle.isOn && !currentButton.gameObject.activeSelf)
                     currentButton.ShowButtonTween(0.12f);
@@ -177,18 +169,18 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 buttonShowed = true;
                 DOVirtual.DelayedCall(
-                    CommonRemoteConfig.CustomConfigValue.selectAgeConfig.delayShowButtonTime,
+                    CommonRemoteConfig.instance.splashConfig.selectAgeConfig.delayShowButtonTime,
                     () => { currentButton.ShowButtonTween(0.12f); });
             }
 
-            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextTime;
         }
 
 
 
         private IEnumerator AutoCloseCountdown()
         {
-            cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
+            cd = CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextTime;
 
             while (cd > 0)
             {

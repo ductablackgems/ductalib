@@ -8,16 +8,18 @@ using BG_Library.NET;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Sirenix.OdinInspector;
 
 namespace _0.DucTALib.Scripts.Common
 {
     public class CommonRemoteConfig : SingletonMono<CommonRemoteConfig>
     {
         public bool fetchComplete = false;
-        public static SplashCustomConfigValue CustomConfigValue;
-        public static D_AdsConfig adsConfig;
-        public static CommonConfig commonConfig;
+        public SplashCustomConfigValue splashConfig;
+        public RelocationNativeValue relocationNativeConfig;
+        public CommonConfig commonConfig;
         public static Action FetchDone;
+
         private void Awake()
         {
             RemoteConfig.OnFetchComplete += FetchComplete;
@@ -36,14 +38,52 @@ namespace _0.DucTALib.Scripts.Common
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
-            JObject root = JObject.Parse(RemoteConfig.Ins.custom_config);
-            CustomConfigValue = root["Splash"]?.ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            adsConfig = root["AdsConfig"]?.ToObject<D_AdsConfig>(JsonSerializer.Create(settings));
-            commonConfig = root["CommonConfig"]?.ToObject<CommonConfig>(JsonSerializer.Create(settings));
-            FetchDone?.Invoke();
+            splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)
+                .ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
+            
+            relocationNativeConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
+                .ToObject<RelocationNativeValue>(JsonSerializer.Create(settings));
+            
+            commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("common_config").StringValue)
+                .ToObject<CommonConfig>(JsonSerializer.Create(settings));
+            
             fetchComplete = true;
             LogHelper.CheckPoint("fetch complete");
         }
-       
+        
+        
+#if UNITY_EDITOR
+        public string splashConfigDefault;
+        public string relocationNativeDefault;
+        public string commonConfigDefault;
+        [Button]
+        public void CreateSplashConfig()
+        {
+            var value = SplashCustomConfigValue.CreateDefault();
+            splashConfigDefault = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            });
+        }
+        [Button]
+        public void CreateRelocationConfig()
+        {
+            var value = RelocationNativeValue.CreateDefault();
+            relocationNativeDefault = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            });
+        }
+        [Button]
+        public void CreateCommonConfig()
+        {
+            var value = CommonConfig.CreateDefault();
+            commonConfigDefault = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            });
+        }
+#endif
+
     }
 }

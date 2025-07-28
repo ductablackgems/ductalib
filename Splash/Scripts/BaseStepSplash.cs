@@ -14,8 +14,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public CanvasGroup canvasGroup;
         public SplashType splashType;
-        public List<ButtonCustom> buttons;
-        [ReadOnly] public ButtonCustom currentButton;
+        public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
 
 
@@ -39,7 +38,6 @@ namespace _0.DucTALib.Splash.Scripts
             canvasGroup.alpha = 1;
             gameObject.ShowObject();
             ShowAds();
-            GetCurrentButton();
         }
 
         public virtual void Complete()
@@ -54,7 +52,6 @@ namespace _0.DucTALib.Splash.Scripts
 
 
 
-        protected abstract void GetCurrentButton();
 
         protected bool isFlowInProgress = false;
 

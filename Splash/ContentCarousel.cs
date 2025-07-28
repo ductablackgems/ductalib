@@ -115,7 +115,7 @@ namespace _0.DucTALib.Splash
 
         private void InitializeNavigationDots()
         {
-            var total = CommonRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
+            var total = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
             for (int i = 0; i < total; i++)
             {
                 GameObject dot = Instantiate(dotPrefab, dotsContainer.transform);
@@ -274,7 +274,7 @@ namespace _0.DucTALib.Splash
 
         private void UpdateDotSizes()
         {
-            var count = CommonRemoteConfig.CustomConfigValue.introConfig.tutorialCount;
+            var count = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
             for (int i = 0; i < count; i++)
             {
                 GameObject dot = dotsContainer.transform.GetChild(i).gameObject;

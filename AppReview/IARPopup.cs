@@ -78,7 +78,7 @@ namespace _0.DucTALib.AppReview
         public void Submit()
         {
             SplashTracking.Rating(currentStar);
-            if (CommonRemoteConfig.commonConfig.isProduct)
+            if (CommonRemoteConfig.instance.commonConfig.isProduct)
             {
                 if (currentStar >= 4)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
@@ -36,6 +37,7 @@ namespace _0.DucLib.Scripts.Ads
         [FoldoutGroup("NA")] public Texture iconSp;
         [FoldoutGroup("NA")] public List<Image> bg;
         [FoldoutGroup("NA")] public Sprite bgImg;
+
         [Button]
         public void Setup()
         {
@@ -60,79 +62,70 @@ namespace _0.DucLib.Scripts.Ads
                 a.defaultImage = spBg;
 #endif
             }
-          
         }
 
         #endregion
-        
-        public void Load(string pos)
+
+        public void Load()
         {
-            LogHelper.LogLine();
-            var ads = CommonRemoteConfig.adsConfig.naInterConfigs.Find(x => x.pos.Contains(pos));
-            if (ads == null) return;
-            LogHelper.LogLine();
-            isActive = ads.isEnabled;
-            if (!isActive) return;
-            LogHelper.LogLine();
-            adsDisplay.AddRange(ads.displayName);
-            nextDisplayName = adsDisplay[0];
-            adsDisplay.RemoveAt(0);
+            for (int i = 0; i < nativeFullUis.Count; i++)
+            {
+                var na = nativeFullUis[i];
+                var pos = CommonRemoteConfig.instance.splashConfig.completeIntroNative[i];
 
-            adsPosition.AddRange(ads.pos);
-            adsPosition.Remove(pos);
-
-            var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-
-            nativeObj?.Request(pos, adsPosition.Count == 0);
-            LogHelper.CheckPoint($"[Load NA] {pos}");
+                na.native.Request(pos);
+            }
         }
 
-        private void LoadNext()
+        public void Show(Action complete)
         {
-            if (!isActive) return;
-            var pos = adsPosition[0];
-            nextDisplayName = adsDisplay[0];
-            adsDisplay.RemoveAt(0);
-            adsPosition.RemoveAt(0);
-
-
-            var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-
-            nativeObj?.Request(pos, adsPosition.Count == 0);
-
-            LogHelper.CheckPoint($"[Load NEXT NA] {pos}");
+            StartCoroutine(StartShowNA(complete));
         }
 
-        public void CallNA(string pos, Action complete)
+        private IEnumerator StartShowNA(Action complete)
         {
-            if (!isActive)
+            NativeFullUI lastNative = new NativeFullUI();
+            for (int i = 0; i < nativeFullUis.Count; i++)
             {
-                CallAdsManager.ShowInter(pos);
-                complete?.Invoke();
-                return;
-            }
-            var nativeObj = nativeFullUis.Find(x => x.displayName == nextDisplayName);
-            bool fakeNotrd = false;
-            if (nativeObj == null || !nativeObj.native.IsReady)
-            {
-                complete?.Invoke();
-                return;
+                var na = nativeFullUis[i];
+                if (!na.native.IsReady) continue;
+                if (lastNative != null) lastNative.native.FinishNative();
+                lastNative = na;
+                na.native.Show();
+                na.closeNativeFullTimeTxt.HideObject();
+                na.closeNativeFullImg.ShowObject();
+                na.closeNativeFullButton.HideObject();
+                float totalDelay = 5;
+                float elapsed = 0f;
+                while (elapsed < totalDelay)
+                {
+                    elapsed += Time.deltaTime;
+                    float remaining = Mathf.Max(0, totalDelay - elapsed);
+                    na.closeNativeFullTimeTxt.text = ((int)remaining).ToString();
+                    na.closeNativeFullImg.fillAmount = elapsed / totalDelay;
+
+                    yield return null;
+                }
+
+              
             }
 
-            if (adsPosition.Count > 0)
+            if (lastNative == null)
             {
-                nativeObj.SetAction(null, () => { CallNA(pos, complete); });
-                if (nativeObj.ShowNA())
-                    LoadNext();
+                complete?.Invoke();
             }
             else
             {
-                nativeObj.SetAction(complete, null);
-                nativeObj.ShowNA();
+                var btn = lastNative.closeNativeFullButton.GetComponent<Button>();
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() =>
+                {
+                    complete?.Invoke();
+                });
+                lastNative.closeNativeFullTimeTxt.HideObject();
+                lastNative.closeNativeFullImg.HideObject();
+                lastNative.closeNativeFullButton.ShowObject();
             }
-
-
-            LogHelper.CheckPoint($"[Show NA] {pos}");
         }
     }
 }

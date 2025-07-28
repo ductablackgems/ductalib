@@ -28,7 +28,6 @@ namespace _0.DucTALib.Splash.Scripts
     public class StepIntro : BaseStepSplash
     {
 
-        [Header("UI References")] public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
         public TextMeshProUGUI tipText;
         public CanvasGroup cvg;
         public NativeUIManager nativeFull;
@@ -40,7 +39,7 @@ namespace _0.DucTALib.Splash.Scripts
 
 
 
-        private TextMeshProUGUI currentDelayButtonTxt;
+        public TextMeshProUGUI currentDelayButtonTxt;
         private Coroutine showButtonCoroutine;
         private int index = 0;
         private bool isClick = false;
@@ -52,7 +51,7 @@ namespace _0.DucTALib.Splash.Scripts
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             indexNative = 0;
             isFlowInProgress = false;
-            List<string> positionList = CommonRemoteConfig.CustomConfigValue.introConfig.adsPosition;
+            List<string> positionList = CommonRemoteConfig.instance.splashConfig.introConfig.adsPosition;
 
             nativeObjects = nativeObjects
                 .Where(n => positionList.Contains(n.adsPosition))
@@ -67,6 +66,7 @@ namespace _0.DucTALib.Splash.Scripts
 #endif
 
             gameObject.SetActive(false);
+            
         }
 
 
@@ -92,7 +92,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator DelayShowCloseNative()
         {
-            float totalDelay = CommonRemoteConfig.CustomConfigValue.introConfig.delayShowClose;
+            float totalDelay = CommonRemoteConfig.instance.splashConfig.introConfig.delayShowClose;
             float elapsed = 0f;
 
             while (elapsed < totalDelay)
@@ -116,10 +116,13 @@ namespace _0.DucTALib.Splash.Scripts
         public override void Enter()
         {
             base.Enter();
+            
             contentCarousel.ShowObject();
             SplashTracking.OnboardingShow(1);
             index = 0;
             GetTip(index);
+            var config = CommonRemoteConfig.instance.splashConfig.introConfig;
+            StartDelayShowButton(config.delayShowButtonTime);
         }
 
         public override void Next()
@@ -131,25 +134,6 @@ namespace _0.DucTALib.Splash.Scripts
         {
             ShowAdNative();
         }
-
-        protected override void GetCurrentButton()
-        {
-            if (currentButton != null) return;
-
-            var config = CommonRemoteConfig.CustomConfigValue.introConfig;
-
-            currentButton = buttons.Find(x => x.type == config.buttonType && x.pos == config.buttonPos);
-            currentDelayButtonTxt = delayButtonTxts.Find(x => x.pos == config.buttonPos).tmp;
-
-            currentButton.CustomButtonColor(config.buttonColor);
-            currentButton.CustomTxt(config.textValue);
-            currentButton.CustomTxtColor(config.textColor);
-
-            StartDelayShowButton(config.delayShowButtonTime);
-        }
-
-
-
         public void NextOnClick()
         {
             AudioController.Instance.PlayClickSound();
@@ -187,7 +171,7 @@ namespace _0.DucTALib.Splash.Scripts
                 showButtonCoroutine = null;
             }
 
-            if (index >= CommonRemoteConfig.CustomConfigValue.introConfig.tutorialCount)
+            if (index >= CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount)
             {
                 Complete();
                 return;
@@ -196,7 +180,7 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.OnboardingShow(index + 1);
             tipText.text = GetTip(index);
 
-            StartDelayShowButton(CommonRemoteConfig.CustomConfigValue.introConfig.nextTime);
+            StartDelayShowButton(CommonRemoteConfig.instance.splashConfig.introConfig.nextTime);
         }
 
         private void StartDelayShowButton(int time)
@@ -223,7 +207,7 @@ namespace _0.DucTALib.Splash.Scripts
 
             currentDelayButtonTxt.HideObject();
 
-            if (CommonRemoteConfig.CustomConfigValue.introConfig.isAutoNext)
+            if (CommonRemoteConfig.instance.splashConfig.introConfig.isAutoNext)
             {
                 NextStep();
             }
@@ -241,7 +225,7 @@ namespace _0.DucTALib.Splash.Scripts
         private string GetTip(int index)
         {
             if (listTips == null || listTips.Count == 0)
-                listTips = CommonRemoteConfig.CustomConfigValue.introConfig.tipText;
+                listTips = CommonRemoteConfig.instance.splashConfig.introConfig.tipText;
 
             return listTips[index];
         }

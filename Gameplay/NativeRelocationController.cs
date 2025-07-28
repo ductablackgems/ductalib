@@ -17,12 +17,12 @@ namespace _0.DucTALib.Gameplay
         private void Awake()
         {
 
-            var config = CommonRemoteConfig.adsConfig.relocationNative;
+            var config = CommonRemoteConfig.instance.relocationNativeConfig;
             if(NativeObjects.Count == 0) return;
             for (int i = 0; i < NativeObjects.Count; i++)
             {
                 var obj = NativeObjects[i];
-                var c = config.Find(x=>x.id == NativeObjects[i].id);
+                var c = config.config.Find(x=>x.id == NativeObjects[i].id);
                 obj.active = c.active;
                 if (c.active)
                 {

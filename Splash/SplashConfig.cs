@@ -18,13 +18,6 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class SplashBaseConfig
     {
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ButtonCustom.ButtonType buttonType;
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ButtonCustom.ButtonPosition buttonPos;
-
         public List<string> adsPosition;
     }
 
@@ -32,9 +25,6 @@ namespace _0.DucTALib.Splash
     public class SelectAgeConfig : SplashBaseConfig
     {
         public int nextTime;
-        public string textValue;
-        public string buttonColor;
-        public string textColor;
         public float delayShowButtonTime;
         public StepSelectAge.NextType nextType;
     }
@@ -47,9 +37,6 @@ namespace _0.DucTALib.Splash
         public bool isAutoNext;
         public int delayShowClose;
         public int nextTime;
-        public string textValue;
-        public string buttonColor;
-        public string textColor;
         public List<string> tipText;
     }
 
@@ -61,56 +48,107 @@ namespace _0.DucTALib.Splash
         public bool launchInter;
         public CompleteAdsType completeAdsType;
         public int timeoutMin;
-        public int timeoutMax;
         public List<SplashConfig> splashConfigs = new List<SplashConfig>();
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;
+        public List<string> completeIntroNative;
+
+        public static SplashCustomConfigValue CreateDefault()
+        {
+            var value = new SplashCustomConfigValue
+            {
+                testSegment = 1000,
+                timeoutMin = 12,
+                completeAdsType = CompleteAdsType.NA,
+                
+                splashConfigs = new List<SplashConfig>
+                {
+                    new SplashConfig { type = SplashType.Intro }
+                },
+                selectAgeConfig = new SelectAgeConfig
+                {
+                    adsPosition = new List<string>
+                    {
+                        "Temp1"
+                    }
+                },
+                introConfig = new IntroConfig
+                {
+                    delayShowButtonTime = 3,
+                    nextTime = 4,
+                    delayShowClose = 5,
+                    tutorialCount = 4,
+                    tipText = new List<string>
+                    {
+                        "Temp1", "Temp2","Temp3", "Temp4"
+                    },
+                    adsPosition = new List<string>
+                    {
+                        "Tutorial_0",
+                        "Tutorial_1",
+                        "Tutorial_2",
+                        "Tutorial_3"
+                    }
+                },
+                completeIntroNative = new List<string>
+                {
+                    "complete_all_step", "complete_all_step_1"
+                }
+            };
+            return value;
+        }
     }
 
-    
 
     [Serializable]
-    public class GameplayNative
+    public class RelocationNativeConfig
     {
         public int id;
         public string adsPosition;
         public bool active;
     }
+    [Serializable]
+    public class RelocationNativeValue
+    {
+        public List<RelocationNativeConfig> config;
 
-    [Serializable]
-    public class D_AdsConfig
-    {
-        public List<GameplayNative> relocationNative;
-        public NativeAfterInterConfig naAfterInter;
-        public List<NativeInterConfig> naInterConfigs;
+        public static RelocationNativeValue CreateDefault()
+        {
+            var value = new RelocationNativeValue
+            {
+                config = new List<RelocationNativeConfig>
+                {
+                    new RelocationNativeConfig(){ id = 0, adsPosition = "temp", active =  false},
+                    new RelocationNativeConfig(){ id = 1, adsPosition = "temp", active =  false}
+                },
+                
+            };
+            return value;
+        }
     }
-
-    [Serializable]
-    public class NativeInterConfig
-    {
-        public bool isEnabled;
-        public List<string> pos;
-        public List<string> displayName;
-        public bool isAutoReload;
-    }
-    [Serializable]
-    public class NativeAfterInterConfig
-    {
-        public bool isEnabled;
-        public bool isReload;
-        public List<string> nativePosition;
-        public List<string> nativeUIName;
-        public List<string> interAdPositions;
-    }
+    
 
     [Serializable]
     public class CommonConfig
     {
         public bool isProduct;
+
+        public static CommonConfig CreateDefault()
+        {
+            var value = new CommonConfig
+            {
+                isProduct = false
+            };
+            return value;
+        }
     }
 
     public enum CompleteAdsType
     {
-        Inter, NA, InterImage, InterVideo, Appopen
+        Inter,
+        NA,
+        InterImage,
+        InterVideo,
+        Appopen
     }
 }

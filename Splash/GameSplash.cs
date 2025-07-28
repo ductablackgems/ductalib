@@ -106,7 +106,7 @@ namespace _0.DucTALib.Splash
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            if (CommonRemoteConfig.CustomConfigValue.launchInter)
+            if (CommonRemoteConfig.instance.splashConfig.launchInter)
                 CallAdsManager.LoadInterByGroup("launch");
 #if USE_ADMOB_NATIVE
             native.Request("loading");
@@ -128,7 +128,7 @@ namespace _0.DucTALib.Splash
             }
 
             loadDuration = RemoteConfig.Ins.isDataFetched
-                ? CommonRemoteConfig.CustomConfigValue.timeoutMin
+                ? CommonRemoteConfig.instance.splashConfig.timeoutMin
                 : 12f;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
@@ -141,7 +141,7 @@ namespace _0.DucTALib.Splash
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
-            if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.CustomConfigValue.loadIntro)
+            if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.instance.splashConfig.loadIntro)
             {
                 CompleteAllStep();
                 yield return new WaitForSeconds(1f);
@@ -155,14 +155,14 @@ namespace _0.DucTALib.Splash
 #if USE_ADMOB_NATIVE
             native.FinishNative();
 #endif
-            if (CommonRemoteConfig.CustomConfigValue.launchInter)
+            if (CommonRemoteConfig.instance.splashConfig.launchInter)
             {
                 CallAdsManager.ShowInter("launch_fa");
             }
 
-            if (CommonRemoteConfig.CustomConfigValue.completeAdsType == CompleteAdsType.NA)
+            if (CommonRemoteConfig.instance.splashConfig.completeAdsType == CompleteAdsType.NA)
             {
-                nativeEnd.Load("complete_all_step");
+                nativeEnd.Load();
             }
 
             CallAdsManager.LoadInterByGroup("intro");
@@ -213,7 +213,7 @@ namespace _0.DucTALib.Splash
         private void SetUpStep()
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
-            var orderedSteps = CommonRemoteConfig.CustomConfigValue.splashConfigs
+            var orderedSteps = CommonRemoteConfig.instance.splashConfig.splashConfigs
                 .Select(cfg => panelMap[cfg.type])
                 .ToList();
 
@@ -231,14 +231,14 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-                if (CommonRemoteConfig.CustomConfigValue.completeAdsType == CompleteAdsType.Inter)
+                if (CommonRemoteConfig.instance.splashConfig.completeAdsType == CompleteAdsType.Inter)
                 {
                     CallAdsManager.ShowInter("complete_all_step");
                     CompleteAllStep();
                 }
                 else
                 {
-                    nativeEnd.CallNA("complete_all_step", CompleteAllStep);
+                    nativeEnd.Show( CompleteAllStep);
                 }
 
                 return;
