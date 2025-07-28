@@ -40,8 +40,7 @@ namespace _0.DucTALib.Splash
 
     public enum SplashType
     {
-        AgeLeft,
-        AgeRight,
+        Age,
         Intro,
         Language,
         Reward

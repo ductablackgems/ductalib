@@ -11,25 +11,19 @@ namespace _0.DucTALib.Splash.Scripts
 {
     public abstract class BaseStepSplash : MonoBehaviour
     {
-        #region Serialized Fields
 
         public CanvasGroup canvasGroup;
         public SplashType splashType;
         public List<ButtonCustom> buttons;
         [ReadOnly] public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
-        public MRECObject mrecObject;
 
-        #endregion
 
-        #region Private Fields
 
         [ReadOnly] public NativeObject currentNativeObject;
         protected int indexNative = 0;
 
-        #endregion
 
-        #region Unity Lifecycle
 
         private void Awake()
         {
@@ -38,9 +32,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         protected abstract IEnumerator InitNA();
 
-        #endregion
 
-        #region Public Methods
 
         public virtual void Enter()
         {
@@ -60,9 +52,7 @@ namespace _0.DucTALib.Splash.Scripts
         public abstract void Next();
         public abstract void ShowAds();
 
-        #endregion
 
-        #region Protected Methods
 
         protected abstract void GetCurrentButton();
 
@@ -124,12 +114,6 @@ namespace _0.DucTALib.Splash.Scripts
         }
 
 
-        protected void ShowMrec()
-        {
-            mrecObject.ShowObject();
-            mrecObject.ShowMREC(Camera.main);
-        }
 
-        #endregion
     }
 }

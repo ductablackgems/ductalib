@@ -18,8 +18,6 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class SplashBaseConfig
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public AdFormatType adsType;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public ButtonCustom.ButtonType buttonType;

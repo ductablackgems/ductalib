@@ -21,7 +21,6 @@ namespace _0.DucTALib.Splash.Scripts
             ClickPolicy
         }
 
-        #region Serialized Fields
 
         [Header("UI Elements")] [SerializeField]
         private Toggle policyToggle;
@@ -34,9 +33,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         [Header("Config")] [SerializeField] private float durationShowButton;
 
-        #endregion
 
-        #region Private Fields
 
         private int currentAge = 2012;
         private float cd;
@@ -45,39 +42,32 @@ namespace _0.DucTALib.Splash.Scripts
         private bool hasAnyChange;
         private bool buttonShowed;
 
-        #endregion
 
-        #region Unity Lifecycle
 
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
 
-            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-            {
-                indexNative = 0;
-                isFlowInProgress = false;
-                List<string> positionList = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
+            indexNative = 0;
+            isFlowInProgress = false;
+            List<string> positionList = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsPosition;
 
-                nativeObjects = nativeObjects
-                    .Where(n => positionList.Contains(n.adsPosition))
-                    .OrderBy(n => positionList.IndexOf(n.adsPosition))
-                    .ToList();
-                if (nativeObjects.Count > 0)
-                {
+            nativeObjects = nativeObjects
+                .Where(n => positionList.Contains(n.adsPosition))
+                .OrderBy(n => positionList.IndexOf(n.adsPosition))
+                .ToList();
+            if (nativeObjects.Count > 0)
+            {
 #if USE_ADMOB_NATIVE
-                     nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
-                    Debug.Log($"[Preload First] {nativeObjects[0].adsPosition}");
+                nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
+                Debug.Log($"[Preload First] {nativeObjects[0].adsPosition}");
 #endif
-                }
             }
 
             gameObject.SetActive(false);
         }
 
-        #endregion
 
-        #region BaseStepSplash Overrides
 
         public override void Enter()
         {
@@ -95,29 +85,13 @@ namespace _0.DucTALib.Splash.Scripts
         public override void ShowAds()
         {
             if (isClick) return;
-            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-            {
-                ShowAdNative();
-                mrecObject.HideObject();
-            }
-            else if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
-            {
-                ShowMrec();
-            }
+            ShowAdNative();
         }
 
         public override void HideAds()
         {
             if (isClick) return;
-            if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.Native)
-            {
-                OnAdClosed();
-                mrecObject.HideObject();
-            }
-            else if (CommonRemoteConfig.CustomConfigValue.selectAgeConfig.adsType == AdFormatType.MREC)
-            {
-                ShowMrec();
-            }
+            OnAdClosed();
         }
 
         protected override void GetCurrentButton()
@@ -143,9 +117,7 @@ namespace _0.DucTALib.Splash.Scripts
             base.Complete();
         }
 
-        #endregion
 
-        #region UI Event Handlers
 
         public void ToggleOnChange(bool isOn)
         {
@@ -212,9 +184,7 @@ namespace _0.DucTALib.Splash.Scripts
             cd = CommonRemoteConfig.CustomConfigValue.selectAgeConfig.nextTime;
         }
 
-        #endregion
 
-        #region Internal Logic
 
         private IEnumerator AutoCloseCountdown()
         {
@@ -233,6 +203,5 @@ namespace _0.DucTALib.Splash.Scripts
             Complete();
         }
 
-        #endregion
     }
 }

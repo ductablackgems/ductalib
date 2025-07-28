@@ -27,7 +27,6 @@ namespace _0.DucTALib.Splash.Scripts
 
     public class StepIntro : BaseStepSplash
     {
-        #region Serialized Fields
 
         [Header("UI References")] public List<DelayButtonTxt> delayButtonTxts = new List<DelayButtonTxt>();
         public TextMeshProUGUI tipText;
@@ -39,40 +38,33 @@ namespace _0.DucTALib.Splash.Scripts
         public GameObject closeNativeFullButton;
         public List<string> listTips = new List<string>();
 
-        #endregion
 
-        #region Private Fields
 
         private TextMeshProUGUI currentDelayButtonTxt;
         private Coroutine showButtonCoroutine;
         private int index = 0;
         private bool isClick = false;
 
-        #endregion
 
-        #region Unity Lifecycle
 
         protected override IEnumerator InitNA()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-            {
-                indexNative = 0;
-                isFlowInProgress = false;
-                List<string> positionList = CommonRemoteConfig.CustomConfigValue.introConfig.adsPosition;
+            indexNative = 0;
+            isFlowInProgress = false;
+            List<string> positionList = CommonRemoteConfig.CustomConfigValue.introConfig.adsPosition;
 
-                nativeObjects = nativeObjects
-                    .Where(n => positionList.Contains(n.adsPosition))
-                    .OrderBy(n => positionList.IndexOf(n.adsPosition))
-                    .ToList();
+            nativeObjects = nativeObjects
+                .Where(n => positionList.Contains(n.adsPosition))
+                .OrderBy(n => positionList.IndexOf(n.adsPosition))
+                .ToList();
 #if USE_ADMOB_NATIVE
-                if (nativeObjects.Count > 0)
-                {
-                    nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
-                    LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
-                }
-#endif
+            if (nativeObjects.Count > 0)
+            {
+                nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
+                LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");
             }
+#endif
 
             gameObject.SetActive(false);
         }
@@ -88,7 +80,7 @@ namespace _0.DucTALib.Splash.Scripts
                 contentCarousel.HideObject();
                 currentButton.HideObject();
                 currentDelayButtonTxt.HideObject();
-                mrecObject.HideObject();
+               
                 CallAdsManager.HideMRECApplovin();
             }
 #endif
@@ -119,9 +111,7 @@ namespace _0.DucTALib.Splash.Scripts
             closeNativeFullButton.ShowObject();
         }
 
-        #endregion
 
-        #region BaseStepSplash Overrides
 
         public override void Enter()
         {
@@ -139,15 +129,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void ShowAds()
         {
-            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-            {
-                ShowAdNative();
-                mrecObject.HideObject();
-            }
-            else if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.MREC)
-            {
-                ShowMrec();
-            }
+            ShowAdNative();
         }
 
         protected override void GetCurrentButton()
@@ -166,9 +148,7 @@ namespace _0.DucTALib.Splash.Scripts
             StartDelayShowButton(config.delayShowButtonTime);
         }
 
-        #endregion
 
-        #region Button Logic
 
         public void NextOnClick()
         {
@@ -181,11 +161,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         public override void HideAds()
         {
-            if (CommonRemoteConfig.CustomConfigValue.introConfig.adsType == AdFormatType.Native)
-            {
-                OnAdClosed();
-                mrecObject.HideObject();
-            }
+            OnAdClosed();
+
         }
 
         public void NextStep()
@@ -269,6 +246,5 @@ namespace _0.DucTALib.Splash.Scripts
             return listTips[index];
         }
 
-        #endregion
     }
 }
