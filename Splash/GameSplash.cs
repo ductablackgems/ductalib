@@ -214,7 +214,7 @@ namespace _0.DucTALib.Splash
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
             var orderedSteps = CommonRemoteConfig.instance.splashConfig.splashConfigs
-                .Select(cfg => panelMap[cfg.type])
+                .Select(cfg => panelMap[cfg])
                 .ToList();
 
             steps.Clear();

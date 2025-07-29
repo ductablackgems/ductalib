@@ -9,13 +9,6 @@ using Newtonsoft.Json.Converters;
 namespace _0.DucTALib.Splash
 {
     [Serializable]
-    public class SplashConfig
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public SplashType type;
-    }
-
-    [Serializable]
     public class SplashBaseConfig
     {
         public List<string> adsPosition;
@@ -48,7 +41,10 @@ namespace _0.DucTALib.Splash
         public bool launchInter;
         public CompleteAdsType completeAdsType;
         public int timeoutMin;
-        public List<SplashConfig> splashConfigs = new List<SplashConfig>();
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public List<SplashType> splashConfigs = new List<SplashType>();
+
         public SelectAgeConfig selectAgeConfig;
         public IntroConfig introConfig;
         public List<string> completeIntroNative;
@@ -60,10 +56,10 @@ namespace _0.DucTALib.Splash
                 testSegment = 1000,
                 timeoutMin = 12,
                 completeAdsType = CompleteAdsType.NA,
-                
-                splashConfigs = new List<SplashConfig>
+
+                splashConfigs = new List<SplashType>
                 {
-                    new SplashConfig { type = SplashType.Intro }
+                    SplashType.Intro
                 },
                 selectAgeConfig = new SelectAgeConfig
                 {
@@ -80,7 +76,7 @@ namespace _0.DucTALib.Splash
                     tutorialCount = 4,
                     tipText = new List<string>
                     {
-                        "Temp1", "Temp2","Temp3", "Temp4"
+                        "Temp1", "Temp2", "Temp3", "Temp4"
                     },
                     adsPosition = new List<string>
                     {
@@ -107,6 +103,7 @@ namespace _0.DucTALib.Splash
         public string adsPosition;
         public bool active;
     }
+
     [Serializable]
     public class RelocationNativeValue
     {
@@ -118,15 +115,14 @@ namespace _0.DucTALib.Splash
             {
                 config = new List<RelocationNativeConfig>
                 {
-                    new RelocationNativeConfig(){ id = 0, adsPosition = "temp", active =  false},
-                    new RelocationNativeConfig(){ id = 1, adsPosition = "temp", active =  false}
+                    new RelocationNativeConfig() { id = 0, adsPosition = "temp", active = false },
+                    new RelocationNativeConfig() { id = 1, adsPosition = "temp", active = false }
                 },
-                
             };
             return value;
         }
     }
-    
+
 
     [Serializable]
     public class CommonConfig
