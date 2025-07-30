@@ -42,7 +42,6 @@ namespace _0.DucTALib.Splash
         public CompleteAdsType completeAdsType;
         public int timeoutMin;
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public List<SplashType> splashConfigs = new List<SplashType>();
 
         public SelectAgeConfig selectAgeConfig;

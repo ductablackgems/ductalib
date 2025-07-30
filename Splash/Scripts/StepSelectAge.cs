@@ -181,7 +181,7 @@ namespace _0.DucTALib.Splash.Scripts
         private IEnumerator AutoCloseCountdown()
         {
             cd = CommonRemoteConfig.instance.splashConfig.selectAgeConfig.nextTime;
-
+            LogHelper.CheckPoint($"next time {cd}");
             while (cd > 0)
             {
                 loadingText.text = $"AUTO CLOSE LATER {(int)cd}S";

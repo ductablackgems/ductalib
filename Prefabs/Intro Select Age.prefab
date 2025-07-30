@@ -7359,7 +7359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d3ace12a2531e9a479dfa07a123d5d44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a715424185abfe40ba6d51a58e31606, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8039,7 +8039,11 @@ MonoBehaviour:
   canvasGroup: {fileID: 2944290467340244450}
   splashType: 0
   currentButton: {fileID: 684754677451923693}
-  nativeObjects: []
+  nativeObjects:
+  - nativeUIName: 
+    adsPosition: select_age
+    native: {fileID: 5682400782877355608}
+    isNativeFull: 0
   currentNativeObject:
     nativeUIName: 
     adsPosition: 
@@ -9053,7 +9057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -17245,7 +17249,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: cdaa5d16b6dd7b04984ccf118a847c64, type: 3}
+  m_Texture: {fileID: 2800000, guid: f781fc96784e5454582779f9293e892e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -21327,7 +21331,7 @@ MonoBehaviour:
   defaultStar: 4.5
   defaultAdBody: We apologize for any inconvenience the advertisement may cause!
   defaultAdHeadLine: ADVERTISEMENT
-  defaultIcon: {fileID: 2800000, guid: cdaa5d16b6dd7b04984ccf118a847c64, type: 3}
+  defaultIcon: {fileID: 2800000, guid: f781fc96784e5454582779f9293e892e, type: 3}
   defaultImage: {fileID: 2800000, guid: 507c460700701a84d88e39b08cdcaaec, type: 3}
   defaultButtonText: GET IT!
   defaultAdvertiserText: Google
@@ -25226,7 +25230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0fac006810eb8674fa2106cc62083cbe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e4da411e7685cff4c838af2b504e5a8a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -26657,7 +26661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 127.7, y: -4.1000366}
+  m_AnchoredPosition: {x: 127.70001, y: -4.1000366}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &5763772966748415181
@@ -29916,7 +29920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 175.4, y: -4.1000366}
+  m_AnchoredPosition: {x: 175.40002, y: -4.1000366}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8309246724725087343
@@ -32850,7 +32854,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -763.5, y: -47.800003}
+  m_AnchoredPosition: {x: -763.49994, y: -47.800003}
   m_SizeDelta: {x: -1922, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7798871923595169304

@@ -38,15 +38,17 @@ namespace _0.DucTALib.Scripts.Common
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
+            
             splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)
                 .ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            
+            LogHelper.CheckPoint($"{JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)}");
+            LogHelper.CheckPoint("remote config 1");
             relocationNativeConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
                 .ToObject<RelocationNativeValue>(JsonSerializer.Create(settings));
-            
+            LogHelper.CheckPoint("remote config 2");
             commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));
-            
+            LogHelper.CheckPoint("remote config 3");
             fetchComplete = true;
             LogHelper.CheckPoint("fetch complete");
         }

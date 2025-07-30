@@ -42,6 +42,7 @@ namespace _0.DucTALib.Scripts.Loading
         }
         public void LoadScene(string sceneName)
         {
+            LogHelper.CheckPoint($"load scene {sceneName}");
             content.ShowObject();
             Master.ChangeAlpha(fade, 0);
             fade.ShowObject();

@@ -208,8 +208,6 @@ namespace _0.DucTALib.Splash
             currentProgressTxt.text = "100%";
         }
 
-
-
         private void SetUpStep()
         {
             var panelMap = steps.ToDictionary(x => x.splashType, x => x);
