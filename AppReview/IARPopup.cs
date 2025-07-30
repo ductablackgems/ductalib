@@ -29,6 +29,7 @@ namespace _0.DucTALib.AppReview
                 return;
             }
 
+            Time.timeScale = 0;
             gameObject.ShowObject();
             content.ScaleInPopup();
             currentStar = 0;
@@ -89,11 +90,13 @@ namespace _0.DucTALib.AppReview
 
             Hide();
             gameObject.HideObject();
+            Time.timeScale = 1;
         }
 
         public void Hide()
         {
             AudioController.Instance.PlayClickSound();
+            Time.timeScale = 1;
             gameObject.HideObject();
         }
     }

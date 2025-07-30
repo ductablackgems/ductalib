@@ -56,7 +56,7 @@ namespace _0.DucLib.Scripts.Ads
             var anchor = anchorLeft ? 1 : -1;
             content.anchoredPosition = new Vector2(anchor *(content.sizeDelta.x / 2), content.anchoredPosition.y);
             ResizeObjects();
-            CallAdsManager.ShowMRECApplovin(content.gameObject, camera, pos);
+            CallAdsManager.ShowMREC(content.gameObject, camera, pos);
             // StartCoroutine(WaitFrame());
         }
 

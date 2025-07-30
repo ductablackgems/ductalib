@@ -57,7 +57,7 @@ namespace _0.DucLib.Scripts.Ads
         }
 
        
-        public static void ShowMRECApplovin(GameObject target)
+        public static void ShowMREC(GameObject target)
         {
             LogHelper.CheckPoint("Call MREC overlay");
 #if IGNORE_ADS
@@ -66,7 +66,7 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.ShowMrec(target);
         }
 
-        public static void ShowMRECApplovin(GameObject target, Camera cam, string pos)
+        public static void ShowMREC(GameObject target, Camera cam, string pos)
         {
             LogHelper.CheckPoint("Call MREC screen space");
 #if IGNORE_ADS
