@@ -68,7 +68,8 @@ namespace _0.DucLib.Scripts.Ads
 
         public void Load()
         {
-            for (int i = 0; i < nativeFullUis.Count; i++)
+            int count = Mathf.Min(nativeFullUis.Count, CommonRemoteConfig.instance.splashConfig.completeIntroNative.Count);
+            for (int i = 0; i < count; i++)
             {
                 var na = nativeFullUis[i];
                 var pos = CommonRemoteConfig.instance.splashConfig.completeIntroNative[i];
