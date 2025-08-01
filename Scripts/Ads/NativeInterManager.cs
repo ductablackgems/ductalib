@@ -26,10 +26,10 @@ namespace _0.DucLib.Scripts.Ads
 
         #region NA
 
-        private void Awake()
-        {
-            Setup();
-        }
+        // private void Awake()
+        // {
+        //     Setup();
+        // }
 
         [FoldoutGroup("NA")] public List<Sprite> btnSp;
         [FoldoutGroup("NA")] public List<NativeUIManager> na;

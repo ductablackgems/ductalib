@@ -102,7 +102,6 @@ namespace _0.DucTALib.Splash
         }
 
 
-
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
@@ -160,10 +159,6 @@ namespace _0.DucTALib.Splash
                 CallAdsManager.ShowInter("launch_fa");
             }
 
-            if (CommonRemoteConfig.instance.splashConfig.completeAdsType == CompleteAdsType.NA)
-            {
-                nativeEnd.Load();
-            }
 
             CallAdsManager.LoadInterByGroup("intro");
             SplashTracking.LoadingEnd();
@@ -210,13 +205,33 @@ namespace _0.DucTALib.Splash
 
         private void SetUpStep()
         {
-            var panelMap = steps.ToDictionary(x => x.splashType, x => x);
-            var orderedSteps = CommonRemoteConfig.instance.splashConfig.splashConfigs
-                .Select(cfg => panelMap[cfg])
-                .ToList();
+            if (CommonRemoteConfig.instance.splashConfig.splashConfigs.Count == 0)
+            {
+                steps.Clear();
+            }
+            else
+            {
+                var panelMap = steps.ToDictionary(x => x.splashType, x => x);
+                var orderedSteps = CommonRemoteConfig.instance.splashConfig.splashConfigs
+                    .Select(cfg => panelMap[cfg])
+                    .ToList();
 
-            steps.Clear();
-            steps.AddRange(orderedSteps);
+                steps.Clear();
+                steps.AddRange(orderedSteps);
+            }
+
+            var tut = steps.Find(x => x.splashType == SplashType.Intro);
+            if (tut != null)
+            {
+                tut.GetComponent<SetupNative>().SetupView();
+                tut.GetComponent<SetupNative>().Setup();
+            }
+
+            if (CommonRemoteConfig.ins.splashConfig.completeAdsType == CompleteAdsType.NA)
+            {
+                nativeEnd.Setup();
+                nativeEnd.Load();
+            }
         }
 
         private void StartStep()
@@ -229,16 +244,8 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-                if (CommonRemoteConfig.instance.splashConfig.completeAdsType == CompleteAdsType.Inter)
-                {
-                    CallAdsManager.ShowInter("complete_all_step");
-                    CompleteAllStep();
-                }
-                else
-                {
-                    nativeEnd.Show( CompleteAllStep);
-                }
-
+               
+                Finish();
                 return;
             }
 
@@ -246,6 +253,18 @@ namespace _0.DucTALib.Splash
             StartStep();
         }
 
+        private void Finish()
+        {
+            if (CommonRemoteConfig.instance.splashConfig.completeAdsType == CompleteAdsType.Inter)
+            {
+                CallAdsManager.ShowInter("complete_all_step");
+                CompleteAllStep();
+            }
+            else
+            {
+                nativeEnd.Show(CompleteAllStep);
+            }
+        }
         private void CompleteAllStep()
         {
             AndroidMediation.AutoHideBanner = true;
@@ -257,6 +276,5 @@ namespace _0.DucTALib.Splash
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
-
     }
 }

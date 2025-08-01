@@ -19,8 +19,8 @@ namespace _0.DucTALib.Splash
 
         private void Awake()
         {
-            SetupView();
-            Setup();
+            // SetupView();
+            // Setup();
         }
 
         [Button]
