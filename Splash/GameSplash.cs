@@ -140,6 +140,14 @@ namespace _0.DucTALib.Splash
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
+#if USE_ADMOB_NATIVE
+            native.FinishNative();
+#endif
+            if (CommonRemoteConfig.instance.splashConfig.launchInter)
+            {
+                CallAdsManager.ShowInter("launch_fa");
+            }
+
             if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.instance.splashConfig.loadIntro)
             {
                 CompleteAllStep();
@@ -151,13 +159,6 @@ namespace _0.DucTALib.Splash
             currentProgressTxt.text = "100%";
             SetUpStep();
             yield return new WaitForEndOfFrame();
-#if USE_ADMOB_NATIVE
-            native.FinishNative();
-#endif
-            if (CommonRemoteConfig.instance.splashConfig.launchInter)
-            {
-                CallAdsManager.ShowInter("launch_fa");
-            }
 
 
             CallAdsManager.LoadInterByGroup("intro");
@@ -244,7 +245,6 @@ namespace _0.DucTALib.Splash
             currentStep++;
             if (currentStep >= steps.Count)
             {
-               
                 Finish();
                 return;
             }
@@ -265,6 +265,7 @@ namespace _0.DucTALib.Splash
                 nativeEnd.Show(CompleteAllStep);
             }
         }
+
         private void CompleteAllStep()
         {
             AndroidMediation.AutoHideBanner = true;

@@ -37,7 +37,7 @@ namespace _0.DucLib.Scripts.Ads
                 rect.sizeDelta = delta;
             }
         }
-
+        
       
         public void ShowMREC(Camera camera, bool ignoreDpiLimit = true)
         {
@@ -73,7 +73,39 @@ namespace _0.DucLib.Scripts.Ads
             CallAdsManager.UpdateMRECPosition(content.gameObject, camera, pos);
         }
      
+        public void ShowMREC(bool ignoreDpiLimit = true)
+        {
+#if UNITY_EDITOR
+            content.HideObject();
+            return;
+#endif 
+            // if (!ignoreDpiLimit && CallAdsManager.GetDPIDevice() > 2.6f) // size >= 65%
+            // {
+            //     // HideMREC();
+            //     content.HideObject();
+            //     return;
+            // }
+            CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
+            // parent.anchoredPosition = new Vector2(spaceRight, spaceTop);
+            var anchor = anchorLeft ? 1 : -1;
+            content.anchoredPosition = new Vector2(anchor *(content.sizeDelta.x / 2), content.anchoredPosition.y);
+            ResizeObjects();
+            CallAdsManager.ShowMREC(content.gameObject, GetComponent<Camera>(), pos);
+            // StartCoroutine(WaitFrame());
+        }
 
+        public void UpdateMREC()
+        {
+#if UNITY_EDITOR
+            content.HideObject();
+            return;
+#endif 
+            CallAdsManager.ResizeMREC(content.GetComponent<RectTransform>());
+            var anchor = anchorLeft ? 1 : -1;
+            content.anchoredPosition = new Vector2(anchor *(content.sizeDelta.x / 2), content.anchoredPosition.y);
+            ResizeObjects();
+            CallAdsManager.UpdateMRECPosition(content.gameObject, GetComponent<Camera>(), pos);
+        }
         
     }
 }

@@ -75,7 +75,10 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.ScreenName = pos;
             AdsManager.ShowMrec(target, cam);
         }
-
+        public static void UpdateMRECPosition(GameObject target)
+        {
+            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
+        }
         public static void UpdateMRECPosition(GameObject target, Camera cam, string pos)
         {
             AdsManager.ScreenName = pos;
