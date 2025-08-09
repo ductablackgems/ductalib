@@ -99,14 +99,17 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
+            AppOpenCaller.OnCloseLaunchAO += SetLoadDuration;
         }
 
+        private void OnDestroy()
+        {
+            AppOpenCaller.OnCloseLaunchAO -= SetLoadDuration;
+        }
 
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            if (CommonRemoteConfig.instance.splashConfig.launchInter)
-                CallAdsManager.LoadInterByGroup("launch");
 #if USE_ADMOB_NATIVE
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
@@ -115,6 +118,10 @@ namespace _0.DucTALib.Splash
 #endif
         }
 
+        private void SetLoadDuration()
+        {
+            loadDuration = 0;
+        }
         private IEnumerator WaitToLoadScene()
         {
             yield return new WaitForEndOfFrame();
@@ -128,7 +135,7 @@ namespace _0.DucTALib.Splash
 
             loadDuration = RemoteConfig.Ins.isDataFetched
                 ? CommonRemoteConfig.instance.splashConfig.timeoutMin
-                : 12f;
+                : 15f;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
             while (currentTime < loadDuration)
@@ -143,11 +150,6 @@ namespace _0.DucTALib.Splash
 #if USE_ADMOB_NATIVE
             native.FinishNative();
 #endif
-            if (CommonRemoteConfig.instance.splashConfig.launchInter)
-            {
-                CallAdsManager.ShowInter("launch_fa");
-            }
-
             if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.instance.splashConfig.loadIntro)
             {
                 CompleteAllStep();
@@ -162,6 +164,7 @@ namespace _0.DucTALib.Splash
 
 
             CallAdsManager.LoadInterByGroup("intro");
+            CallAdsManager.LoadInterByGroup("complete_intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];

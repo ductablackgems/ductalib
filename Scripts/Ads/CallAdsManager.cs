@@ -24,6 +24,7 @@ namespace _0.DucLib.Scripts.Ads
         }
         public  static void LoadInterByGroup(string group)
         {
+            LogHelper.CheckPoint($"load inter group {group}");
             AdsManager.InitInterstitialManually(group);
         }
         public static bool RewardedIsReady()
