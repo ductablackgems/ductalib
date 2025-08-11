@@ -160,7 +160,6 @@ namespace _0.DucTALib.Splash.Scripts
             }
             CallAdsManager.ShowInter($"next_step_intro_{index}");
             
-            CallAdsManager.HideBanner();
             contentCarousel.ShowObject();
             index++;
             SplashTracking.OnboardingNext(index);
