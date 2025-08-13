@@ -9,6 +9,15 @@ namespace _0.DucLib.Scripts.Common
 {
     public static class CommonHelper
     {
+        public static Color CalculateHealthColor(float value)
+        {
+            if (value > 0.5f)
+            {
+                return new Color(2 * (1.0f - value), 1.0f, 0.0f);
+            }
+
+            return new Color(1.0f, 1.0f - 2 * (0.5f - value), 0);
+        }
         public static string ColorToHex(Color color)
         {
             return $"#{ColorUtility.ToHtmlStringRGBA(color)}";
