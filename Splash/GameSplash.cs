@@ -66,6 +66,7 @@ namespace _0.DucTALib.Splash
         [BoxGroup("Native")] public NativeUIManager native;
         public GameObject loading;
 
+        public SplashNativeSetup splashNativeSetup;
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -227,13 +228,11 @@ namespace _0.DucTALib.Splash
             var tut = steps.Find(x => x.splashType == SplashType.Intro);
             if (tut != null)
             {
-                tut.GetComponent<SetupNative>().SetupView();
-                tut.GetComponent<SetupNative>().Setup();
+                splashNativeSetup.SetupTutorialView();
             }
 
             if (CommonRemoteConfig.ins.splashConfig.completeAdsType == CompleteAdsType.NA)
             {
-                nativeEnd.Setup();
                 nativeEnd.Load();
             }
         }
