@@ -1,4 +1,6 @@
-﻿using _0.DucLib.Scripts.Common;
+﻿using System.Collections.Generic;
+using _0.DucLib.Scripts.Common;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
@@ -157,6 +159,32 @@ namespace _0.DucTALib.Scripts.Common
             {
                 PlayerPrefs.DeleteKey(key);
                 PlayerPrefs.Save();
+            }
+        }
+        
+        public static void SetList<T>(string key, IList<T> list)
+        {
+            var json = JsonConvert.SerializeObject(list ?? new List<T>());
+            PlayerPrefs.SetString(key, json);
+        }
+
+        public static List<T> GetList<T>(string key, List<T> defaultValue = null)
+        {
+            if (!PlayerPrefs.HasKey(key))
+            {
+                var def = defaultValue ?? new List<T>();
+                PlayerPrefs.SetString(key, JsonConvert.SerializeObject(def));
+                return def;
+            }
+
+            var json = PlayerPrefs.GetString(key);
+            try
+            {
+                return JsonConvert.DeserializeObject<List<T>>(json) ?? (defaultValue ?? new List<T>());
+            }
+            catch
+            {
+                return defaultValue ?? new List<T>();
             }
         }
     }
