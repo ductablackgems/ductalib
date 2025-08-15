@@ -22,6 +22,10 @@ namespace _0.DucLib.Scripts.Common
         {
             Debug.Log($"<color=yellow>[CHECK POINT]-[{memberName}]</color>");
         }
+        public static void CheckCode([System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
+        {
+            Debug.Log($"<color=#FFA500>[Code comment]-[{memberName}]</color>"); // was: yellow
+        }
         public static void LogLine(
             string value = "",
             [System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
