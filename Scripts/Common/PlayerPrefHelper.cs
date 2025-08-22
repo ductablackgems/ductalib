@@ -132,7 +132,6 @@ namespace _0.DucTALib.Scripts.Common
         
         public static void SaveObject<T>(string key, T obj)
         {
-            LogHelper.CheckPoint("save data");
             string json = JsonUtility.ToJson(obj);
             PlayerPrefs.SetString(key, json);
         }
@@ -141,20 +140,17 @@ namespace _0.DucTALib.Scripts.Common
         {
             if (PlayerPrefs.HasKey(key))
             {
-                LogHelper.CheckPoint("load old value data");
                 string json = PlayerPrefs.GetString(key);
                 return JsonUtility.FromJson<T>(json);
             }
             var newValue = new T();
             string newJson = JsonUtility.ToJson(newValue); 
             PlayerPrefs.SetString(key, newJson);
-            LogHelper.CheckPoint("load new value data");
             return newValue;
         }
         
         public static void ResetData(string key)
         {
-            LogHelper.CheckPoint("reset data");
             if (PlayerPrefs.HasKey(key))
             {
                 PlayerPrefs.DeleteKey(key);

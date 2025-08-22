@@ -32,19 +32,19 @@ namespace _0.DucLib.Scripts.Ads
             return AdsManager.IsRewardedReady;
         }
 
-        public static void ShowRewardVideo(string pos, Action actionDone)
+        public static bool ShowRewardVideo(string pos, Action actionDone)
         {
 #if IGNORE_ADS
                 actionDone?.Invoke();
-                return;
+                return true;
 #endif
             if (!RewardedIsReady())
             {
                 rewardNotReadyAction?.Invoke();
-                return;
+                return false;
             }
 
-            AdsManager.ShowRewardVideo(pos, actionDone);
+            return AdsManager.ShowRewardVideo(pos, actionDone);
         }
 
         public static void ShowBanner()
