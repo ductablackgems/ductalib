@@ -12,15 +12,14 @@ namespace _0.DucLib.Scripts.Ads
         public static Action rewardNotReadyAction;
         public static string currentInterstitial => AdsManager.LastInterstitialPos;
 
-        public static void ShowInter(string pos, Action actionDone = null)
+        public static void ShowInter(string pos)
         {
+            LogHelper.CheckPoint($"show inter {pos}");
+            LogHelper.CheckPoint($"show inter {pos}");
 #if IGNORE_ADS
-            actionDone?.Invoke();
             return;
 #endif
-            LogHelper.CheckPoint($"show inter {pos}");
             AdsManager.ShowInterstitial(pos.ToString());
-            actionDone?.Invoke();
         }
         public  static void LoadInterByGroup(string group)
         {
