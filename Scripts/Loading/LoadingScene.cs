@@ -52,7 +52,7 @@ namespace _0.DucTALib.Scripts.Loading
 
         private IEnumerator LoadSceneIE(string sceneName)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSecondsRealtime(2f);
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             asyncLoad.allowSceneActivation = true;
             while (!asyncLoad.isDone)
