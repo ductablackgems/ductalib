@@ -100,17 +100,13 @@ namespace _0.DucTALib.Splash
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
-            AppOpenCaller.OnCloseLaunchAO += SetLoadDuration;
         }
 
-        private void OnDestroy()
-        {
-            AppOpenCaller.OnCloseLaunchAO -= SetLoadDuration;
-        }
-
+    
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
+            CallAdsManager.LoadInterByGroup("launch");
 #if USE_ADMOB_NATIVE
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
@@ -151,6 +147,9 @@ namespace _0.DucTALib.Splash
 #if USE_ADMOB_NATIVE
             native.FinishNative();
 #endif
+            loadingBar.DOFillAmount(1, 0.2f);
+            currentProgressTxt.text = "100%";
+            CallAdsManager.ShowInter("launch");
             if (!RemoteConfig.Ins.isDataFetched || !CommonRemoteConfig.instance.splashConfig.loadIntro)
             {
                 CompleteAllStep();
@@ -158,8 +157,7 @@ namespace _0.DucTALib.Splash
                 yield break;
             }
 
-            loadingBar.DOFillAmount(1, 0.2f);
-            currentProgressTxt.text = "100%";
+            
             SetUpStep();
             yield return new WaitForEndOfFrame();
 
