@@ -14,9 +14,9 @@ namespace _0.DucTALib.Gameplay
     public class NativeRelocationController : SingletonMono<NativeRelocationController>
     {
         public List<NativeRelocationObj> NativeObjects;
-        private void Awake()
+        protected override void Init()
         {
-
+            base.Init();
             var config = CommonRemoteConfig.instance.relocationNativeConfig;
             if(NativeObjects.Count == 0) return;
             for (int i = 0; i < NativeObjects.Count; i++)
@@ -38,7 +38,8 @@ namespace _0.DucTALib.Gameplay
         public bool ShowId(int id)
         {
           var obj =   NativeObjects.Find(x => x.id == id);
-          if (obj == null || !obj.active || !obj.nativeUI.IsReady) return false;
+          LogHelper.CheckPoint($"obj == null = {obj == null} || !obj.active {!obj.active}|| !obj.nativeUI.IsReady = { !obj.nativeUI.IsReady}");
+          if (obj == null || !obj.active ) return false;
           obj.ShowObject();
           return true;
         }

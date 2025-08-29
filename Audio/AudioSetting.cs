@@ -25,7 +25,7 @@ namespace BG_Library.Audio
 				listAudioTypes[i].ListCurrentAud.Clear();
 			}
 		}
-
+		
 		public AudioType GetAudioType(string typeName)
 		{
 			return System.Array.Find(listAudioTypes, l => l.Name == typeName);

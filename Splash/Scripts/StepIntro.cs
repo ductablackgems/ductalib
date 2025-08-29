@@ -58,7 +58,7 @@ namespace _0.DucTALib.Splash.Scripts
                 .OrderBy(n => positionList.IndexOf(n.adsPosition))
                 .ToList();
 #if USE_ADMOB_NATIVE
-            if (nativeObjects.Count > 0 && CommonRemoteConfig.instance.splashConfig.splashConfigs.Contains(SplashType.Intro))
+            if (CommonRemoteConfig.instance.splashConfig.loadIntro && nativeObjects.Count > 0 && CommonRemoteConfig.instance.splashConfig.splashConfigs.Contains(SplashType.Intro))
             {
                 nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
                 LogHelper.CheckPoint($"[Preload First] {nativeObjects[0].adsPosition}");

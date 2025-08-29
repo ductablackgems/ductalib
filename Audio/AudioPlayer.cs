@@ -16,15 +16,34 @@ namespace BG_Library.Audio
         [SerializeField] Coroutine corou;
         [SerializeField] bool isFadingOut;
 
-        public string NameClip { get => source.clip.name; }
-        public AudioSource Source { get => source; set => source = value; }
-        public Coroutine Corou { get => corou; set => corou = value; }
-        public bool IsFadingOut { get => isFadingOut; set => isFadingOut = value; }
+        public string NameClip
+        {
+            get => source.clip.name;
+        }
+
+        public AudioSource Source
+        {
+            get => source;
+            set => source = value;
+        }
+
+        public Coroutine Corou
+        {
+            get => corou;
+            set => corou = value;
+        }
+
+        public bool IsFadingOut
+        {
+            get => isFadingOut;
+            set => isFadingOut = value;
+        }
     }
 
     public class AudioPlayer : MonoBehaviour
     {
         static AudioPlayer ins;
+
         public static AudioPlayer Ins
         {
             get
@@ -54,7 +73,7 @@ namespace BG_Library.Audio
                     if (ins.setting.ListAudioTypes[i].IsDestroyOnLoad)
                     {
                         ins.StopAllCurrentAudio(ins.setting.ListAudioTypes[i]);
-					}
+                    }
                 }
             };
         }
@@ -62,20 +81,19 @@ namespace BG_Library.Audio
         [SerializeField] List<Audio> listAvailableAud = new List<Audio>();
 
         public void Preload()
-		{
-
-		}
+        {
+        }
 
         public void PlayAudioClip(AudioClip clip, AudCommonConf conf, System.Action OnComplete = null)
         {
-			var listAudType = setting.GetAudioType(conf.ChannelType);
-			if (listAudType == null)
-			{
+            var listAudType = setting.GetAudioType(conf.ChannelType);
+            if (listAudType == null)
+            {
                 Debug.LogError($"AUDIO PLAYER => CANNOT FIND TYPE: {conf.ChannelType}");
-				return;
-			}
+                return;
+            }
 
-			if (conf.StopAll) // Xoa tat ca am thanh cua Type nay
+            if (conf.StopAll) // Xoa tat ca am thanh cua Type nay
             {
                 listAvailableAud.AddRange(listAudType.ListCurrentAud);
                 StopAllCurrentAudio(listAudType);
@@ -86,13 +104,13 @@ namespace BG_Library.Audio
                 return;
             }
 
-			if (!conf.CanStackPlay) // Neu dang play thi tat di roi play lai
-			{
+            if (!conf.CanStackPlay) // Neu dang play thi tat di roi play lai
+            {
                 var listStop = StopAudio(listAudType, clip.name);
                 listAvailableAud.AddRange(listStop);
-			}
+            }
 
-			var aud = GetAvailableAudio(listAudType);
+            var aud = GetAvailableAudio(listAudType);
             aud.Source.clip = clip;
             aud.Source.loop = conf.Loop;
             aud.Source.volume = conf.Volume;
@@ -102,16 +120,17 @@ namespace BG_Library.Audio
             {
                 aud.Source.Stop();
             }
+
             aud.Source.Play();
 
             if (!conf.Loop)
-			{
+            {
                 aud.Corou = ins.StartCoroutine(DelayCallMaster.WaitAndDoIE(aud.Source.clip.length, () =>
                 {
-					if (aud.IsFadingOut)
-					{
+                    if (aud.IsFadingOut)
+                    {
                         return;
-					}
+                    }
 
                     listAvailableAud.Add(aud);
                     StopAudio(listAudType, aud);
@@ -121,7 +140,9 @@ namespace BG_Library.Audio
                 }));
             }
         }
+
         #region Stop
+
         /// <summary>
         /// Tat toan bo cac am thanh co ten "name" trong channel "type"
         /// </summary>
@@ -130,7 +151,7 @@ namespace BG_Library.Audio
             var listAudType = setting.GetAudioType(channelName);
             if (listAudType == null)
             {
-				Debug.LogError($"AUDIO PLAYER => CANNOT FIND TYPE: {channelName}");
+                Debug.LogError($"AUDIO PLAYER => CANNOT FIND TYPE: {channelName}");
                 return;
             }
 
@@ -138,12 +159,13 @@ namespace BG_Library.Audio
             listAvailableAud.AddRange(listStop);
         }
 
-        public void StopEaseAudioClip(string name, AudCommonConf conf, Ease ease = Ease.Linear, System.Action onFadeComplete = null)
+        public void StopEaseAudioClip(string name, AudCommonConf conf, Ease ease = Ease.Linear,
+            System.Action onFadeComplete = null)
         {
             var channelType = setting.GetAudioType(conf.ChannelType);
             if (channelType == null)
             {
-				Debug.LogError($"AUDIO PLAYER => CANNOT FIND TYPE: {conf.ChannelType}");
+                Debug.LogError($"AUDIO PLAYER => CANNOT FIND TYPE: {conf.ChannelType}");
                 return;
             }
 
@@ -156,18 +178,15 @@ namespace BG_Library.Audio
             var aud = audios[0];
             aud.IsFadingOut = true;
 
-            DOTweenManager.Ins.TweenFloatTime(conf.Volume, 0, 0.75f, f =>
-            {
-                aud.Source.volume = f;
-            }).OnComplete(() =>
-            {
-                aud.IsFadingOut = false;
-                listAvailableAud.Add(aud);
-                StopAudio(channelType, aud);
+            DOTweenManager.Ins.TweenFloatTime(conf.Volume, 0, 0.75f, f => { aud.Source.volume = f; }).OnComplete(() =>
+                {
+                    aud.IsFadingOut = false;
+                    listAvailableAud.Add(aud);
+                    StopAudio(channelType, aud);
 
-                onFadeComplete?.Invoke();
-            })
-            .SetEase(ease);
+                    onFadeComplete?.Invoke();
+                })
+                .SetEase(ease);
         }
 
         /// <summary>
@@ -198,7 +217,50 @@ namespace BG_Library.Audio
 
             return audios;
         }
+        
+        public void UnPauseAllCurrentAudio(string chanelName)
+        {
+            var channelType = setting.GetAudioType(chanelName);
+            for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
+            {
+                channelType.ListCurrentAud[i].Source.UnPause();
+                channelType.ListCurrentAud[i].Source.clip = null;
+                channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
 
+                if (channelType.ListCurrentAud[i].Corou != null)
+                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
+            }
+
+        }
+        public void PauseAllCurrentAudio(string chanelName)
+        {
+            var channelType = setting.GetAudioType(chanelName);
+            for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
+            {
+                channelType.ListCurrentAud[i].Source.Pause();
+                channelType.ListCurrentAud[i].Source.clip = null;
+                channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
+
+                if (channelType.ListCurrentAud[i].Corou != null)
+                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
+            }
+
+        }
+        public void StopAllCurrentAudio(string chanelName)
+        {
+            var channelType = setting.GetAudioType(chanelName);
+            for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
+            {
+                channelType.ListCurrentAud[i].Source.Stop();
+                channelType.ListCurrentAud[i].Source.clip = null;
+                channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
+
+                if (channelType.ListCurrentAud[i].Corou != null)
+                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
+            }
+            channelType.ListCurrentAud.Clear();
+
+        }
         /// <summary>
         /// Dung toan bo Aud
         /// </summary>
@@ -210,69 +272,79 @@ namespace BG_Library.Audio
                 channelType.ListCurrentAud[i].Source.clip = null;
                 channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
 
-                if (channelType.ListCurrentAud[i].Corou != null) this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
+                if (channelType.ListCurrentAud[i].Corou != null)
+                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
             }
 
             channelType.ListCurrentAud.Clear();
         }
+
         #endregion
 
         bool CheckSoundPlay(AudioSetting.AudioType type, AudioClip aud)
-		{
+        {
             return type.ListCurrentAud.Exists(sound => sound.NameClip == aud.name);
         }
 
-		Audio GetAvailableAudio(AudioSetting.AudioType channelType)
-		{
-			if (listAvailableAud.Count > 0)
-			{
-				var audS = listAvailableAud[0];
-				listAvailableAud.RemoveAt(0);
+        Audio GetAvailableAudio(AudioSetting.AudioType channelType)
+        {
+            if (listAvailableAud.Count > 0)
+            {
+                var audS = listAvailableAud[0];
+                listAvailableAud.RemoveAt(0);
 
-				audS.Source.outputAudioMixerGroup = channelType.AudioMixerGroup;
+                audS.Source.outputAudioMixerGroup = channelType.AudioMixerGroup;
                 audS.IsFadingOut = false;
 
                 channelType.ListCurrentAud.Add(audS);
                 return audS;
-			}
-			else
-			{
-				var audS = new Audio
-				{
-					Source = ins.gameObject.AddComponent<AudioSource>()
-				};
+            }
+            else
+            {
+                var audS = new Audio
+                {
+                    Source = ins.gameObject.AddComponent<AudioSource>()
+                };
 
-				audS.Source.playOnAwake = false;
-				listAvailableAud.Add(audS);
+                audS.Source.playOnAwake = false;
+                listAvailableAud.Add(audS);
 
-				return GetAvailableAudio(channelType);
-			}
-		}
+                return GetAvailableAudio(channelType);
+            }
+        }
 
-		public void ChangeVol(string typeName, float value)
+        public void ChangeFXVolume(float value)
         {
-			var listAudType = setting.GetAudioType(typeName);
-			if (listAudType == null)
-			{
-				Debug.LogError($"CANNOT FIND TYPE: {typeName}");
-				return;
-			}
+            ChangeVol("FX", value);
+        }
+
+        public void ChangeMusicVolume(float value)
+        {
+            ChangeVol("Music", value);
+        }
+        private void ChangeVol(string typeName, float value)
+        {
+            var listAudType = setting.GetAudioType(typeName);
+            if (listAudType == null)
+            {
+                Debug.LogError($"CANNOT FIND TYPE: {typeName}");
+                return;
+            }
+
             float dBValue = (value == 0) ? -80f : Mathf.Log10(value) * 20;
-			_ = listAudType.AudioMixer.SetFloat($"V_{typeName}", dBValue);
+            _ = listAudType.AudioMixer.SetFloat($"V_{typeName}", dBValue);
         }
 
         [System.Serializable]
         public class AudCommonConf
         {
 #if UNITY_EDITOR
-            [TextArea(1, 10)]
-            [SerializeField] string Editor_Note;
+            [TextArea(1, 10)] [SerializeField] string Editor_Note;
 #endif
 
             public string ChannelType;
 
-            [Space(4)]
-            public bool Loop;
+            [Space(4)] public bool Loop;
             public bool StopAll; // Stop toan bo Aud cua Channel
             public bool IgnoreIfPlaying; // Neu Aud nay dang play roi thi ko play nua
             public bool CanStackPlay; // Co play chong len nhau duoc ko
