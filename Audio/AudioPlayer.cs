@@ -1,6 +1,7 @@
 ﻿using BG_Library.Common;
 using System.Collections;
 using System.Collections.Generic;
+using _0.DucLib.Scripts.Common;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -224,11 +225,6 @@ namespace BG_Library.Audio
             for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
             {
                 channelType.ListCurrentAud[i].Source.UnPause();
-                channelType.ListCurrentAud[i].Source.clip = null;
-                channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
-
-                if (channelType.ListCurrentAud[i].Corou != null)
-                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
             }
 
         }
@@ -238,11 +234,6 @@ namespace BG_Library.Audio
             for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
             {
                 channelType.ListCurrentAud[i].Source.Pause();
-                channelType.ListCurrentAud[i].Source.clip = null;
-                channelType.ListCurrentAud[i].Source.outputAudioMixerGroup = null;
-
-                if (channelType.ListCurrentAud[i].Corou != null)
-                    this.StopCoroutine(channelType.ListCurrentAud[i].Corou);
             }
 
         }
@@ -266,6 +257,7 @@ namespace BG_Library.Audio
         /// </summary>
         void StopAllCurrentAudio(AudioSetting.AudioType channelType)
         {
+            LogHelper.CheckPoint("stop all 2");
             for (int i = 0; i < channelType.ListCurrentAud.Count; i++)
             {
                 channelType.ListCurrentAud[i].Source.Stop();
