@@ -34,6 +34,9 @@ namespace _0.DucTALib.Gameplay
 
         private void OnDestroy()
         {
+#if IGNORE_ADS
+            return;
+#endif
 #if USE_ADMOB_NATIVE
             nativeUI.FinishNative();
 #endif

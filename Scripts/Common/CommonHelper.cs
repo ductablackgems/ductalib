@@ -52,9 +52,9 @@ namespace _0.DucLib.Scripts.Common
         /// </summary>
         /// <param name="number">Số cần chuyển đổi.</param>
         /// <returns>Chuỗi số dạng rút gọn.</returns>
-        public static string AbbreviateNumber(double number)
+        public static string AbbreviateNumber(double number, double target)
         {
-            if (number < 1000)
+            if (number < target)
             {
                 // Nếu nhỏ hơn 1000, giữ nguyên
                 return number.ToString("N0");
