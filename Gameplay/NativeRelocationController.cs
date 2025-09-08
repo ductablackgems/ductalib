@@ -17,6 +17,9 @@ namespace _0.DucTALib.Gameplay
         protected override void Init()
         {
             base.Init();
+#if IGNORE_ADS
+            return;
+#endif
             var config = CommonRemoteConfig.instance.relocationNativeConfig;
             if(NativeObjects.Count == 0) return;
             for (int i = 0; i < NativeObjects.Count; i++)
