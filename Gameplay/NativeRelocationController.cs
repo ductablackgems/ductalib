@@ -41,7 +41,6 @@ namespace _0.DucTALib.Gameplay
         public bool ShowId(int id)
         {
           var obj =   NativeObjects.Find(x => x.id == id);
-          LogHelper.CheckPoint($"obj == null = {obj == null} || !obj.active {!obj.active}|| !obj.nativeUI.IsReady = { !obj.nativeUI.IsReady}");
           if (obj == null || !obj.active ) return false;
           obj.ShowObject();
           return true;
