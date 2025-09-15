@@ -268,7 +268,9 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
+#if USE_ADMOB_MEDIATION && UNITY_ANDROID
             AndroidMediation.AutoHideBanner = true;
+#endif
             AdsManager.InitBannerManually();
             CallAdsManager.LoadInterByGroup("gameplay");
             CallAdsManager.LoadInterByGroup("break");
