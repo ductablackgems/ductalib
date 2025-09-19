@@ -6,14 +6,17 @@ using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash;
 using BG_Library.Common;
-using BG_Library.NET.Native_custom;
-using UnityEngine;
 
+using UnityEngine;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Gameplay
 {
     public class NativeRelocationController : SingletonMono<NativeRelocationController>
     {
-        public List<NativeRelocationObj> NativeObjects;
+#if USE_ADMOB_NATIVE
+ public List<NativeRelocationObj> NativeObjects;
         protected override void Init()
         {
             base.Init();
@@ -51,5 +54,7 @@ namespace _0.DucTALib.Gameplay
             if (obj == null || !obj.active) return;
             obj.HideObject();
         }
+#endif
+       
     }
 }

@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.CustomButton;
-using BG_Library.NET.Native_custom;
+
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash.Scripts
 {
     public abstract class BaseStepSplash : MonoBehaviour
     {
-
-        public CanvasGroup canvasGroup;
+#if USE_ADMOB_NATIVE
+    public CanvasGroup canvasGroup;
         public SplashType splashType;
         public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
@@ -63,11 +65,10 @@ namespace _0.DucTALib.Splash.Scripts
             var ad = nativeObjects[indexNative];
 
             // Show ad
-#if USE_ADMOB_NATIVE
+
             ad.native.Show();
             if(ad.isNativeFull)  ShowNativeFull();
             LogHelper.CheckPoint($"show native {ad.adsPosition}");
-#endif
 
 
             isFlowInProgress = true;
@@ -85,11 +86,9 @@ namespace _0.DucTALib.Splash.Scripts
                 return;
 
             var ad = nativeObjects[indexNative];
-#if USE_ADMOB_NATIVE
+
               ad.native.FinishNative();   
             if(ad.isNativeFull)  HideNativeFull();
-#endif
-
             LogHelper.CheckPoint($"finish native {ad.adsPosition}");
 
             indexNative++;
@@ -102,13 +101,14 @@ namespace _0.DucTALib.Splash.Scripts
             if (next < nativeObjects.Count)
             {
                 var nextAd = nativeObjects[next];
-#if USE_ADMOB_NATIVE
-                nextAd.native.Request(nextAd.adsPosition);
-#endif
+
+
 
                 LogHelper.CheckPoint($"load native {nextAd.adsPosition}");
             }
         }
+#endif
+    
 
 
 

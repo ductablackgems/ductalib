@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using BG_Library.Common;
-using BG_Library.NET.Native_custom;
+
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucLib.Scripts.Ads
 {
     public class NativeInterManager : MonoBehaviour
     {
-        public List<NativeFullUI> nativeFullUis;
+#if USE_ADMOB_NATIVE
+  public List<NativeFullUI> nativeFullUis;
 
         private Action showNextAds;
 
@@ -84,5 +87,7 @@ namespace _0.DucLib.Scripts.Ads
                 lastNative.closeNativeFullButton.ShowObject();
             }
         }
+#endif
+      
     }
 }

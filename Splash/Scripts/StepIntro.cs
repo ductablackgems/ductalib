@@ -13,9 +13,11 @@ using _0.DucTALib.CustomButton;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.NET;
-using BG_Library.NET.Native_custom;
-using Sirenix.OdinInspector;
 
+using Sirenix.OdinInspector;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash.Scripts
 {
     [Serializable]
@@ -27,8 +29,8 @@ namespace _0.DucTALib.Splash.Scripts
 
     public class StepIntro : BaseStepSplash
     {
-
-        public TextMeshProUGUI tipText;
+#if USE_ADMOB_NATIVE
+public TextMeshProUGUI tipText;
         public CanvasGroup cvg;
         public NativeUIManager nativeFull;
         [Header("Ad & Content")] public ContentCarousel contentCarousel;
@@ -228,6 +230,8 @@ namespace _0.DucTALib.Splash.Scripts
 
             return listTips[index];
         }
+#endif
+        
 
     }
 }

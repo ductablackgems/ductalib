@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using BG_Library.NET.Native_custom;
-using _0.DucLib.Scripts.Common;
 
+using _0.DucLib.Scripts.Common;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucLib.Scripts.Ads.Native
 {
     public class UINativeController : MonoBehaviour
     {
-        public NativeUIManager nativeManager;
+#if USE_ADMOB_NATIVE
+ public NativeUIManager nativeManager;
 
         public GameObject nativePanel;
         public Button closeButton;
@@ -141,5 +144,7 @@ namespace _0.DucLib.Scripts.Ads.Native
             nativeManager?.FinishNative();
             nativePanel?.SetActive(false);
         }
+#endif
+       
     }
 }

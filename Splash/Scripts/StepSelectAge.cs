@@ -9,8 +9,10 @@ using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using BG_Library.NET;
-using BG_Library.NET.Native_custom;
 
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash.Scripts
 {
     public class StepSelectAge : BaseStepSplash
@@ -21,8 +23,8 @@ namespace _0.DucTALib.Splash.Scripts
             ClickPolicy
         }
 
-
-        [Header("UI Elements")] [SerializeField]
+#if USE_ADMOB_NATIVE
+[Header("UI Elements")] [SerializeField]
         private Toggle policyToggle;
 
         [SerializeField] private TextMeshProUGUI ageText;
@@ -58,10 +60,9 @@ namespace _0.DucTALib.Splash.Scripts
                 .ToList();
             if (nativeObjects.Count > 0)
             {
-#if USE_ADMOB_NATIVE
                 nativeObjects[0].native.Request(nativeObjects[0].adsPosition);
                 Debug.Log($"[Preload First] {nativeObjects[0].adsPosition}");
-#endif
+
             }
 
             gameObject.SetActive(false);
@@ -194,6 +195,8 @@ namespace _0.DucTALib.Splash.Scripts
             HideAds();
             Complete();
         }
+#endif
+        
 
     }
 }

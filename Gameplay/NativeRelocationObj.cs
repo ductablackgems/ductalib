@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Splash;
-using BG_Library.NET.Native_custom;
-using UnityEngine;
 
+using UnityEngine;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Gameplay
 {
     public class NativeRelocationObj : MonoBehaviour
     {
-        public int id;
+#if USE_ADMOB_NATIVE
+public int id;
         public NativeUIManager nativeUI;
         private Coroutine loadNativeIE;
         public bool active;
@@ -23,12 +26,12 @@ namespace _0.DucTALib.Gameplay
         private IEnumerator LoadNative(string pos)
         {
             
-#if USE_ADMOB_NATIVE
+
             nativeUI.Request(pos);
             yield return new WaitUntil(() => nativeUI.IsReady);
             nativeUI.Show();
             LogHelper.CheckPoint($"Relocation native {pos}");
-#endif
+
             yield return null;
         }
 
@@ -37,11 +40,12 @@ namespace _0.DucTALib.Gameplay
 #if IGNORE_ADS
             return;
 #endif
-#if USE_ADMOB_NATIVE
-            nativeUI.FinishNative();
-#endif
+
+
             
             if (loadNativeIE != null) StopCoroutine(loadNativeIE);
         }
+#endif
+        
     }
 }

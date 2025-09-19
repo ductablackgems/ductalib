@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
 using BG_Library.Common;
-using BG_Library.NET.Native_custom;
+
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash.Scripts
 {
     public class SplashNativeSetup : MonoBehaviour
     {
-        [FoldoutGroup("Static")][BoxGroup("Static/All Native")] public List<NativeUIManager> native;
+#if USE_ADMOB_NATIVE
+ [FoldoutGroup("Static")][BoxGroup("Static/All Native")] public List<NativeUIManager> native;
         [FoldoutGroup("Static")][BoxGroup("Static/Native Complete Intro")] public List<Image> NC_BGImage;
         [FoldoutGroup("Static")][BoxGroup("Static/Native Complete Intro")] public List<Image> NC_Button;
         [FoldoutGroup("Static")][BoxGroup("Static/Tutorial")] public List<Image> T_Button;
@@ -41,10 +44,9 @@ namespace _0.DucTALib.Splash.Scripts
                 var icon = Master.GetChildByName(a.gameObject, "AdIcon").GetComponent<RawImage>();
                 icon.texture = mainIcon;
 
-#if USE_ADMOB_NATIVE
                 a.defaultIcon = mainIcon;
                 a.defaultImage = spBg;
-#endif
+
             }
 
             foreach (var a in NC_BGImage)
@@ -75,5 +77,7 @@ namespace _0.DucTALib.Splash.Scripts
                 a.sprite = sp;
             }
         }
+#endif
+       
     }
 }

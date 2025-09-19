@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using BG_Library.NET;
-using BG_Library.NET.Native_custom;
-using UnityEngine;
 
+using UnityEngine;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash
 {
     public class NativeAdsIntro : SingletonMono<NativeAdsIntro>

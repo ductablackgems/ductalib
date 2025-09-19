@@ -15,12 +15,16 @@ using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.Common;
 using BG_Library.NET;
-using BG_Library.NET.Native_custom;
-using Random = UnityEngine.Random;
 
+using Random = UnityEngine.Random;
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucTALib.Splash
 {
-    [Serializable]
+    
+#if USE_ADMOB_NATIVE
+[Serializable]
     public class NativeObject
     {
         public string nativeUIName;
@@ -29,6 +33,8 @@ namespace _0.DucTALib.Splash
         public bool isNativeFull;
     }
 
+#endif
+    
     public enum AdFormatType
     {
         Native,
@@ -54,7 +60,8 @@ namespace _0.DucTALib.Splash
 
     public class GameSplash : SingletonMono<GameSplash>
     {
-        [Header("UI")] public Image loadingBar;
+#if USE_ADMOB_NATIVE
+ [Header("UI")] public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
 
@@ -279,5 +286,7 @@ namespace _0.DucTALib.Splash
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
+#endif
+       
     }
 }

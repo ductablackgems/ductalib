@@ -1,12 +1,16 @@
-﻿using BG_Library.NET.Native_custom;
+﻿
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if USE_ADMOB_NATIVE
+using BG_Library.NET.Native_custom;
+#endif
 namespace _0.DucLib.Scripts.Ads
 {
     public class NativeCameraUpdater : MonoBehaviour
     {
-        [SerializeField] private Canvas canvas;
+#if USE_ADMOB_NATIVE
+ [SerializeField] private Canvas canvas;
 
         private void Awake()
         {
@@ -45,5 +49,7 @@ namespace _0.DucLib.Scripts.Ads
                 Debug.LogWarning("No NativeCamera found in the scene.");
             }
         }
+#endif
+       
     }
 }
