@@ -17,7 +17,7 @@ namespace _0.DucTALib.Splash.Scripts
         [FoldoutGroup("Static")][BoxGroup("Static/Tutorial")] public List<Image> T_Button;
         [FoldoutGroup("Static")][BoxGroup("Static/Tutorial")] public List<Image> content;
 
-        [FoldoutGroup("Static")][BoxGroup("Custom/All Native")] public Texture mainIcon;
+        [FoldoutGroup("Custom")][BoxGroup("Custom/All Native")] public Texture mainIcon;
         [FoldoutGroup("Custom")][BoxGroup("Custom/All Native")] public List<Texture> backgroundNativeDefault;
         [FoldoutGroup("Custom")][BoxGroup("Custom/Native Complete Intro")] public Sprite NC_BGSprite;
         [FoldoutGroup("Custom")][BoxGroup("Custom/Native Complete Intro")] public List<Sprite> NC_ButtonSprite;
