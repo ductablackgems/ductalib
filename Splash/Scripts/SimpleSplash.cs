@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _0.DucLib.Scripts.Ads;
+using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
 using BG_Library.NET;
@@ -54,7 +55,9 @@ namespace _0.DucTALib.Splash.Scripts
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            CallAdsManager.LoadInterByGroup("bg_fa_launch");
+            CallAdsManager.LoadInterByGroup("launch");
+            yield return new WaitForSeconds(2);
+            loading.HideObject(); 
         }
         
         private IEnumerator WaitToLoadScene()
@@ -82,7 +85,7 @@ namespace _0.DucTALib.Splash.Scripts
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
-            CallAdsManager.ShowInter("bg_fa_launch");
+            CallAdsManager.ShowInter("launch");
             FinishLoading();
             
         }
