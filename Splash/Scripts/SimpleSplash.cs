@@ -25,6 +25,7 @@ namespace _0.DucTALib.Splash.Scripts
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
+
         [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -43,6 +44,7 @@ namespace _0.DucTALib.Splash.Scripts
             "Setting up user preferences...",
             "Finalizing game setup..."
         };
+
         private void Start()
         {
             SplashTracking.loading_duration.Reset();
@@ -50,16 +52,17 @@ namespace _0.DucTALib.Splash.Scripts
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
         }
-        
-        
+
+
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            CallAdsManager.LoadInterByGroup("launch");
+            LoadAdsManually.LoadBanner();
             yield return new WaitForSeconds(2);
-            loading.HideObject(); 
+            loading.HideObject();
+            LoadAdsManually.LoadInterByGroup("launch");
         }
-        
+
         private IEnumerator WaitToLoadScene()
         {
             yield return new WaitForEndOfFrame();
@@ -87,8 +90,8 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.SetUserProperty();
             CallAdsManager.ShowInter("launch");
             FinishLoading();
-            
         }
+
         private void FinishLoadingPhase()
         {
             loadingText.text = "Starting game...";
@@ -127,8 +130,8 @@ namespace _0.DucTALib.Splash.Scripts
 
         private void FinishLoading()
         {
-            CallAdsManager.LoadInterByGroup("gameplay");
-            CallAdsManager.LoadInterByGroup("break");
+            LoadAdsManually.LoadInterByGroup("gameplay");
+            LoadAdsManually.LoadReward();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }

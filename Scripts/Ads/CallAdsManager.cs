@@ -23,11 +23,7 @@ complete?.Invoke();
             AdsManager.ShowInterstitial(pos.ToString());
             complete?.Invoke();
         }
-        public  static void LoadInterByGroup(string group)
-        {
-            LogHelper.CheckPoint($"load inter group {group}");
-            AdsManager.InitInterstitialManually(group);
-        }
+      
         public static bool RewardedIsReady()
         {
             return AdsManager.IsRewardedReady;
