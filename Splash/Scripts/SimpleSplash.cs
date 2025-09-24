@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
@@ -9,6 +10,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash.Scripts
 {
@@ -44,23 +46,39 @@ namespace _0.DucTALib.Splash.Scripts
             "Setting up user preferences...",
             "Finalizing game setup..."
         };
-
+        private bool bannerLoaded = false;
         private void Start()
         {
             SplashTracking.loading_duration.Reset();
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
+            AndroidMediationEvent.OverlayNative.OnAdLoaded += BannerLoaded;
         }
 
+       
 
+        private void OnDestroy()
+        {
+            AndroidMediationEvent.OverlayNative.OnAdLoaded -= BannerLoaded;
+        }
+        private void BannerLoaded(string arg1, string arg2)
+        {
+            if (arg1 == AndroidMediationEvent.BannerNative)
+            {
+                LogHelper.CheckPoint("banner load done");
+                bannerLoaded = true;
+            }
+        }
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             LoadAdsManually.LoadBanner();
-            yield return new WaitForSeconds(2);
-            loading.HideObject();
+            
             LoadAdsManually.LoadInterByGroup("launch");
+            yield return new WaitUntil(() => bannerLoaded);
+            loading.HideObject();
+            CallAdsManager.ShowBanner();
         }
 
         private IEnumerator WaitToLoadScene()
