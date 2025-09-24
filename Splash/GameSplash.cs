@@ -113,7 +113,7 @@ namespace _0.DucTALib.Splash
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            CallAdsManager.LoadInterByGroup("launch");
+            LoadAdsManually.LoadInterByGroup("launch");
 #if USE_ADMOB_NATIVE
             native.Request("loading");
             yield return new WaitUntil(() => native.IsReady);
@@ -169,8 +169,8 @@ namespace _0.DucTALib.Splash
             yield return new WaitForEndOfFrame();
 
 
-            CallAdsManager.LoadInterByGroup("intro");
-            CallAdsManager.LoadInterByGroup("complete_intro");
+            LoadAdsManually.LoadInterByGroup("intro");
+            LoadAdsManually.LoadInterByGroup("complete_intro");
             SplashTracking.LoadingEnd();
             currentProgressTxt.HideObject();
             currentStepPanel = steps[currentStep];
@@ -275,14 +275,10 @@ namespace _0.DucTALib.Splash
 
         private void CompleteAllStep()
         {
-#if USE_ADMOB_MEDIATION && UNITY_ANDROID
-            AndroidMediation.AutoHideBanner = true;
-#endif
-            AdsManager.InitBannerManually();
-            CallAdsManager.LoadInterByGroup("gameplay");
-            CallAdsManager.LoadInterByGroup("break");
+            LoadAdsManually.LoadInterByGroup("gameplay");
+            LoadAdsManually.LoadReward();
+            LoadAdsManually.LoadBanner();
             currentStepPanel.HideObject();
-            CallAdsManager.HideMRECApplovin();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }

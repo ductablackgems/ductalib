@@ -66,7 +66,6 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (arg1 == AndroidMediationEvent.BannerNative)
             {
-                LogHelper.CheckPoint("banner load done");
                 bannerLoaded = true;
             }
         }
