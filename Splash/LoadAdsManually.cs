@@ -11,13 +11,19 @@ namespace _0.DucTALib.Splash
 {
     public class LoadAdsManually : SingletonMono<LoadAdsManually>
     {
+        private bool eventAdded = false;
         private void Start()
         {
             DontDestroyOnLoad(this);
             BG_Event.AdmobMediation.Mrec.OnAdLoaded += MRECLoadDone;
-            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
         }
 
+        private void AddEvent()
+        {
+            if(eventAdded) return;
+            eventAdded = true;
+            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
+        }
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
