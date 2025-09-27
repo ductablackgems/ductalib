@@ -12,9 +12,62 @@ namespace _0.DucLib.Scripts.Ads
         public static Action rewardNotReadyAction;
         public static string currentInterstitial => AdsManager.LastInterstitialPos;
 
+        public static void InitBannerLoading()
+        {
+#if IGNORE_ADS
+            return;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.InitializeBNNA();
+#elif UNITY_IOS
+#endif
+        }
+
+        public static void ShowBannerLoading()
+        {
+#if IGNORE_ADS
+            return;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.ShowBNNA();
+#elif UNITY_IOS
+#endif
+        }
+        public static void HideBannerLoading()
+        {
+#if IGNORE_ADS
+            return;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.HideBNNA();
+#elif UNITY_IOS
+#endif
+        }
+        public static void DestroyBannerLoading()
+        {
+#if IGNORE_ADS
+            return;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.InitializeBNNA();
+#elif UNITY_IOS
+#endif
+        }
+
+        public static bool BannerLoadingReady()
+        {
+#if IGNORE_ADS
+            return false;
+#endif
+#if UNITY_ANDROID
+            return Game3DCore2.IsBNNAReady();
+#elif UNITY_IOS
+            return false;
+#endif
+        }
+
         public static void ShowInter(string pos, Action complete = null)
         {
-            LogHelper.CheckPoint($"show inter {pos}");
             LogHelper.CheckPoint($"show inter {pos}");
 #if IGNORE_ADS
 complete?.Invoke();
@@ -23,7 +76,7 @@ complete?.Invoke();
             AdsManager.ShowInterstitial(pos.ToString());
             complete?.Invoke();
         }
-      
+
         public static bool RewardedIsReady()
         {
             return AdsManager.IsRewardedReady;
@@ -43,7 +96,40 @@ complete?.Invoke();
 
             return AdsManager.ShowRewardVideo(pos, actionDone);
         }
+        public static void InitONA(string group)
+        {
+#if IGNORE_ADS
+            return ;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.InitializeONA(group);
+#elif UNITY_IOS
+            return ;
+#endif
+        }
+        public static void ShowONA(string pos)
+        {
+#if IGNORE_ADS
+            return ;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.ShowONA(pos, 0,0);
+#elif UNITY_IOS
+            return ;
+#endif
+        }
 
+        public static void ClearONA(string pos)
+        {
+#if IGNORE_ADS
+            return ;
+#endif
+#if UNITY_ANDROID
+            Game3DCore2.ClearONA(pos);
+#elif UNITY_IOS
+            return ;
+#endif
+        }
         public static void ShowBanner()
         {
             AdsManager.ShowBanner();
@@ -54,7 +140,7 @@ complete?.Invoke();
             AdsManager.HideBanner();
         }
 
-       
+
         public static void ShowMREC(GameObject target)
         {
             LogHelper.CheckPoint("Call MREC overlay");
@@ -74,15 +160,18 @@ complete?.Invoke();
             AdsManager.ShowMrec(target, cam);
             AdsManager.UpdatePos(target, cam);
         }
+
         public static void UpdateMRECPosition(GameObject target)
         {
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
         }
+
         public static void UpdateMRECPosition(GameObject target, Camera cam, string pos)
         {
             AdsManager.ScreenName = pos;
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
         }
+
         public static void HideMRECApplovin()
         {
 #if IGNORE_ADS
@@ -91,7 +180,6 @@ complete?.Invoke();
             AdsManager.HideMrec();
         }
 
-    
 
         public static bool CheckInternet()
         {
@@ -102,22 +190,19 @@ complete?.Invoke();
         {
             //AdsManager.Ins.nativeOverlayManager.ShowAd();
         }
-        
-        public static Vector2 GetMRECSize()
-        {
-            return AdsManager.GetSizeMrec;
-        }
 
+  
         public static float GetDPIDevice()
         {
             return Screen.dpi / 160f;
         }
+
         public static Vector2 GetSizeMrec(RectTransform image)
         {
             float screenDensity = GetDPIDevice();
             float mrecWidthPx = 300 * screenDensity;
             float mrecHeightPx = 250 * screenDensity;
-           
+
             var canvas = Master.GetNearestCanvas(image);
             float referenceDpi = 160f;
             float scaleFactor = canvas.scaleFactor;

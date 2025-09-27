@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using BG_Library.Common;
 using BG_Library.NET;
@@ -14,31 +15,46 @@ namespace _0.DucTALib.Splash
         {
             DontDestroyOnLoad(this);
             BG_Event.AdmobMediation.Mrec.OnAdLoaded += MRECLoadDone;
+            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
         }
 
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
+            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed -= CallEndCard;
         }
 
+
+        public void CallEndCard(string groupName)
+        {
+            StartCoroutine(CallEndCardFullScreen());
+        }
+
+        private IEnumerator CallEndCardFullScreen()
+        {
+            yield return new WaitForSecondsRealtime(15f);
+            CallAdsManager.ShowONA("endcard");
+        }
 
         private void MRECLoadDone(string a, ResponseInfo info)
         {
             LogHelper.CheckPoint();
-            if(AdsManager.ScreenName == "") 
+            if (AdsManager.ScreenName == "")
                 AdsManager.HideMrec();
         }
-        
+
         public static void LoadBanner()
         {
             AdsManager.InitBannerManually();
         }
+
         public static void LoadMrec()
         {
             LogHelper.CheckPoint();
             AdsManager.InitMrecManually();
         }
-        public  static void LoadInterByGroup(string group)
+
+        public static void LoadInterByGroup(string group)
         {
             LogHelper.CheckPoint($"load inter group {group}");
             AdsManager.InitInterstitialManually(group);

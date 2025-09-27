@@ -46,38 +46,24 @@ namespace _0.DucTALib.Splash.Scripts
             "Setting up user preferences...",
             "Finalizing game setup..."
         };
-        private bool bannerLoaded = false;
+
         private void Start()
         {
             SplashTracking.loading_duration.Reset();
             SplashTracking.loading_duration.Start();
             StartCoroutine(AdsControl());
             StartCoroutine(WaitToLoadScene());
-            AndroidMediationEvent.OverlayNative.OnAdLoaded += BannerLoaded;
         }
 
-       
 
-        private void OnDestroy()
-        {
-            AndroidMediationEvent.OverlayNative.OnAdLoaded -= BannerLoaded;
-        }
-        private void BannerLoaded(string arg1, string arg2)
-        {
-            if (arg1 == AndroidMediationEvent.BannerNative)
-            {
-                bannerLoaded = true;
-            }
-        }
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
-            LoadAdsManually.LoadBanner();
-            
+            CallAdsManager.InitBannerLoading();
             LoadAdsManually.LoadInterByGroup("launch");
-            yield return new WaitUntil(() => bannerLoaded);
-            loading.HideObject();
+            yield return new WaitUntil(CallAdsManager.BannerLoadingReady);
             CallAdsManager.ShowBanner();
+            loading.HideObject();
         }
 
         private IEnumerator WaitToLoadScene()
@@ -148,6 +134,9 @@ namespace _0.DucTALib.Splash.Scripts
         private void FinishLoading()
         {
             LoadAdsManually.LoadInterByGroup("gameplay");
+            CallAdsManager.HideBannerLoading();
+            CallAdsManager.DestroyBannerLoading();
+            LoadAdsManually.LoadBanner();
             LoadAdsManually.LoadReward();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
