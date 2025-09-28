@@ -49,7 +49,7 @@ namespace _0.DucLib.Scripts.Ads
             return;
 #endif
 #if UNITY_ANDROID
-            Game3DCore2.InitializeBNNA();
+            Game3DCore2.ClearBNNA();
 #elif UNITY_IOS
 #endif
         }

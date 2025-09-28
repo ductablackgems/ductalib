@@ -18,11 +18,12 @@ namespace _0.DucTALib.Splash
             BG_Event.AdmobMediation.Mrec.OnAdLoaded += MRECLoadDone;
         }
 
-        private void AddEvent()
+        public void AddEndCardEvent()
         {
             if(eventAdded) return;
             eventAdded = true;
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
+            CallAdsManager.InitONA("endcard");
         }
         private void OnDestroy()
         {
