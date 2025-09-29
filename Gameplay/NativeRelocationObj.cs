@@ -12,7 +12,7 @@ namespace _0.DucTALib.Gameplay
     public class NativeRelocationObj : MonoBehaviour
     {
 #if USE_ADMOB_NATIVE
-public int id;
+        public int id;
         public NativeUIManager nativeUI;
         private Coroutine loadNativeIE;
         public bool active;

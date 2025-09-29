@@ -1,16 +1,18 @@
 ﻿using System;
 using _0.DucLib.Scripts.Common;
+
+#if !IGNORE_ADS
 using BG_Library.Common;
 using BG_Library.NET;
+#endif
+
 using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-    [CreateAssetMenu(fileName = "CallAdsManager", menuName = "DucLib/CallAdsManager")]
-    public class CallAdsManager : ResourceSOManager<CallAdsManager>
+    public static class CallAdsManager 
     {
         public static Action rewardNotReadyAction;
-        public static string currentInterstitial => AdsManager.LastInterstitialPos;
 
         public static void InitBannerLoading()
         {
@@ -98,6 +100,7 @@ complete?.Invoke();
         }
         public static void InitONA(string group)
         {
+            LogHelper.CheckPoint($"load ONA {group}");
 #if IGNORE_ADS
             return ;
 #endif
@@ -132,11 +135,17 @@ complete?.Invoke();
         }
         public static void ShowBanner()
         {
+#if IGNORE_ADS
+            return;
+#endif
             AdsManager.ShowBanner();
         }
 
         public static void HideBanner()
         {
+#if IGNORE_ADS
+            return;
+#endif
             AdsManager.HideBanner();
         }
 
@@ -163,11 +172,17 @@ complete?.Invoke();
 
         public static void UpdateMRECPosition(GameObject target)
         {
+#if IGNORE_ADS
+            return;
+#endif
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
         }
 
         public static void UpdateMRECPosition(GameObject target, Camera cam, string pos)
         {
+#if IGNORE_ADS
+            return;
+#endif
             AdsManager.ScreenName = pos;
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
         }

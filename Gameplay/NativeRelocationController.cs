@@ -6,17 +6,18 @@ using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash;
 using BG_Library.Common;
-
 using UnityEngine;
 #if USE_ADMOB_NATIVE
 using BG_Library.NET.Native_custom;
 #endif
+
 namespace _0.DucTALib.Gameplay
 {
     public class NativeRelocationController : SingletonMono<NativeRelocationController>
     {
+        public List<NativeRelocationObj> NativeObjects;
 #if USE_ADMOB_NATIVE
- public List<NativeRelocationObj> NativeObjects;
+
         protected override void Init()
         {
             base.Init();
@@ -24,11 +25,11 @@ namespace _0.DucTALib.Gameplay
             return;
 #endif
             var config = CommonRemoteConfig.instance.relocationNativeConfig;
-            if(NativeObjects.Count == 0) return;
+            if (NativeObjects.Count == 0) return;
             for (int i = 0; i < NativeObjects.Count; i++)
             {
                 var obj = NativeObjects[i];
-                var c = config.config.Find(x=>x.id == NativeObjects[i].id);
+                var c = config.config.Find(x => x.id == NativeObjects[i].id);
                 obj.active = c.active;
                 if (c.active)
                 {
@@ -43,18 +44,40 @@ namespace _0.DucTALib.Gameplay
 
         public bool ShowId(int id)
         {
-          var obj =   NativeObjects.Find(x => x.id == id);
-          if (obj == null || !obj.active ) return false;
-          obj.ShowObject();
-          return true;
+            var obj = NativeObjects.Find(x => x.id == id);
+            if (obj == null || !obj.active) return false;
+            obj.ShowObject();
+            return true;
         }
+
         public void HideId(int id)
         {
-            var obj =   NativeObjects.Find(x => x.id == id);
+            var obj = NativeObjects.Find(x => x.id == id);
             if (obj == null || !obj.active) return;
             obj.HideObject();
         }
+#else
+     protected override void Init()
+        {
+            base.Init();
+#if IGNORE_ADS
+            return;
 #endif
-       
+            foreach (var a in NativeObjects)
+            {
+                a.HideObject();
+            }
+        }
+
+        public bool ShowId(int id)
+        {
+            return false;
+        }
+
+        public void HideId(int id)
+        {
+            
+        }
+#endif
     }
 }

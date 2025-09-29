@@ -276,6 +276,7 @@ namespace _0.DucTALib.Splash
         private void CompleteAllStep()
         {
             LoadAdsManually.LoadInterByGroup("gameplay");
+            LoadAdsManually.LoadInterByGroup("break");
             LoadAdsManually.LoadReward();
             LoadAdsManually.LoadBanner();
             currentStepPanel.HideObject();
