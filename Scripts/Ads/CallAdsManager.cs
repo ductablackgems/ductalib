@@ -10,227 +10,218 @@ using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-    public static class CallAdsManager 
+    public static class CallAdsManager
     {
         public static Action rewardNotReadyAction;
 
-        public static void InitBannerLoading()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.InitializeBNNA();
-#elif UNITY_IOS
-#endif
-        }
+        private static readonly IAdsPlatform _impl;
 
-        public static void ShowBannerLoading()
+        static CallAdsManager()
         {
 #if IGNORE_ADS
-            return;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.ShowBNNA();
-#elif UNITY_IOS
-#endif
-        }
-        public static void HideBannerLoading()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.HideBNNA();
-#elif UNITY_IOS
+            _impl = new NoAdsPlatform();
+#elif UNITY_ANDROID
+            _impl = new AndroidAdsPlatform();
+#elif UNITY_IOS 
+            _impl = new IosAdsPlatform();
 #endif
         }
-        public static void DestroyBannerLoading()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.ClearBNNA();
-#elif UNITY_IOS
-#endif
-        }
+        public static void InitBannerLoading() => _impl.InitBannerLoading();
+        public static void ShowBannerLoading() => _impl.ShowBannerLoading();
+        public static void HideBannerLoading() => _impl.HideBannerLoading();
+        public static void DestroyBannerLoading() => _impl.DestroyBannerLoading();
+        public static bool BannerLoadingReady() => _impl.BannerLoadingReady();
 
-        public static bool BannerLoadingReady()
-        {
-#if IGNORE_ADS
-            return false;
-#endif
-#if UNITY_ANDROID
-            return Game3DCore2.IsBNNAReady();
-#elif UNITY_IOS
-            return false;
-#endif
-        }
+        public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
 
-        public static void ShowInter(string pos, Action complete = null)
+        public static bool RewardedIsReady() => _impl.RewardedIsReady();
+        public static bool ShowRewardVideo(string pos, Action actionDone) => _impl.ShowRewardVideo(pos, actionDone);
+
+        public static void InitONA(string group) => _impl.InitONA(group);
+        public static void ShowONA(string pos) => _impl.ShowONA(pos);
+        public static void ClearONA(string pos) => _impl.ClearONA(pos);
+
+        public static void ShowBanner() => _impl.ShowBanner();
+        public static void HideBanner() => _impl.HideBanner();
+
+        public static void ShowMREC(GameObject target) => _impl.ShowMREC(target);
+        public static void ShowMREC(GameObject target, Camera cam, string pos) => _impl.ShowMREC(target, cam, pos);
+        public static void UpdateMRECPosition(GameObject target) => _impl.UpdateMRECPosition(target);
+        public static void UpdateMRECPosition(GameObject target, Camera cam, string pos) => _impl.UpdateMRECPosition(target, cam, pos);
+        public static void HideMREC() => _impl.HideMREC();
+
+        public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
+        
+    }
+
+    internal interface IAdsPlatform
+    {
+        void InitBannerLoading();
+        void ShowBannerLoading();
+        void HideBannerLoading();
+        void DestroyBannerLoading();
+        bool BannerLoadingReady();
+
+        void ShowInter(string pos, Action complete);
+        bool RewardedIsReady();
+        bool ShowRewardVideo(string pos, Action actionDone);
+
+        void InitONA(string group);
+        void ShowONA(string pos);
+        void ClearONA(string pos);
+
+        void ShowBanner();
+        void HideBanner();
+
+        void ShowMREC(GameObject target);
+        void ShowMREC(GameObject target, Camera cam, string pos);
+        void UpdateMRECPosition(GameObject target);
+        void UpdateMRECPosition(GameObject target, Camera cam, string pos);
+        void HideMREC();
+    }
+
+    // ===================== IGNORE_ADS =====================
+#if IGNORE_ADS
+    internal sealed class NoAdsPlatform : IAdsPlatform
+    {
+        private static void Log(string m) => Debug.Log($"[Ads/Editor] {m}");
+
+        public void InitBannerLoading() { Log("InitBannerLoading"); }
+        public void ShowBannerLoading() { Log("ShowBannerLoading"); }
+        public void HideBannerLoading() { Log("HideBannerLoading"); }
+        public void DestroyBannerLoading() { Log("DestroyBannerLoading"); }
+        public bool BannerLoadingReady() { Log("BannerLoadingReady=false"); return false; }
+
+        public void ShowInter(string pos, Action complete) { Log($"ShowInter {pos}"); complete?.Invoke(); }
+        public bool RewardedIsReady() { Log("RewardedIsReady=true"); return true; }
+        public bool ShowRewardVideo(string pos, Action actionDone) { Log($"ShowRewardVideo {pos}"); actionDone?.Invoke(); return true; }
+
+        public void InitONA(string group) { Log($"InitONA {group}"); }
+        public void ShowONA(string pos) { Log($"ShowONA {pos}"); }
+        public void ClearONA(string pos) { Log($"ClearONA {pos}"); }
+
+        public void ShowBanner() { Log("ShowBanner"); }
+        public void HideBanner() { Log("HideBanner"); }
+
+        public void ShowMREC(GameObject target) { Log("ShowMREC overlay"); }
+        public void ShowMREC(GameObject target, Camera cam, string pos) { Log($"ShowMREC screen {pos}"); }
+        public void UpdateMRECPosition(GameObject target) { Log("UpdateMRECPosition"); }
+        public void UpdateMRECPosition(GameObject target, Camera cam, string pos) { Log($"UpdateMRECPosition {pos}"); }
+        public void HideMREC() { Log("HideMREC"); }
+    }
+#endif
+
+    // ===================== ANDROID (no editor) =====================
+#if UNITY_ANDROID 
+    internal sealed class AndroidAdsPlatform : IAdsPlatform
+    {
+        public void InitBannerLoading() { Game3DCore2.InitializeBNNA(); }
+        public void ShowBannerLoading() { Game3DCore2.ShowBNNA(); }
+        public void HideBannerLoading() { Game3DCore2.HideBNNA(); }
+        public void DestroyBannerLoading() { Game3DCore2.ClearBNNA(); }
+        public bool BannerLoadingReady() => Game3DCore2.IsBNNAReady();
+
+        public void ShowInter(string pos, Action complete)
         {
             LogHelper.CheckPoint($"show inter {pos}");
-#if IGNORE_ADS
-complete?.Invoke();
-            return;
-#endif
-            AdsManager.ShowInterstitial(pos.ToString());
+            AdsManager.ShowInterstitial(pos);
             complete?.Invoke();
         }
 
-        public static bool RewardedIsReady()
-        {
-            return AdsManager.IsRewardedReady;
-        }
+        public bool RewardedIsReady() => AdsManager.IsRewardedReady;
 
-        public static bool ShowRewardVideo(string pos, Action actionDone)
+        public bool ShowRewardVideo(string pos, Action actionDone)
         {
-#if IGNORE_ADS
-                actionDone?.Invoke();
-                return true;
-#endif
             if (!RewardedIsReady())
             {
-                rewardNotReadyAction?.Invoke();
+                CallAdsManager.rewardNotReadyAction?.Invoke();
                 return false;
             }
-
             return AdsManager.ShowRewardVideo(pos, actionDone);
         }
-        public static void InitONA(string group)
+
+        public void InitONA(string group)
         {
             LogHelper.CheckPoint($"load ONA {group}");
-#if IGNORE_ADS
-            return ;
-#endif
-#if UNITY_ANDROID
             Game3DCore2.InitializeONA(group);
-#elif UNITY_IOS
-            return ;
-#endif
-        }
-        public static void ShowONA(string pos)
-        {
-#if IGNORE_ADS
-            return ;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.ShowONA(pos, 0,0);
-#elif UNITY_IOS
-            return ;
-#endif
         }
 
-        public static void ClearONA(string pos)
-        {
-#if IGNORE_ADS
-            return ;
-#endif
-#if UNITY_ANDROID
-            Game3DCore2.ClearONA(pos);
-#elif UNITY_IOS
-            return ;
-#endif
-        }
-        public static void ShowBanner()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.ShowBanner();
-        }
+        public void ShowONA(string pos) { Game3DCore2.ShowONA(pos, 0, 0); }
+        public void ClearONA(string pos) { Game3DCore2.ClearONA(pos); }
 
-        public static void HideBanner()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.HideBanner();
-        }
+        public void ShowBanner() { AdsManager.ShowBanner(); }
+        public void HideBanner() { AdsManager.HideBanner(); }
 
-
-        public static void ShowMREC(GameObject target)
+        public void ShowMREC(GameObject target) { AdsManager.ShowMrec(target); }
+        public void ShowMREC(GameObject target, Camera cam, string pos)
         {
-            LogHelper.CheckPoint("Call MREC overlay");
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.ShowMrec(target);
-        }
-
-        public static void ShowMREC(GameObject target, Camera cam, string pos)
-        {
-            LogHelper.CheckPoint("Call MREC screen space");
-#if IGNORE_ADS
-            return;
-#endif
             AdsManager.ScreenName = pos;
             AdsManager.ShowMrec(target, cam);
             AdsManager.UpdatePos(target, cam);
         }
-
-        public static void UpdateMRECPosition(GameObject target)
+        public void UpdateMRECPosition(GameObject target) { AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target); }
+        public void UpdateMRECPosition(GameObject target, Camera cam, string pos)
         {
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
-        }
-
-        public static void UpdateMRECPosition(GameObject target, Camera cam, string pos)
-        {
-#if IGNORE_ADS
-            return;
-#endif
             AdsManager.ScreenName = pos;
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
         }
-
-        public static void HideMRECApplovin()
-        {
-#if IGNORE_ADS
-            return;
-#endif
-            AdsManager.HideMrec();
-        }
-
-
-        public static bool CheckInternet()
-        {
-            return Application.internetReachability != NetworkReachability.NotReachable;
-        }
-
-        public static void ShowNativeOverlay()
-        {
-            //AdsManager.Ins.nativeOverlayManager.ShowAd();
-        }
-
-  
-        public static float GetDPIDevice()
-        {
-            return Screen.dpi / 160f;
-        }
-
-        public static Vector2 GetSizeMrec(RectTransform image)
-        {
-            float screenDensity = GetDPIDevice();
-            float mrecWidthPx = 300 * screenDensity;
-            float mrecHeightPx = 250 * screenDensity;
-
-            var canvas = Master.GetNearestCanvas(image);
-            float referenceDpi = 160f;
-            float scaleFactor = canvas.scaleFactor;
-
-            float width = mrecWidthPx / scaleFactor;
-            float height = mrecHeightPx / scaleFactor;
-            return new Vector2(width, height);
-        }
-
-        public static void ResizeMREC(RectTransform image)
-        {
-            var size = GetSizeMrec(image);
-            image.sizeDelta = new Vector2(size.x, size.y);
-        }
+        public void HideMREC() { AdsManager.HideMrec(); }
     }
+#endif
+
+    // ===================== iOS (no editor) =====================
+#if UNITY_IOS 
+    internal sealed class IosAdsPlatform : IAdsPlatform
+    {
+        // iOS không có Game3DCore2 – chỉ dùng AdsManager
+        public void InitBannerLoading() { }
+        public void ShowBannerLoading() { }
+        public void HideBannerLoading() { }
+        public void DestroyBannerLoading() { }
+        public bool BannerLoadingReady() => false;
+
+        public void ShowInter(string pos, Action complete)
+        {
+            LogHelper.CheckPoint($"show inter (iOS) {pos}");
+            AdsManager.ShowInterstitial(pos);
+            complete?.Invoke();
+        }
+
+        public bool RewardedIsReady() => AdsManager.IsRewardedReady;
+
+        public bool ShowRewardVideo(string pos, Action actionDone)
+        {
+            if (!RewardedIsReady())
+            {
+                CallAdsManager.rewardNotReadyAction?.Invoke();
+                return false;
+            }
+            return AdsManager.ShowRewardVideo(pos, actionDone);
+        }
+
+        public void InitONA(string group) { /* iOS ONA nếu có SDK riêng thì thêm sau */ }
+        public void ShowONA(string pos) { }
+        public void ClearONA(string pos) { }
+
+        public void ShowBanner() { AdsManager.ShowBanner(); }
+        public void HideBanner() { AdsManager.HideBanner(); }
+
+        public void ShowMREC(GameObject target) { AdsManager.ShowMrec(target); }
+        public void ShowMREC(GameObject target, Camera cam, string pos)
+        {
+            AdsManager.ScreenName = pos;
+            AdsManager.ShowMrec(target, cam);
+            AdsManager.UpdatePos(target, cam);
+        }
+        public void UpdateMRECPosition(GameObject target) { AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target); }
+        public void UpdateMRECPosition(GameObject target, Camera cam, string pos)
+        {
+            AdsManager.ScreenName = pos;
+            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
+        }
+        public void HideMREC() { AdsManager.HideMrec(); }
+    }
+#endif
+
+
 }
