@@ -58,7 +58,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator AdsControl()
         {
-            yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
+            yield return new WaitUntil(() => RemoteConfig.Ins.isDataFetched);
             CallAdsManager.InitBannerLoading();
             LoadAdsManually.LoadInterByGroup("launch");
             yield return new WaitUntil(CallAdsManager.BannerLoadingReady);
@@ -77,9 +77,7 @@ namespace _0.DucTALib.Splash.Scripts
                 yield return null;
             }
 
-            loadDuration = RemoteConfig.Ins.isDataFetched
-                ? CommonRemoteConfig.instance.splashConfig.timeoutMin
-                : 15f;
+            loadDuration = 15f;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
             while (currentTime < loadDuration)

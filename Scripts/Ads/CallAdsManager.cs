@@ -1,7 +1,7 @@
 ﻿using System;
-using _0.DucLib.Scripts.Common;
 
 #if !IGNORE_ADS
+using _0.DucLib.Scripts.Common;
 using BG_Library.Common;
 using BG_Library.NET;
 #endif
@@ -118,10 +118,9 @@ namespace _0.DucLib.Scripts.Ads
         public void UpdateMRECPosition(GameObject target, Camera cam, string pos) { Log($"UpdateMRECPosition {pos}"); }
         public void HideMREC() { Log("HideMREC"); }
     }
-#endif
 
     // ===================== ANDROID (no editor) =====================
-#if UNITY_ANDROID 
+#elif UNITY_ANDROID 
     internal sealed class AndroidAdsPlatform : IAdsPlatform
     {
         public void InitBannerLoading() { Game3DCore2.InitializeBNNA(); }
@@ -185,10 +184,9 @@ namespace _0.DucLib.Scripts.Ads
         }
         public void HideMREC() { AdsManager.HideMrec(); }
     }
-#endif
 
     // ===================== iOS (no editor) =====================
-#if UNITY_IOS 
+#elif UNITY_IOS 
     internal sealed class IosAdsPlatform : IAdsPlatform
     {
         // iOS không có Game3DCore2 – chỉ dùng AdsManager
