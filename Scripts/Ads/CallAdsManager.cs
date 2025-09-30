@@ -12,6 +12,7 @@ namespace _0.DucLib.Scripts.Ads
 {
     public static class CallAdsManager
     {
+        public static string sceneName;
         public static Action rewardNotReadyAction;
 
         private static readonly IAdsPlatform _impl;
@@ -43,8 +44,11 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
+        
+        public static void ShowCollapseBanner() => _impl.ShowCollapseBanner();
+        public static void HideCollapseBanner() => _impl.HideCollapseBanner();
 
-        public static void ShowMREC(GameObject target) => _impl.ShowMREC(target);
+        public static void ShowMREC(GameObject target, string pos) => _impl.ShowMREC(target);
         public static void ShowMREC(GameObject target, Camera cam, string pos) => _impl.ShowMREC(target, cam, pos);
         public static void UpdateMRECPosition(GameObject target) => _impl.UpdateMRECPosition(target);
         public static void UpdateMRECPosition(GameObject target, Camera cam, string pos) => _impl.UpdateMRECPosition(target, cam, pos);
@@ -61,7 +65,7 @@ namespace _0.DucLib.Scripts.Ads
         void HideBannerLoading();
         void DestroyBannerLoading();
         bool BannerLoadingReady();
-
+        
         void ShowInter(string pos, Action complete);
         bool RewardedIsReady();
         bool ShowRewardVideo(string pos, Action actionDone);
@@ -73,6 +77,8 @@ namespace _0.DucLib.Scripts.Ads
         void ShowBanner();
         void HideBanner();
 
+        void ShowCollapseBanner();
+        void HideCollapseBanner();
         void ShowMREC(GameObject target);
         void ShowMREC(GameObject target, Camera cam, string pos);
         void UpdateMRECPosition(GameObject target);
@@ -102,6 +108,9 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowBanner() { Log("ShowBanner"); }
         public void HideBanner() { Log("HideBanner"); }
+
+        public void ShowCollapseBanner(){Debug.Log("Show Collapse Banner");}
+        public void HideCollapseBanner(){Debug.Log("Hide Collapse Banner");}
 
         public void ShowMREC(GameObject target) { Log("ShowMREC overlay"); }
         public void ShowMREC(GameObject target, Camera cam, string pos) { Log($"ShowMREC screen {pos}"); }
@@ -151,18 +160,27 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowBanner() { AdsManager.ShowBanner(); }
         public void HideBanner() { AdsManager.HideBanner(); }
+        public void ShowCollapseBanner()
+        {
+            Debug.Log("Show Collapse Banner");
+        }
+
+        public void HideCollapseBanner()
+        {
+            Debug.Log("Hide Collapse Banner");
+        }
 
         public void ShowMREC(GameObject target) { AdsManager.ShowMrec(target); }
         public void ShowMREC(GameObject target, Camera cam, string pos)
         {
-            AdsManager.ScreenName = pos;
+            CallAdsManager.sceneName = pos;
             AdsManager.ShowMrec(target, cam);
             AdsManager.UpdatePos(target, cam);
         }
         public void UpdateMRECPosition(GameObject target) { AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target); }
         public void UpdateMRECPosition(GameObject target, Camera cam, string pos)
         {
-            AdsManager.ScreenName = pos;
+            CallAdsManager.sceneName = pos;
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
         }
         public void HideMREC() { AdsManager.HideMrec(); }

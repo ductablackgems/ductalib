@@ -46,7 +46,7 @@ namespace _0.DucTALib.Splash
         private void MRECLoadDone(string a, ResponseInfo info)
         {
             LogHelper.CheckPoint();
-            if (AdsManager.ScreenName == "")
+            if (CallAdsManager.sceneName == "")
                 AdsManager.HideMrec();
         }
 
