@@ -15,16 +15,15 @@ using _0.DucTALib.Scripts.Loading;
 using _0.DucTALib.Splash.Scripts;
 using BG_Library.Common;
 using BG_Library.NET;
-
 using Random = UnityEngine.Random;
 #if USE_ADMOB_NATIVE
 using BG_Library.NET.Native_custom;
 #endif
+
 namespace _0.DucTALib.Splash
 {
-    
 #if USE_ADMOB_NATIVE
-[Serializable]
+    [Serializable]
     public class NativeObject
     {
         public string nativeUIName;
@@ -34,7 +33,7 @@ namespace _0.DucTALib.Splash
     }
 
 #endif
-    
+
     public enum AdFormatType
     {
         Native,
@@ -61,7 +60,7 @@ namespace _0.DucTALib.Splash
     public class GameSplash : SingletonMono<GameSplash>
     {
 #if USE_ADMOB_NATIVE
- [Header("UI")] public Image loadingBar;
+        [Header("UI")] public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
 
@@ -74,6 +73,7 @@ namespace _0.DucTALib.Splash
         public GameObject loading;
 
         public SplashNativeSetup splashNativeSetup;
+
         [Header("Loading Config")] [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -109,7 +109,7 @@ namespace _0.DucTALib.Splash
             StartCoroutine(WaitToLoadScene());
         }
 
-    
+
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
@@ -126,6 +126,7 @@ namespace _0.DucTALib.Splash
         {
             loadDuration = 0;
         }
+
         private IEnumerator WaitToLoadScene()
         {
             yield return new WaitForEndOfFrame();
@@ -164,7 +165,7 @@ namespace _0.DucTALib.Splash
                 yield break;
             }
 
-            
+
             SetUpStep();
             yield return new WaitForEndOfFrame();
 
@@ -284,6 +285,5 @@ namespace _0.DucTALib.Splash
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
 #endif
-       
     }
 }
