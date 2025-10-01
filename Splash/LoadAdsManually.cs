@@ -20,15 +20,20 @@ namespace _0.DucTALib.Splash
 
         public void AddEndCardEvent()
         {
+#if UNITY_ANDROID
             if(eventAdded) return;
             eventAdded = true;
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
             CallAdsManager.InitONA("endcard");
+#endif
+            
         }
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
+#if UNITY_ANDROID
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed -= CallEndCard;
+#endif
         }
 
 

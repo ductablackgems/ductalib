@@ -83,7 +83,7 @@ public TextMeshProUGUI tipText;
                 currentButton.HideObject();
                 currentDelayButtonTxt.HideObject();
                
-                CallAdsManager.HideMRECApplovin();
+                CallAdsManager.HideMREC();
             }
 #endif
         }

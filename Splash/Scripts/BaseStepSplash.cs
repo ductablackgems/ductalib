@@ -45,7 +45,7 @@ namespace _0.DucTALib.Splash.Scripts
         public virtual void Complete()
         {
             gameObject.HideObject();
-            CallAdsManager.HideMRECApplovin();
+            CallAdsManager.HideMREC();
             GameSplash.instance.NextStep();
         }
 

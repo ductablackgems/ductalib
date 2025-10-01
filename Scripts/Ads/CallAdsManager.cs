@@ -23,10 +23,11 @@ namespace _0.DucLib.Scripts.Ads
             _impl = new NoAdsPlatform();
 #elif UNITY_ANDROID
             _impl = new AndroidAdsPlatform();
-#elif UNITY_IOS 
+#elif UNITY_IOS
             _impl = new IosAdsPlatform();
 #endif
         }
+
         public static void InitBannerLoading() => _impl.InitBannerLoading();
         public static void ShowBannerLoading() => _impl.ShowBannerLoading();
         public static void HideBannerLoading() => _impl.HideBannerLoading();
@@ -44,18 +45,27 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
-        
+
         public static void ShowCollapseBanner() => _impl.ShowCollapseBanner();
         public static void HideCollapseBanner() => _impl.HideCollapseBanner();
 
-        public static void ShowMREC(GameObject target, string pos) => _impl.ShowMREC(target);
-        public static void ShowMREC(GameObject target, Camera cam, string pos) => _impl.ShowMREC(target, cam, pos);
-        public static void UpdateMRECPosition(GameObject target) => _impl.UpdateMRECPosition(target);
-        public static void UpdateMRECPosition(GameObject target, Camera cam, string pos) => _impl.UpdateMRECPosition(target, cam, pos);
+        public static void ShowMREC(GameObject target, string pos)
+        {
+            sceneName = pos;
+            _impl.ShowMREC(target);
+            _impl.UpdateMRECPosition(target);
+        }
+
+        public static void ShowMREC(GameObject target, Camera cam, string pos)
+        {
+            sceneName = pos;
+            _impl.ShowMREC(target, cam);
+            _impl.UpdateMRECPosition(target, cam);
+        }
+
         public static void HideMREC() => _impl.HideMREC();
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
-        
     }
 
     internal interface IAdsPlatform
@@ -65,7 +75,7 @@ namespace _0.DucLib.Scripts.Ads
         void HideBannerLoading();
         void DestroyBannerLoading();
         bool BannerLoadingReady();
-        
+
         void ShowInter(string pos, Action complete);
         bool RewardedIsReady();
         bool ShowRewardVideo(string pos, Action actionDone);
@@ -80,9 +90,9 @@ namespace _0.DucLib.Scripts.Ads
         void ShowCollapseBanner();
         void HideCollapseBanner();
         void ShowMREC(GameObject target);
-        void ShowMREC(GameObject target, Camera cam, string pos);
+        void ShowMREC(GameObject target, Camera cam);
         void UpdateMRECPosition(GameObject target);
-        void UpdateMRECPosition(GameObject target, Camera cam, string pos);
+        void UpdateMRECPosition(GameObject target, Camera cam);
         void HideMREC();
     }
 
@@ -120,7 +130,7 @@ namespace _0.DucLib.Scripts.Ads
     }
 
     // ===================== ANDROID (no editor) =====================
-#elif UNITY_ANDROID 
+#elif UNITY_ANDROID
     internal sealed class AndroidAdsPlatform : IAdsPlatform
     {
         public void InitBannerLoading() { Game3DCore2.InitializeBNNA(); }
@@ -186,14 +196,26 @@ namespace _0.DucLib.Scripts.Ads
     }
 
     // ===================== iOS (no editor) =====================
-#elif UNITY_IOS 
+#elif UNITY_IOS
     internal sealed class IosAdsPlatform : IAdsPlatform
     {
         // iOS không có Game3DCore2 – chỉ dùng AdsManager
-        public void InitBannerLoading() { }
-        public void ShowBannerLoading() { }
-        public void HideBannerLoading() { }
-        public void DestroyBannerLoading() { }
+        public void InitBannerLoading()
+        {
+        }
+
+        public void ShowBannerLoading()
+        {
+        }
+
+        public void HideBannerLoading()
+        {
+        }
+
+        public void DestroyBannerLoading()
+        {
+        }
+
         public bool BannerLoadingReady() => false;
 
         public void ShowInter(string pos, Action complete)
@@ -212,32 +234,67 @@ namespace _0.DucLib.Scripts.Ads
                 CallAdsManager.rewardNotReadyAction?.Invoke();
                 return false;
             }
+
             return AdsManager.ShowRewardVideo(pos, actionDone);
         }
 
-        public void InitONA(string group) { /* iOS ONA nếu có SDK riêng thì thêm sau */ }
-        public void ShowONA(string pos) { }
-        public void ClearONA(string pos) { }
-
-        public void ShowBanner() { AdsManager.ShowBanner(); }
-        public void HideBanner() { AdsManager.HideBanner(); }
-
-        public void ShowMREC(GameObject target) { AdsManager.ShowMrec(target); }
-        public void ShowMREC(GameObject target, Camera cam, string pos)
+        public void InitONA(string group)
         {
-            AdsManager.ScreenName = pos;
-            AdsManager.ShowMrec(target, cam);
-            AdsManager.UpdatePos(target, cam);
+            /* iOS ONA nếu có SDK riêng thì thêm sau */
         }
-        public void UpdateMRECPosition(GameObject target) { AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target); }
-        public void UpdateMRECPosition(GameObject target, Camera cam, string pos)
+
+        public void ShowONA(string pos)
         {
-            AdsManager.ScreenName = pos;
+        }
+
+        public void ClearONA(string pos)
+        {
+        }
+
+        public void ShowBanner()
+        {
+            AdsManager.ShowBanner();
+        }
+
+        public void HideBanner()
+        {
+            AdsManager.HideBanner();
+        }
+
+        public void ShowCollapseBanner()
+        {
+            LogHelper.CheckPoint();
+        }
+
+        public void HideCollapseBanner()
+        {
+            LogHelper.CheckPoint();
+        }
+
+        public void ShowMREC(GameObject target)
+        {
+            AdsManager.ShowMrec(target);
+        }
+
+        public void ShowMREC(GameObject target, Camera cam)
+        {
+            AdsManager.ShowMrec(target, cam);
+        }
+
+        public void UpdateMRECPosition(GameObject target)
+        {
+            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
+        }
+
+        public void UpdateMRECPosition(GameObject target, Camera cam)
+        {
             AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
         }
-        public void HideMREC() { AdsManager.HideMrec(); }
+
+        public void HideMREC()
+        {
+            AdsManager.HideMrec();
+        }
     }
 #endif
-
-
 }
