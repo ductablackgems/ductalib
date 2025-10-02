@@ -19,10 +19,10 @@ namespace _0.DucLib.Scripts.Ads
 
         static CallAdsManager()
         {
-#if IGNORE_ADS
-            _impl = new NoAdsPlatform();
-#elif UNITY_ANDROID
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION
             _impl = new AndroidAdsPlatform();
+#elif UNITY_ANDROID
+            _impl = new NoAdsPlatform();
 #elif UNITY_IOS
             _impl = new IosAdsPlatform();
 #endif
