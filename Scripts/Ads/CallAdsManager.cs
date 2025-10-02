@@ -232,11 +232,14 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowMREC(GameObject target)
         {
+            LogHelper.CheckPoint();
             AdsManager.ShowMrec(target);
+            AdsManager.UpdatePos(target);
         }
 
         public void ShowMREC(GameObject target, Camera cam)
         {
+            LogHelper.CheckPoint();
             AdsManager.ShowMrec(target, cam);
             AdsManager.UpdatePos(target, cam);
         }
