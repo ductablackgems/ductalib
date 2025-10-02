@@ -125,6 +125,7 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class CommonConfig
     {
+        public bool useAllBannerAdmob;
         public bool isProduct;
         public int testSegment;
         public static CommonConfig CreateDefault()

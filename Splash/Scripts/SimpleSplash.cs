@@ -27,7 +27,6 @@ namespace _0.DucTALib.Splash.Scripts
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
-
         [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -62,7 +61,6 @@ namespace _0.DucTALib.Splash.Scripts
             CallAdsManager.InitBannerLoading();
             CallAdsManager.LoadInterByGroup("launch");
             yield return new WaitUntil(CallAdsManager.BannerLoadingReady);
-            CallAdsManager.ShowBanner();
             loading.HideObject();
         }
 
@@ -131,11 +129,14 @@ namespace _0.DucTALib.Splash.Scripts
 
         private void FinishLoading()
         {
-            CallAdsManager.HideBannerLoading();
+            if (CommonRemoteConfig.ins.commonConfig.useAllBannerAdmob)
+            {
+                CallAdsManager.HideBannerLoading();
+                CallAdsManager.LoadBanner();
+            }
             CallAdsManager.DestroyBannerLoading();
             CallAdsManager.LoadInterByGroup("gameplay");
             CallAdsManager.LoadInterByGroup("break");
-            CallAdsManager.LoadBanner();
             CallAdsManager.LoadReward();
             LoadAdsManually.ins.AddEndCardEvent();
             LoadingScene.instance.LoadMenu();
