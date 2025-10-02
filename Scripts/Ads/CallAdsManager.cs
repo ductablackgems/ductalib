@@ -32,25 +32,22 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void LoadBanner()
         {
-            AdsManager.InitBannerManually();
+            _impl.InitBanner();
         }
 
         public static void LoadMrec()
         {
-            LogHelper.CheckPoint();
-            AdsManager.InitMrecManually();
+            _impl.InitMREC();
         }
 
         public static void LoadInterByGroup(string group)
         {
-            LogHelper.CheckPoint($"load inter group {group}");
-            AdsManager.InitInterstitialManually(group);
+            _impl.InitInter(group);
         }
 
         public static void LoadReward()
         {
-            LogHelper.CheckPoint();
-            AdsManager.InitRewardManually();
+            _impl.InitReward();
         }
 
         #endregion
