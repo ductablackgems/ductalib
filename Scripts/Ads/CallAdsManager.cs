@@ -1,4 +1,5 @@
 ﻿using System;
+using GoogleMobileAds.Api;
 
 #if !IGNORE_ADS
 using _0.DucLib.Scripts.Common;
@@ -66,7 +67,7 @@ namespace _0.DucLib.Scripts.Ads
         public static void InitONA(string group) => _impl.InitONA(group);
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
-
+        public static void HideONA(string pos){}
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
@@ -77,14 +78,18 @@ namespace _0.DucLib.Scripts.Ads
         {
             sceneName = pos;
             _impl.ShowMREC(target);
-            _impl.UpdateMRECPosition(target);
         }
 
         public static void ShowMREC(GameObject target, Camera cam, string pos)
         {
             sceneName = pos;
             _impl.ShowMREC(target, cam);
-            _impl.UpdateMRECPosition(target, cam);
+        }
+
+        public static void ShowMREC(AdPosition adPosition, string pos)
+        {
+            sceneName = pos;
+            _impl.ShowMREC(adPosition);
         }
 
         public static void HideMREC() => _impl.HideMREC();
@@ -120,8 +125,7 @@ namespace _0.DucLib.Scripts.Ads
         void HideCollapseBanner();
         void ShowMREC(GameObject target);
         void ShowMREC(GameObject target, Camera cam);
-        void UpdateMRECPosition(GameObject target);
-        void UpdateMRECPosition(GameObject target, Camera cam);
+        void ShowMREC(AdPosition adPosition);
         void HideMREC();
     }
 
@@ -134,7 +138,7 @@ namespace _0.DucLib.Scripts.Ads
     {
         public void InitBanner()
         {
-           AdsManager.InitBannerManually();
+            AdsManager.InitBannerManually();
         }
 
         public void InitMREC()
@@ -144,12 +148,13 @@ namespace _0.DucLib.Scripts.Ads
 
         public void InitInter(string group)
         {
+            LogHelper.CheckPoint($"load inter {group}");
             AdsManager.InitInterstitialManually(group);
         }
 
         public void InitReward()
         {
-           AdsManager.InitRewardManually();
+            AdsManager.InitRewardManually();
         }
 
         public void InitBannerLoading()
@@ -232,26 +237,20 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowMREC(GameObject target)
         {
-            LogHelper.CheckPoint();
             AdsManager.ShowMrec(target);
             AdsManager.UpdatePos(target);
         }
 
         public void ShowMREC(GameObject target, Camera cam)
         {
-            LogHelper.CheckPoint();
             AdsManager.ShowMrec(target, cam);
             AdsManager.UpdatePos(target, cam);
         }
 
-        public void UpdateMRECPosition(GameObject target)
+        public void ShowMREC(AdPosition adPosition)
         {
-            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
-        }
-
-        public void UpdateMRECPosition(GameObject target, Camera cam)
-        {
-            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
+            AdsManager.ShowMrec((int)adPosition);
+            AdsManager.UpdatePos((int)adPosition);
         }
 
         public void HideMREC()
@@ -373,15 +372,9 @@ namespace _0.DucLib.Scripts.Ads
         {
             Log($"ShowMREC screen ");
         }
-
-        public void UpdateMRECPosition(GameObject target)
+ public void ShowMREC(AdPosition adPosition)
         {
-            Log("UpdateMRECPosition");
-        }
-
-        public void UpdateMRECPosition(GameObject target, Camera cam)
-        {
-            Log($"UpdateMRECPosition ");
+            Log($"ShowMREC screen ");
         }
 
         public void HideMREC()
@@ -485,26 +478,23 @@ namespace _0.DucLib.Scripts.Ads
             LogHelper.CheckPoint();
         }
 
-        public void ShowMREC(GameObject target)
+          public void ShowMREC(GameObject target)
         {
             AdsManager.ShowMrec(target);
+            AdsManager.UpdatePos(target);
         }
 
         public void ShowMREC(GameObject target, Camera cam)
         {
             AdsManager.ShowMrec(target, cam);
+            AdsManager.UpdatePos(target, cam);
         }
 
-        public void UpdateMRECPosition(GameObject target)
+        public void ShowMREC(AdPosition adPosition)
         {
-            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target);
+            AdsManager.ShowMrec((int)adPosition);
+            AdsManager.UpdatePos((int)adPosition);
         }
-
-        public void UpdateMRECPosition(GameObject target, Camera cam)
-        {
-            AdsManager.Ins.AdsCoreIns.UpdateMrecPos(target, cam);
-        }
-
         public void HideMREC()
         {
             AdsManager.HideMrec();
