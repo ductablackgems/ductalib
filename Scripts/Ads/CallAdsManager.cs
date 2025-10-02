@@ -256,7 +256,7 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.HideMrec();
         }
     }
-#elif UNITY_ANDROID || UNITY_EDITOR
+#elif UNITY_ANDROID
     internal sealed class NoAdsPlatform : IAdsPlatform
     {
         public void InitBanner()
