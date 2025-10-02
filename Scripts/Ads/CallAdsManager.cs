@@ -126,48 +126,10 @@ namespace _0.DucLib.Scripts.Ads
     }
 
     // ===================== IGNORE_ADS =====================
-#if IGNORE_ADS
-    internal sealed class NoAdsPlatform : IAdsPlatform
-    {
 
-         public void InitBanner() { Log("InitBanner"); }
-
-        public void InitMREC() { Log("InitMREC"); }
-
-        public void InitInter(string group) { Log($"InitInter {group}"); }
-
-        public void InitReward() { Log("InitReward"); }
-        private static void Log(string m) => Debug.Log($"[Ads/Editor] {m}");
-
-        public void InitBannerLoading() { Log("InitBannerLoading"); }
-        public void ShowBannerLoading() { Log("ShowBannerLoading"); }
-        public void HideBannerLoading() { Log("HideBannerLoading"); }
-        public void DestroyBannerLoading() { Log("DestroyBannerLoading"); }
-        public bool BannerLoadingReady() { Log("BannerLoadingReady=false"); return false; }
-
-        public void ShowInter(string pos, Action complete) { Log($"ShowInter {pos}"); complete?.Invoke(); }
-        public bool RewardedIsReady() { Log("RewardedIsReady=true"); return true; }
-        public bool ShowRewardVideo(string pos, Action actionDone) { Log($"ShowRewardVideo {pos}"); actionDone?.Invoke(); return true; }
-
-        public void InitONA(string group) { Log($"InitONA {group}"); }
-        public void ShowONA(string pos) { Log($"ShowONA {pos}"); }
-        public void ClearONA(string pos) { Log($"ClearONA {pos}"); }
-
-        public void ShowBanner() { Log("ShowBanner"); }
-        public void HideBanner() { Log("HideBanner"); }
-
-        public void ShowCollapseBanner(){Debug.Log("Show Collapse Banner");}
-        public void HideCollapseBanner(){Debug.Log("Hide Collapse Banner");}
-
-        public void ShowMREC(GameObject target) { Log("ShowMREC overlay"); }
-        public void ShowMREC(GameObject target, Camera cam) { Log($"ShowMREC screen "); }
-        public void UpdateMRECPosition(GameObject target) { Log("UpdateMRECPosition"); }
-        public void UpdateMRECPosition(GameObject target, Camera cam) { Log($"UpdateMRECPosition "); }
-        public void HideMREC() { Log("HideMREC"); }
-    }
 
     // ===================== ANDROID (no editor) =====================
-#elif UNITY_ANDROID
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION
     internal sealed class AndroidAdsPlatform : IAdsPlatform
     {
         public void InitBanner()
@@ -294,7 +256,136 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.HideMrec();
         }
     }
+#elif UNITY_ANDROID || UNITY_EDITOR
+    internal sealed class NoAdsPlatform : IAdsPlatform
+    {
+        public void InitBanner()
+        {
+            Log("InitBanner");
+        }
 
+        public void InitMREC()
+        {
+            Log("InitMREC");
+        }
+
+        public void InitInter(string group)
+        {
+            Log($"InitInter {group}");
+        }
+
+        public void InitReward()
+        {
+            Log("InitReward");
+        }
+
+        private static void Log(string m) => Debug.Log($"[Ads/Editor] {m}");
+
+        public void InitBannerLoading()
+        {
+            Log("InitBannerLoading");
+        }
+
+        public void ShowBannerLoading()
+        {
+            Log("ShowBannerLoading");
+        }
+
+        public void HideBannerLoading()
+        {
+            Log("HideBannerLoading");
+        }
+
+        public void DestroyBannerLoading()
+        {
+            Log("DestroyBannerLoading");
+        }
+
+        public bool BannerLoadingReady()
+        {
+            Log("BannerLoadingReady=false");
+            return false;
+        }
+
+        public void ShowInter(string pos, Action complete)
+        {
+            Log($"ShowInter {pos}");
+            complete?.Invoke();
+        }
+
+        public bool RewardedIsReady()
+        {
+            Log("RewardedIsReady=true");
+            return true;
+        }
+
+        public bool ShowRewardVideo(string pos, Action actionDone)
+        {
+            Log($"ShowRewardVideo {pos}");
+            actionDone?.Invoke();
+            return true;
+        }
+
+        public void InitONA(string group)
+        {
+            Log($"InitONA {group}");
+        }
+
+        public void ShowONA(string pos)
+        {
+            Log($"ShowONA {pos}");
+        }
+
+        public void ClearONA(string pos)
+        {
+            Log($"ClearONA {pos}");
+        }
+
+        public void ShowBanner()
+        {
+            Log("ShowBanner");
+        }
+
+        public void HideBanner()
+        {
+            Log("HideBanner");
+        }
+
+        public void ShowCollapseBanner()
+        {
+            Debug.Log("Show Collapse Banner");
+        }
+
+        public void HideCollapseBanner()
+        {
+            Debug.Log("Hide Collapse Banner");
+        }
+
+        public void ShowMREC(GameObject target)
+        {
+            Log("ShowMREC overlay");
+        }
+
+        public void ShowMREC(GameObject target, Camera cam)
+        {
+            Log($"ShowMREC screen ");
+        }
+
+        public void UpdateMRECPosition(GameObject target)
+        {
+            Log("UpdateMRECPosition");
+        }
+
+        public void UpdateMRECPosition(GameObject target, Camera cam)
+        {
+            Log($"UpdateMRECPosition ");
+        }
+
+        public void HideMREC()
+        {
+            Log("HideMREC");
+        }
+    }
     // ===================== iOS (no editor) =====================
 #elif UNITY_IOS
     internal sealed class IosAdsPlatform : IAdsPlatform

@@ -22,7 +22,7 @@ namespace _0.DucTALib.Splash
 
         public void AddEndCardEvent()
         {
-#if UNITY_ANDROID
+#if USE_ANDROID_MEDIATION
             if (eventAdded) return;
             eventAdded = true;
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
@@ -33,7 +33,7 @@ namespace _0.DucTALib.Splash
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
-#if UNITY_ANDROID
+#if USE_ANDROID_MEDIATION
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed -= CallEndCard;
 #endif
         }
@@ -41,7 +41,7 @@ namespace _0.DucTALib.Splash
 
         private void CallEndCard(string groupName)
         {
-#if UNITY_ANDROID
+#if USE_ANDROID_MEDIATION
             currentInter += 1;
             if (currentInter >= CommonRemoteConfig.ins.androidConfig.interstitialsBeforeMRECCount)
             {
