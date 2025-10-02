@@ -60,7 +60,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             yield return new WaitUntil(() => RemoteConfig.Ins.isDataFetched);
             CallAdsManager.InitBannerLoading();
-            LoadAdsManually.LoadInterByGroup("launch");
+            CallAdsManager.LoadInterByGroup("launch");
             yield return new WaitUntil(CallAdsManager.BannerLoadingReady);
             CallAdsManager.ShowBanner();
             loading.HideObject();
@@ -133,10 +133,10 @@ namespace _0.DucTALib.Splash.Scripts
         {
             CallAdsManager.HideBannerLoading();
             CallAdsManager.DestroyBannerLoading();
-            LoadAdsManually.LoadInterByGroup("gameplay");
-            LoadAdsManually.LoadInterByGroup("break");
-            LoadAdsManually.LoadBanner();
-            LoadAdsManually.LoadReward();
+            CallAdsManager.LoadInterByGroup("gameplay");
+            CallAdsManager.LoadInterByGroup("break");
+            CallAdsManager.LoadBanner();
+            CallAdsManager.LoadReward();
             LoadAdsManually.ins.AddEndCardEvent();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;

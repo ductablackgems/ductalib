@@ -15,8 +15,14 @@ namespace _0.DucTALib.Scripts.Common
     public class CommonRemoteConfig : SingletonMono<CommonRemoteConfig>
     {
         public bool fetchComplete = false;
-        public SplashCustomConfigValue splashConfig;
+#if USE_ADMOB_NATIVE
+          public SplashCustomConfigValue splashConfig;
         public RelocationNativeValue relocationNativeConfig;
+#endif
+#if UNITY_ANDROID
+        public AndroidAdsConfig androidConfig;
+#endif
+
         public CommonConfig commonConfig;
         public static Action FetchDone;
 
@@ -37,22 +43,31 @@ namespace _0.DucTALib.Scripts.Common
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
-            
-            splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)
+#if USE_ADMOB_NATIVE
+             splashConfig =
+ JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)
                 .ToObject<SplashCustomConfigValue>(JsonSerializer.Create(settings));
-            LogHelper.CheckPoint($"{JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("splash_config").StringValue)}");
-            relocationNativeConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
+            relocationNativeConfig =
+ JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
                 .ToObject<RelocationNativeValue>(JsonSerializer.Create(settings));
-            commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("common_config").StringValue)
+#endif
+#if UNITY_ANDROID
+            androidConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
+                    .GetValue("android_ads_config").StringValue)
+                .ToObject<AndroidAdsConfig>(JsonSerializer.Create(settings));
+#endif
+            commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
+                    .GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));
             fetchComplete = true;
         }
-        
-        
+
+
 #if UNITY_EDITOR
         public string splashConfigDefault;
         public string relocationNativeDefault;
         public string commonConfigDefault;
+
         [Button]
         public void CreateSplashConfig()
         {
@@ -62,6 +77,7 @@ namespace _0.DucTALib.Scripts.Common
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             });
         }
+
         [Button]
         public void CreateRelocationConfig()
         {
@@ -71,6 +87,7 @@ namespace _0.DucTALib.Scripts.Common
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             });
         }
+
         [Button]
         public void CreateCommonConfig()
         {
@@ -81,6 +98,5 @@ namespace _0.DucTALib.Scripts.Common
             });
         }
 #endif
-
     }
 }

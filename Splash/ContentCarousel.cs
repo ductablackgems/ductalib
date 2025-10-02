@@ -115,13 +115,16 @@ namespace _0.DucTALib.Splash
 
         private void InitializeNavigationDots()
         {
-            var total = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
+#if USE_ADMOB_NATIVE
+             var total = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
             for (int i = 0; i < total; i++)
             {
                 GameObject dot = Instantiate(dotPrefab, dotsContainer.transform);
                 SetDotSize(dot, i == currentIndex ? activeDotSize : inactiveDotSize);
                 SetDotColor(dot, i == currentIndex ? activeDotColor : inactiveDotColor);
             }
+#endif
+           
         }
 
         private void SetDotColor(GameObject dot, Color color)
@@ -274,7 +277,8 @@ namespace _0.DucTALib.Splash
 
         private void UpdateDotSizes()
         {
-            var count = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
+#if  USE_ADMOB_NATIVE
+             var count = CommonRemoteConfig.instance.splashConfig.introConfig.tutorialCount;
             for (int i = 0; i < count; i++)
             {
                 GameObject dot = dotsContainer.transform.GetChild(i).gameObject;
@@ -293,6 +297,8 @@ namespace _0.DucTALib.Splash
                     dotImage.color = Color.Lerp(dotImage.color, targetColor, Time.deltaTime * dotColorTransitionSpeed);
                 }
             }
+#endif
+           
         }
     }
 }

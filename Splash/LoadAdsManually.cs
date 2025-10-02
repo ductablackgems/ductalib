@@ -2,6 +2,7 @@
 using System.Collections;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
+using _0.DucTALib.Scripts.Common;
 using BG_Library.Common;
 using BG_Library.NET;
 using GoogleMobileAds.Api;
@@ -12,6 +13,8 @@ namespace _0.DucTALib.Splash
     public class LoadAdsManually : SingletonMono<LoadAdsManually>
     {
         private bool eventAdded = false;
+        private int currentInter = 0;
+
         private void Start()
         {
             DontDestroyOnLoad(this);
@@ -21,13 +24,13 @@ namespace _0.DucTALib.Splash
         public void AddEndCardEvent()
         {
 #if UNITY_ANDROID
-            if(eventAdded) return;
+            if (eventAdded) return;
             eventAdded = true;
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
             CallAdsManager.InitONA("endcard");
 #endif
-            
         }
+
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
@@ -37,9 +40,15 @@ namespace _0.DucTALib.Splash
         }
 
 
-        public void CallEndCard(string groupName)
+        private void CallEndCard(string groupName)
         {
-            StartCoroutine(CallEndCardFullScreen());
+            currentInter += 1;
+            if (currentInter >= CommonRemoteConfig.ins.androidConfig.interstitialsBeforeMRECCount)
+            {
+                currentInter = 0;
+                StartCoroutine(CallEndCardFullScreen());
+            }
+            else LogHelper.CheckPoint($"Interstitial count not reached MREC threshold : {currentInter}");
         }
 
         private IEnumerator CallEndCardFullScreen()
@@ -55,27 +64,6 @@ namespace _0.DucTALib.Splash
                 AdsManager.HideMrec();
         }
 
-        public static void LoadBanner()
-        {
-            AdsManager.InitBannerManually();
-        }
-
-        public static void LoadMrec()
-        {
-            LogHelper.CheckPoint();
-            AdsManager.InitMrecManually();
-        }
-
-        public static void LoadInterByGroup(string group)
-        {
-            LogHelper.CheckPoint($"load inter group {group}");
-            AdsManager.InitInterstitialManually(group);
-        }
-
-        public static void LoadReward()
-        {
-            LogHelper.CheckPoint();
-            AdsManager.InitRewardManually();
-        }
+       
     }
 }
