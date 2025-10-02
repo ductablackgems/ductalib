@@ -67,7 +67,7 @@ namespace _0.DucLib.Scripts.Ads
         public static void InitONA(string group) => _impl.InitONA(group);
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
-        public static void HideONA(string pos){}
+        public static void CloseONA(string pos) => _impl.CloseONA(pos);
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
@@ -117,6 +117,8 @@ namespace _0.DucLib.Scripts.Ads
         void InitONA(string group);
         void ShowONA(string pos);
         void ClearONA(string pos);
+
+        void CloseONA(string pos);
 
         void ShowBanner();
         void HideBanner();
@@ -213,6 +215,11 @@ namespace _0.DucLib.Scripts.Ads
         public void ClearONA(string pos)
         {
             Game3DCore2.ClearONA(pos);
+        }
+
+        public void CloseONA(string pos)
+        {
+            Game3DCore2.CloseONA(pos);
         }
 
         public void ShowBanner()
@@ -342,7 +349,7 @@ namespace _0.DucLib.Scripts.Ads
         {
             Log($"ClearONA {pos}");
         }
-
+ public void CloseONA(string pos){}
         public void ShowBanner()
         {
             Log("ShowBanner");
@@ -444,7 +451,7 @@ namespace _0.DucLib.Scripts.Ads
 
             return AdsManager.ShowRewardVideo(pos, actionDone);
         }
-
+ public void CloseONA(string pos){}
         public void InitONA(string group)
         {
             /* iOS ONA nếu có SDK riêng thì thêm sau */
