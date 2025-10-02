@@ -14,7 +14,6 @@ namespace _0.DucTALib.Splash
     {
         private bool eventAdded = false;
         private int currentInter = 0;
-
         private void Start()
         {
             DontDestroyOnLoad(this);
@@ -42,6 +41,7 @@ namespace _0.DucTALib.Splash
 
         private void CallEndCard(string groupName)
         {
+#if UNITY_ANDROID
             currentInter += 1;
             if (currentInter >= CommonRemoteConfig.ins.androidConfig.interstitialsBeforeMRECCount)
             {
@@ -49,13 +49,14 @@ namespace _0.DucTALib.Splash
                 StartCoroutine(CallEndCardFullScreen());
             }
             else LogHelper.CheckPoint($"Interstitial count not reached MREC threshold : {currentInter}");
+#endif
         }
 
         private IEnumerator CallEndCardFullScreen()
         {
             yield return new WaitForSecondsRealtime(15f);
             CallAdsManager.ShowONA("endcard");
-        }
+        } 
 
         private void MRECLoadDone(string a, ResponseInfo info)
         {
@@ -64,6 +65,5 @@ namespace _0.DucTALib.Splash
                 AdsManager.HideMrec();
         }
 
-       
     }
 }
