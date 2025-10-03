@@ -53,6 +53,7 @@ namespace _0.DucLib.Scripts.Ads
 
         #endregion
 
+        #region Call ADS
         public static void InitBannerLoading() => _impl.InitBannerLoading();
         public static void ShowBannerLoading() => _impl.ShowBannerLoading();
         public static void HideBannerLoading() => _impl.HideBannerLoading();
@@ -95,6 +96,10 @@ namespace _0.DucLib.Scripts.Ads
         public static void HideMREC() => _impl.HideMREC();
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
+        
+
+        #endregion
+       
     }
 
     internal interface IAdsPlatform
@@ -234,7 +239,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowCollapseBanner()
         {
-            Debug.Log("Show Collapse Banner");
+           Game3DCore2.ExpandBNNA();
         }
 
         public void HideCollapseBanner()
