@@ -126,6 +126,7 @@ namespace _0.DucTALib.Splash
     public class CommonConfig
     {
         public bool useAllBannerAdmob;
+        public int timeExpandBanner;
         public bool isProduct;
         public int testSegment;
         public static CommonConfig CreateDefault()
