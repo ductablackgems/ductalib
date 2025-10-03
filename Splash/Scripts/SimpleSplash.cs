@@ -57,12 +57,13 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator AdsControl()
         {
-            yield return new WaitUntil(() => CommonRemoteConfig.ins.fetchComplete);
+            yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             yield return new WaitForSeconds(1);
-            CallAdsManager.InitBannerLoading();
+            CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
-            yield return new WaitUntil(CallAdsManager.BannerLoadingReady);
+            yield return new WaitUntil(CallAdsManager.BannerNAReady);
             loading.HideObject();
+            CallAdsManager.ShowBannerNA();
         }
 
         private IEnumerator WaitToLoadScene()
@@ -130,12 +131,9 @@ namespace _0.DucTALib.Splash.Scripts
 
         private void FinishLoading()
         {
-            if (CommonRemoteConfig.ins.commonConfig.useAllBannerAdmob)
-            {
-                CallAdsManager.HideBannerLoading();
-                CallAdsManager.LoadBanner();
-            }
-            CallAdsManager.DestroyBannerLoading();
+            CallAdsManager.LoadBanner();
+            CallAdsManager.HideBannerNA();
+            CallAdsManager.ClearBannerNA();
             CallAdsManager.LoadInterByGroup("gameplay");
             CallAdsManager.LoadInterByGroup("break");
             CallAdsManager.LoadReward();

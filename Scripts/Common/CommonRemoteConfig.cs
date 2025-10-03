@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
@@ -9,6 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Sirenix.OdinInspector;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace _0.DucTALib.Scripts.Common
 {
@@ -26,17 +29,17 @@ namespace _0.DucTALib.Scripts.Common
 
         private void Awake()
         {
-            RemoteConfig.OnFetchComplete += FetchComplete;
             DontDestroyOnLoad(this);
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            RemoteConfig.OnFetchComplete -= FetchComplete;
+            StartCoroutine(WaitFirebaseInit());
         }
 
-        private void FetchComplete()
+        private IEnumerator WaitFirebaseInit()
         {
+            yield return new WaitUntil(()=> RemoteConfig.Ins.isDataFetched);
             var settings = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
@@ -49,12 +52,12 @@ namespace _0.DucTALib.Scripts.Common
  JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
                 .ToObject<RelocationNativeValue>(JsonSerializer.Create(settings));
 #endif
-
-            commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
-                    .GetValue("common_config").StringValue)
+            commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));
             fetchComplete = true;
+            LogHelper.CheckPoint($"{commonConfig.expandBanner} , {commonConfig.timeExpandBanner}, {commonConfig.interstitialsBeforeMRECCount}");
         }
+     
 
 
 #if UNITY_EDITOR

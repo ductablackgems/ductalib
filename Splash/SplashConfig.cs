@@ -127,7 +127,7 @@ namespace _0.DucTALib.Splash
     {
         public bool useAllBannerAdmob;
         public bool expandBanner;
-        public int timeExpandBanner;
+        public float timeExpandBanner;
         public bool isProduct;
         public int testSegment;
         public int interstitialsBeforeMRECCount = 1;

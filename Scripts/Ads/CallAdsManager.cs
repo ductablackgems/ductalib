@@ -1,6 +1,5 @@
 ﻿using System;
 using GoogleMobileAds.Api;
-
 using _0.DucLib.Scripts.Common;
 using BG_Library.Common;
 using BG_Library.NET;
@@ -14,12 +13,12 @@ namespace _0.DucLib.Scripts.Ads
         public static Action rewardNotReadyAction;
 
         private static readonly IAdsPlatform _impl;
-
+        public static Action OnCollapseClose;
         static CallAdsManager()
         {
-#if UNITY_ANDROID && USE_ANDROID_MEDIATION
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION && !IGNORE_ADS
             _impl = new AndroidAdsPlatform();
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && IGNORE_ADS
             _impl = new NoAdsPlatform();
 #elif UNITY_IOS
             _impl = new IosAdsPlatform();
@@ -51,11 +50,12 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Call ADS
-        public static void InitBannerLoading() => _impl.InitBannerLoading();
-        public static void ShowBannerLoading() => _impl.ShowBannerLoading();
-        public static void HideBannerLoading() => _impl.HideBannerLoading();
-        public static void DestroyBannerLoading() => _impl.DestroyBannerLoading();
-        public static bool BannerLoadingReady() => _impl.BannerLoadingReady();
+
+        public static void InitBannerNA() => _impl.InitBannerNA();
+        public static void ShowBannerNA() => _impl.ShowBannerNA();
+        public static void HideBannerNA() => _impl.HideBannerNA();
+        public static void ClearBannerNA() => _impl.DestroyBannerNA();
+        public static bool BannerNAReady() => _impl.BannerNAReady();
 
         public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
 
@@ -93,10 +93,8 @@ namespace _0.DucLib.Scripts.Ads
         public static void HideMREC() => _impl.HideMREC();
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
-        
 
         #endregion
-       
     }
 
     internal interface IAdsPlatform
@@ -106,11 +104,11 @@ namespace _0.DucLib.Scripts.Ads
         void InitMREC();
         void InitInter(string group);
         void InitReward();
-        void InitBannerLoading();
-        void ShowBannerLoading();
-        void HideBannerLoading();
-        void DestroyBannerLoading();
-        bool BannerLoadingReady();
+        void InitBannerNA();
+        void ShowBannerNA();
+        void HideBannerNA();
+        void DestroyBannerNA();
+        bool BannerNAReady();
 
         void ShowInter(string pos, Action complete);
         bool RewardedIsReady();
@@ -137,7 +135,7 @@ namespace _0.DucLib.Scripts.Ads
 
 
     // ===================== ANDROID (no editor) =====================
-#if UNITY_ANDROID && USE_ANDROID_MEDIATION
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION && !IGNORE_ADS
     internal sealed class AndroidAdsPlatform : IAdsPlatform
     {
         public void InitBanner()
@@ -152,7 +150,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void InitInter(string group)
         {
-            LogHelper.CheckPoint($"load inter {group}");
+            LogHelper.CheckPoint($"Load inter {group}");
             AdsManager.InitInterstitialManually(group);
         }
 
@@ -161,27 +159,28 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.InitRewardManually();
         }
 
-        public void InitBannerLoading()
+        public void InitBannerNA()
         {
+            LogHelper.CheckPoint();
             Game3DCore2.InitializeBNNA();
         }
 
-        public void ShowBannerLoading()
+        public void ShowBannerNA()
         {
             Game3DCore2.ShowBNNA();
         }
 
-        public void HideBannerLoading()
+        public void HideBannerNA()
         {
             Game3DCore2.HideBNNA();
         }
 
-        public void DestroyBannerLoading()
+        public void DestroyBannerNA()
         {
             Game3DCore2.ClearBNNA();
         }
 
-        public bool BannerLoadingReady() => Game3DCore2.IsBNNAReady();
+        public bool BannerNAReady() => Game3DCore2.IsBNNAReady();
 
         public void ShowInter(string pos, Action complete)
         {
@@ -267,135 +266,137 @@ namespace _0.DucLib.Scripts.Ads
             AdsManager.HideMrec();
         }
     }
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && IGNORE_ADS
     internal sealed class NoAdsPlatform : IAdsPlatform
     {
         public void InitBanner()
         {
-            Log("InitBanner");
+            LogHelper.CheckPoint();
         }
 
         public void InitMREC()
         {
-            Log("InitMREC");
+            LogHelper.CheckPoint();
         }
 
         public void InitInter(string group)
         {
-            Log($"InitInter {group}");
+            LogHelper.CheckPoint($"InitInter {group}");
         }
 
         public void InitReward()
         {
-            Log("InitReward");
+            LogHelper.CheckPoint();
         }
 
-        private static void Log(string m) => Debug.Log($"[Ads/Editor] {m}");
 
-        public void InitBannerLoading()
+        public void InitBannerNA()
         {
-            Log("InitBannerLoading");
+            LogHelper.CheckPoint();
         }
 
-        public void ShowBannerLoading()
+        public void ShowBannerNA()
         {
-            Log("ShowBannerLoading");
+            LogHelper.CheckPoint();
         }
 
-        public void HideBannerLoading()
+        public void HideBannerNA()
         {
-            Log("HideBannerLoading");
+            LogHelper.CheckPoint();
         }
 
-        public void DestroyBannerLoading()
+        public void DestroyBannerNA()
         {
-            Log("DestroyBannerLoading");
+            LogHelper.CheckPoint();
         }
 
-        public bool BannerLoadingReady()
+        public bool BannerNAReady()
         {
-            Log("BannerLoadingReady=false");
-            return false;
+            LogHelper.CheckPoint();
+            return true;
         }
 
         public void ShowInter(string pos, Action complete)
         {
-            Log($"ShowInter {pos}");
+            LogHelper.CheckPoint();
             complete?.Invoke();
         }
 
         public bool RewardedIsReady()
         {
-            Log("RewardedIsReady=true");
+            LogHelper.CheckPoint();
             return true;
         }
 
         public bool ShowRewardVideo(string pos, Action actionDone)
         {
-            Log($"ShowRewardVideo {pos}");
+            LogHelper.CheckPoint($"ShowRewardVideo {pos}");
             actionDone?.Invoke();
             return true;
         }
 
         public void InitONA(string group)
         {
-            Log($"InitONA {group}");
+            LogHelper.CheckPoint();
         }
 
         public void ShowONA(string pos)
         {
-            Log($"ShowONA {pos}");
+            LogHelper.CheckPoint();
         }
 
         public void ClearONA(string pos)
         {
-            Log($"ClearONA {pos}");
+            LogHelper.CheckPoint();
         }
- public void CloseONA(string pos){}
+
+        public void CloseONA(string pos) => LogHelper.CheckPoint();
+
         public void ShowBanner()
         {
-            Log("ShowBanner");
+            LogHelper.CheckPoint();
         }
 
         public void HideBanner()
         {
-            Log("HideBanner");
+            LogHelper.CheckPoint();
         }
 
         public void ShowCollapseBanner()
         {
-            Debug.Log("Show Collapse Banner");
+            LogHelper.CheckPoint();
         }
 
         public void HideCollapseBanner()
         {
-            Debug.Log("Hide Collapse Banner");
+            LogHelper.CheckPoint();
         }
 
         public void ShowMREC(GameObject target)
         {
-            Log("ShowMREC overlay");
+            LogHelper.CheckPoint();
         }
 
         public void ShowMREC(GameObject target, Camera cam)
         {
-            Log($"ShowMREC screen ");
+            LogHelper.CheckPoint();
         }
- public void ShowMREC(AdPosition adPosition)
+
+        public void ShowMREC(AdPosition adPosition)
         {
-            Log($"ShowMREC screen ");
+            LogHelper.CheckPoint();
         }
 
         public void HideMREC()
         {
-            Log("HideMREC");
+            LogHelper.CheckPoint();
         }
     }
     // ===================== iOS (no editor) =====================
 #elif UNITY_IOS
     internal sealed class IosAdsPlatform : IAdsPlatform
     {
-  public void InitBanner()
+         public void InitBanner()
         {
            AdsManager.InitBannerManually();
         }
@@ -416,23 +417,23 @@ namespace _0.DucLib.Scripts.Ads
         }
 
         // iOS không có Game3DCore2 – chỉ dùng AdsManager
-        public void InitBannerLoading()
+        public void InitBannerNA()
         {
         }
 
-        public void ShowBannerLoading()
+        public void ShowBannerNA()
         {
         }
 
-        public void HideBannerLoading()
+        public void HideBannerNA()
         {
         }
 
-        public void DestroyBannerLoading()
+        public void DestroyBannerNA()
         {
         }
 
-        public bool BannerLoadingReady() => false;
+        public bool BannerNAReady() => false;
 
         public void ShowInter(string pos, Action complete)
         {
