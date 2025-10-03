@@ -1,12 +1,9 @@
 ﻿using System;
 using GoogleMobileAds.Api;
 
-#if !IGNORE_ADS
 using _0.DucLib.Scripts.Common;
 using BG_Library.Common;
 using BG_Library.NET;
-#endif
-
 using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
