@@ -14,7 +14,8 @@ namespace _0.DucTALib.Splash.Scripts
     public abstract class BaseStepSplash : MonoBehaviour
     {
 #if USE_ADMOB_NATIVE
-    public CanvasGroup canvasGroup;
+        
+          public CanvasGroup canvasGroup;
         public SplashType splashType;
         public ButtonCustom currentButton;
         public List<NativeObject> nativeObjects;
@@ -101,15 +102,12 @@ namespace _0.DucTALib.Splash.Scripts
             if (next < nativeObjects.Count)
             {
                 var nextAd = nativeObjects[next];
-
-
-
+                nextAd.native.Request(nextAd.adsPosition);
                 LogHelper.CheckPoint($"load native {nextAd.adsPosition}");
             }
         }
-#endif
     
-
+#endif
 
 
     }

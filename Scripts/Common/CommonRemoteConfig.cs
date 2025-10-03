@@ -19,9 +19,7 @@ namespace _0.DucTALib.Scripts.Common
           public SplashCustomConfigValue splashConfig;
         public RelocationNativeValue relocationNativeConfig;
 #endif
-#if UNITY_ANDROID
-        public AndroidAdsConfig androidConfig;
-#endif
+
 
         public CommonConfig commonConfig;
         public static Action FetchDone;
@@ -51,11 +49,7 @@ namespace _0.DucTALib.Scripts.Common
  JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("relocation_native_config").StringValue)
                 .ToObject<RelocationNativeValue>(JsonSerializer.Create(settings));
 #endif
-#if UNITY_ANDROID
-            androidConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
-                    .GetValue("android_ads_config").StringValue)
-                .ToObject<AndroidAdsConfig>(JsonSerializer.Create(settings));
-#endif
+
             commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
                     .GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));

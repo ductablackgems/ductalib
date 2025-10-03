@@ -43,7 +43,7 @@ namespace _0.DucTALib.Splash
         {
 #if USE_ANDROID_MEDIATION
             currentInter += 1;
-            if (currentInter >= CommonRemoteConfig.ins.androidConfig.interstitialsBeforeMRECCount)
+            if (currentInter >= CommonRemoteConfig.ins.commonConfig.interstitialsBeforeMRECCount)
             {
                 currentInter = 0;
                 StartCoroutine(CallEndCardFullScreen());

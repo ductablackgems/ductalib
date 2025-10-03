@@ -126,9 +126,11 @@ namespace _0.DucTALib.Splash
     public class CommonConfig
     {
         public bool useAllBannerAdmob;
+        public bool expandBanner;
         public int timeExpandBanner;
         public bool isProduct;
         public int testSegment;
+        public int interstitialsBeforeMRECCount = 1;
         public static CommonConfig CreateDefault()
         {
             var value = new CommonConfig
@@ -139,11 +141,7 @@ namespace _0.DucTALib.Splash
         }
     }
 
-    [Serializable]
-    public class AndroidAdsConfig
-    {
-        public int interstitialsBeforeMRECCount =1;
-    }
+    
     public enum CompleteAdsType
     {
         Inter,
