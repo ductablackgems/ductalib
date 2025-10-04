@@ -137,7 +137,7 @@ namespace _0.DucTALib.Splash.Scripts
             CallAdsManager.LoadInterByGroup("gameplay");
             CallAdsManager.LoadInterByGroup("break");
             CallAdsManager.LoadReward();
-            LoadAdsManually.ins.AddEndCardEvent();
+            CallAdsManager.instance.AddEndCardEvent();
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
