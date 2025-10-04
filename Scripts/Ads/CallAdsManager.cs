@@ -104,6 +104,17 @@ namespace _0.DucLib.Scripts.Ads
 
         #region LoadAds
 
+        public void FinishSplash()
+        {
+            LoadBanner();
+            HideBannerNA();
+            ClearBannerNA();
+            LoadInterByGroup("gameplay");
+            LoadInterByGroup("break");
+            LoadReward();
+            AddEndCardEvent();
+        }
+
         public static void LoadBanner()
         {
             _impl.InitBanner();
