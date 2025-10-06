@@ -349,16 +349,19 @@ namespace _0.DucLib.Scripts.Ads
 
             public void ShowONA(string pos)
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.ShowONA(pos, 0, 0);
             }
 
             public void ClearONA(string pos)
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.ClearONA(pos);
             }
 
             public void CloseONA(string pos)
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.CloseONA(pos);
             }
 
