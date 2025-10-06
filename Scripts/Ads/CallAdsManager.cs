@@ -107,8 +107,13 @@ namespace _0.DucLib.Scripts.Ads
         public void FinishSplash()
         {
             LoadBanner();
-            HideBannerNA();
-            ClearBannerNA();
+#if USE_ANDROID_MEDIATION
+            if (Game3DCore2.BNNAIsShowing())
+            {
+                HideBannerNA();
+                ClearBannerNA();
+            }
+#endif
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
             LoadReward();
@@ -409,132 +414,132 @@ namespace _0.DucLib.Scripts.Ads
             }
         }
 #elif UNITY_ANDROID && IGNORE_ADS
-    internal sealed class NoAdsPlatform : IAdsPlatform
-    {
-        public void InitBanner()
+        internal sealed class NoAdsPlatform : IAdsPlatform
         {
-            LogHelper.CheckPoint();
+            public void InitBanner()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void InitMREC()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void InitInter(string group)
+            {
+                LogHelper.CheckPoint($"InitInter {group}");
+            }
+
+            public void InitReward()
+            {
+                LogHelper.CheckPoint();
+            }
+
+
+            public void InitBannerNA()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowBannerNA()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void HideBannerNA()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void DestroyBannerNA()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public bool BannerNAReady()
+            {
+                LogHelper.CheckPoint();
+                return true;
+            }
+
+            public void ShowInter(string pos, Action complete)
+            {
+                LogHelper.CheckPoint();
+                complete?.Invoke();
+            }
+
+            public bool RewardedIsReady()
+            {
+                LogHelper.CheckPoint();
+                return true;
+            }
+
+            public bool ShowRewardVideo(string pos, Action actionDone)
+            {
+                LogHelper.CheckPoint($"ShowRewardVideo {pos}");
+                actionDone?.Invoke();
+                return true;
+            }
+
+            public void InitONA(string group)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowONA(string pos)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ClearONA(string pos)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void CloseONA(string pos) => LogHelper.CheckPoint();
+
+            public void ShowBanner()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void HideBanner()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowCollapseBanner()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void HideCollapseBanner()
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowMREC(GameObject target)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowMREC(GameObject target, Camera cam)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void ShowMREC(AdPosition adPosition)
+            {
+                LogHelper.CheckPoint();
+            }
+
+            public void HideMREC()
+            {
+                LogHelper.CheckPoint();
+            }
         }
-
-        public void InitMREC()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void InitInter(string group)
-        {
-            LogHelper.CheckPoint($"InitInter {group}");
-        }
-
-        public void InitReward()
-        {
-            LogHelper.CheckPoint();
-        }
-
-
-        public void InitBannerNA()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowBannerNA()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void HideBannerNA()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void DestroyBannerNA()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public bool BannerNAReady()
-        {
-            LogHelper.CheckPoint();
-            return true;
-        }
-
-        public void ShowInter(string pos, Action complete)
-        {
-            LogHelper.CheckPoint();
-            complete?.Invoke();
-        }
-
-        public bool RewardedIsReady()
-        {
-            LogHelper.CheckPoint();
-            return true;
-        }
-
-        public bool ShowRewardVideo(string pos, Action actionDone)
-        {
-            LogHelper.CheckPoint($"ShowRewardVideo {pos}");
-            actionDone?.Invoke();
-            return true;
-        }
-
-        public void InitONA(string group)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowONA(string pos)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ClearONA(string pos)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void CloseONA(string pos) => LogHelper.CheckPoint();
-
-        public void ShowBanner()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void HideBanner()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowCollapseBanner()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void HideCollapseBanner()
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowMREC(GameObject target)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowMREC(GameObject target, Camera cam)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowMREC(AdPosition adPosition)
-        {
-            LogHelper.CheckPoint();
-        }
-
-        public void HideMREC()
-        {
-            LogHelper.CheckPoint();
-        }
-    }
-    // ===================== iOS (no editor) =====================
+        // ===================== iOS (no editor) =====================
 #elif UNITY_IOS
     internal sealed class IosAdsPlatform : IAdsPlatform
     {
