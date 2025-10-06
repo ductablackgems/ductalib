@@ -146,6 +146,9 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowBannerGameplay()
         {
+#if UNITY_IOS
+            return;
+#endif
             LogHelper.CheckPoint();
             HideBanner();
             if (!BannerNAReady()) InitBannerNA();
@@ -155,6 +158,9 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowBannerMenu()
         {
+#if UNITY_IOS
+            return;
+#endif
             LogHelper.CheckPoint();
             StopAutoExpandBanner();
             ShowBanner();
