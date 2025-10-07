@@ -125,7 +125,6 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class CommonConfig
     {
-        public bool useAllBannerAdmob;
         public bool expandBanner;
         public float timeExpandBanner;
         public bool isProduct;
