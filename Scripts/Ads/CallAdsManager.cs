@@ -54,7 +54,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif
         }
 
-        public void AddEndCardEvent()
+        private void AddEndCardEvent()
         {
 #if USE_ANDROID_MEDIATION
             if (eventAdded) return;
@@ -107,13 +107,7 @@ namespace _0.DucLib.Scripts.Ads
         public void FinishSplash()
         {
             LoadBanner();
-#if USE_ANDROID_MEDIATION
-            if (Game3DCore2.BNNAIsShowing())
-            {
-                HideBannerNA();
-                ClearBannerNA();
-            }
-#endif
+            HideBannerNA();
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
             LoadReward();
@@ -151,7 +145,6 @@ namespace _0.DucLib.Scripts.Ads
 #endif
             LogHelper.CheckPoint();
             HideBanner();
-            if (!BannerNAReady()) InitBannerNA();
             ShowBannerNA();
             ShowCollapseBanner();
         }
@@ -165,7 +158,6 @@ namespace _0.DucLib.Scripts.Ads
             StopAutoExpandBanner();
             ShowBanner();
             HideBannerNA();
-            if (BannerNAReady()) ClearBannerNA();
         }
 
         private void OnBannerCollapsed()
@@ -306,6 +298,7 @@ namespace _0.DucLib.Scripts.Ads
 
             public void InitReward()
             {
+                LogHelper.CheckPoint();
                 AdsManager.InitRewardManually();
             }
 
@@ -317,16 +310,19 @@ namespace _0.DucLib.Scripts.Ads
 
             public void ShowBannerNA()
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.ShowBNNA();
             }
 
             public void HideBannerNA()
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.HideBNNA();
             }
 
             public void DestroyBannerNA()
             {
+                LogHelper.CheckPoint();
                 Game3DCore2.ClearBNNA();
             }
 
