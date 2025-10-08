@@ -3,6 +3,7 @@ using System.Collections;
 using GoogleMobileAds.Api;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
+using _0.DucTALib.Splash;
 using BG_Library.Common;
 using BG_Library.NET;
 using UnityEngine;
@@ -74,7 +75,7 @@ namespace _0.DucLib.Scripts.Ads
         }
 
 
-        private void CallEndCard(string groupName)
+        public void CallEndCard(string groupName)
         {
 #if USE_ANDROID_MEDIATION
             currentInter += 1;
@@ -106,8 +107,20 @@ namespace _0.DucLib.Scripts.Ads
 
         public void FinishSplash()
         {
-            LoadBanner();
-            HideBannerNA();
+            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
+            {
+                case BannerType.Admob:
+                    LoadBanner();
+                    HideBannerNA();
+                    break;
+                case BannerType.Mix:
+                    LoadBanner();
+                    HideBannerNA();
+                    break;
+                case BannerType.Android:
+                    break;
+            }
+            
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
             LoadReward();

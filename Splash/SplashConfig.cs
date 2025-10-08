@@ -125,6 +125,7 @@ namespace _0.DucTALib.Splash
     [Serializable]
     public class CommonConfig
     {
+        public BannerType bannerType;
         public bool expandBanner;
         public float timeExpandBanner;
         public bool isProduct;
@@ -140,7 +141,10 @@ namespace _0.DucTALib.Splash
         }
     }
 
-    
+    public enum BannerType
+    {
+        Android, Admob, Mix
+    }
     public enum CompleteAdsType
     {
         Inter,
