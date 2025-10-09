@@ -15,6 +15,7 @@ namespace _0.DucLib.Scripts.Ads
         public static CallAdsManager instance;
         public static string sceneName;
         public static Action rewardNotReadyAction;
+        public static Action<string> OnOverlayCloseEvent;
         private Coroutine expandBannerCR;
         private static IAdsPlatform _impl;
         private bool eventAdded = false;
@@ -61,20 +62,26 @@ namespace _0.DucLib.Scripts.Ads
             if (eventAdded) return;
             eventAdded = true;
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
+            AndroidMediationEvent.OverlayNative.OnAdContentClosed += OnOverlayClose;
             InitONA("endcard");
 #endif
         }
-
+        
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
 #if USE_ANDROID_MEDIATION
             AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed -= CallEndCard;
+            AndroidMediationEvent.OverlayNative.OnAdContentClosed -= OnOverlayClose;
             AndroidMediationEvent.BannerNative.OnBannerCollapsed -= OnBannerCollapsed;
 #endif
         }
 
-
+        private void OnOverlayClose(string groupname)
+        {
+            OnOverlayCloseEvent?.Invoke(groupname);
+        }
+        
         public void CallEndCard(string groupName)
         {
 #if USE_ANDROID_MEDIATION
@@ -224,6 +231,15 @@ namespace _0.DucLib.Scripts.Ads
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
         public static bool ONAReady(string pos) =>  _impl.ONAReady(pos);
+
+        /// <summary>
+        /// Đăng kí sự kiện close ads overlay
+        /// </summary>
+        /// <param name="callback">Callb</param>
+        public static void OnRegisterONACloseEvent(Action callback, string groupName)
+        {
+            
+        }
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
