@@ -223,7 +223,7 @@ namespace _0.DucLib.Scripts.Ads
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
-        public static void ONAReady(string pos) => _impl.ONAReady(pos);
+        public static bool ONAReady(string pos) =>  _impl.ONAReady(pos);
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
