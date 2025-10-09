@@ -120,7 +120,7 @@ namespace _0.DucLib.Scripts.Ads
                 case BannerType.Android:
                     break;
             }
-            
+
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
             LoadReward();
@@ -223,6 +223,7 @@ namespace _0.DucLib.Scripts.Ads
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
+        public static void ONAReady(string pos) => _impl.ONAReady(pos);
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
@@ -627,7 +628,7 @@ namespace _0.DucLib.Scripts.Ads
 
             return AdsManager.ShowRewardVideo(pos, actionDone);
         }
- public void CloseONA(string pos){}
+         public void CloseONA(string pos){}
         public void InitONA(string group)
         {
             /* iOS ONA nếu có SDK riêng thì thêm sau */
@@ -640,7 +641,7 @@ namespace _0.DucLib.Scripts.Ads
         public void ClearONA(string pos)
         {
         }
-        public bool ONAReady(string pos)
+         public bool ONAReady(string pos)
             {
                 LogHelper.CheckPoint();
                 return false;
