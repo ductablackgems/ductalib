@@ -275,6 +275,7 @@ namespace _0.DucLib.Scripts.Ads
 
             void CloseONA(string pos);
 
+            bool ONAReady(string pos);
             void ShowBanner();
             void HideBanner();
 
@@ -383,6 +384,12 @@ namespace _0.DucLib.Scripts.Ads
             {
                 LogHelper.CheckPoint();
                 Game3DCore2.CloseONA(pos);
+            }
+
+            public bool ONAReady(string pos)
+            {
+                LogHelper.CheckPoint();
+                return Game3DCore2.IsONAReady(pos);
             }
 
             public void ShowBanner()
@@ -511,7 +518,11 @@ namespace _0.DucLib.Scripts.Ads
             {
                 LogHelper.CheckPoint();
             }
-
+            public bool ONAReady(string pos)
+            {
+                LogHelper.CheckPoint();
+                return false;
+            }
             public void CloseONA(string pos) => LogHelper.CheckPoint();
 
             public void ShowBanner()
@@ -629,7 +640,11 @@ namespace _0.DucLib.Scripts.Ads
         public void ClearONA(string pos)
         {
         }
-
+        public bool ONAReady(string pos)
+            {
+                LogHelper.CheckPoint();
+                return false;
+            }
         public void ShowBanner()
         {
             AdsManager.ShowBanner();

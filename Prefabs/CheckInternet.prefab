@@ -144,7 +144,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5096200576553935297}
   - component: {fileID: 7516348161893407345}
-  - component: {fileID: 8745745906143656467}
   m_Layer: 0
   m_Name: InternetNotReady
   m_TagString: Untagged
@@ -180,20 +179,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743943409771563606}
   m_CullTransparentMesh: 1
---- !u!114 &8745745906143656467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743943409771563606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f7d3089fb34fe0a0362fc4e7d87ca9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  content: {fileID: 7960248163535209523}
-  parent: {fileID: 6990256863304375237}
 --- !u!1 &2066621136414809999
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +587,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8745745906143656467}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: _0.DucLib.Scripts.Ads.RewardNotReady, Assembly-CSharp
         m_MethodName: Hide
         m_Mode: 1
