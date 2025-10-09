@@ -12,12 +12,21 @@ namespace _0.DucTALib.Splash
         public static Stopwatch loading_duration = new Stopwatch();
         public static Stopwatch loadMenuDuration = new Stopwatch();
         public static bool isFirstTime = false;
+        public static bool IsRetryTurnOnInternet;
         private static int CurrentGame
         {
             get => PlayerPrefs.GetInt("CurrentGame", 0);
             set => PlayerPrefs.SetInt("CurrentGame", value);
         }
 
+
+        public static void TrackRetryInternet()
+        {
+            if (IsRetryTurnOnInternet)
+            {
+                FirebaseEvent.LogEvent("retry_internet_click");
+            }
+        }
         public static void SetUserProperty()
         {
             if(!CommonRemoteConfig.instance.fetchComplete) return;

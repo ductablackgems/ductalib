@@ -57,7 +57,9 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator AdsControl()
         {
-            yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            yield return new WaitUntil(() => CommonRemoteConfig.ins.fetchComplete);
+            yield return new WaitForSeconds(1);
+            SplashTracking.TrackRetryInternet();
             CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
             yield return new WaitUntil(CallAdsManager.BannerNAReady);
