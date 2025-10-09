@@ -55,7 +55,6 @@ namespace _0.DucTALib.Scripts.Common
             commonConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));
             fetchComplete = true;
-            LogHelper.CheckPoint($"{commonConfig.expandBanner} , {commonConfig.timeExpandBanner}, {commonConfig.interstitialsBeforeMRECCount}");
         }
      
 
