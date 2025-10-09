@@ -114,11 +114,13 @@ namespace _0.DucLib.Scripts.Ads
 
         public void FinishSplash()
         {
+            LogHelper.CheckPoint($"{CommonRemoteConfig.instance.commonConfig.bannerType}");
             switch (CommonRemoteConfig.instance.commonConfig.bannerType)
             {
                 case BannerType.Admob:
                     LoadBanner();
                     HideBannerNA();
+                    ClearBannerNA();
                     break;
                 case BannerType.Mix:
                     LoadBanner();

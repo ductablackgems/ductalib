@@ -131,6 +131,7 @@ namespace _0.DucTALib.Splash
         public bool isProduct;
         public int testSegment;
         public int interstitialsBeforeMRECCount = 1;
+        public int nextShowTimestamp;
         public static CommonConfig CreateDefault()
         {
             var value = new CommonConfig
