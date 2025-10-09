@@ -56,7 +56,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif
         }
 
-        private void AddEndCardEvent()
+        public void AddEndCardEvent()
         {
 #if USE_ANDROID_MEDIATION
             if (eventAdded) return;
@@ -77,7 +77,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif
         }
 
-        private void OnOverlayClose(string groupname)
+        public void OnOverlayClose(string groupname)
         {
             OnOverlayCloseEvent?.Invoke(groupname);
         }
@@ -233,15 +233,6 @@ namespace _0.DucLib.Scripts.Ads
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
         public static bool ONAReady(string pos) =>  _impl.ONAReady(pos);
-
-        /// <summary>
-        /// Đăng kí sự kiện close ads overlay
-        /// </summary>
-        /// <param name="callback">Callb</param>
-        public static void OnRegisterONACloseEvent(Action callback, string groupName)
-        {
-            
-        }
         public static void ShowBanner() => _impl.ShowBanner();
         public static void HideBanner() => _impl.HideBanner();
 
