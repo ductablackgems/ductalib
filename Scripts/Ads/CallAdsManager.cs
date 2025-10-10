@@ -300,7 +300,7 @@ namespace _0.DucLib.Scripts.Ads
             void DestroyBannerNA();
             bool BannerNAReady();
             void StopReloadBNNA();
-
+            bool BNNAIsShowing();
             bool BannerReady();
 
             #endregion
@@ -367,7 +367,7 @@ namespace _0.DucLib.Scripts.Ads
             public void ShowBannerNA() => LogHelper.CheckPoint();
             public void HideBannerNA() => LogHelper.CheckPoint();
             public void DestroyBannerNA() => LogHelper.CheckPoint();
-
+            public bool BNNAIsShowing() => false;
             public bool BannerNAReady()
             {
                 LogHelper.CheckPoint();
@@ -514,6 +514,8 @@ namespace _0.DucLib.Scripts.Ads
                 Game3DCore2.StopReloadBNNA();
             }
 
+            public bool BNNAIsShowing() => Game3DCore2.BNNAIsShowing();
+
             public bool BannerReady() => AdsManager.Ins.AdsCoreIns.IsBNReady();
 
             #endregion
@@ -656,6 +658,7 @@ namespace _0.DucLib.Scripts.Ads
             public bool BannerNAReady() => false;
             public void StopReloadBNNA() => LogHelper.CheckPoint();
             public bool BannerReady() => AdsManager.Ins.AdsCoreIns.IsBNReady();
+            public bool BNNAIsShowing() => false;
             #endregion
 
             #region REWARD
