@@ -63,16 +63,13 @@ namespace _0.DucLib.Scripts.Ads
 
         private static void Setup()
         {
-#if UNITY_EDITOR && !USE_ANDROID_MEDIATION
-        _impl = new IosAdsPlatform();
-#elif IGNORE_ADS
+
+#if IGNORE_ADS
         _impl = new NoAdsPlatform();
 #elif UNITY_ANDROID && USE_ANDROID_MEDIATION
             _impl = new AndroidAdsPlatform();
-#elif UNITY_IOS
-        _impl = new IosAdsPlatform();
 #else
-        _impl = new NoAdsPlatform();
+        _impl = new IosAdsPlatform();
 #endif
         }
 
