@@ -621,7 +621,7 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-#elif UNITY_IOS || UNITY_EDITOR
+#else
         internal sealed class IosAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
