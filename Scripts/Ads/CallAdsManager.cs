@@ -591,6 +591,11 @@ namespace _0.DucLib.Scripts.Ads
                 LogHelper.CheckPoint();
                 Game3DCore2.ShowONA(pos, 0, 0);
             }
+            public void ShowONA(string pos, Vector2 adsPosition)
+            {
+                LogHelper.CheckPoint();
+                Game3DCore2.ShowONA(pos, adsPosition.x, adsPosition.y);
+            }
 
             public void ClearONA(string pos)
             {
