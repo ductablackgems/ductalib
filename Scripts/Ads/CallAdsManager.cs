@@ -334,7 +334,7 @@ namespace _0.DucLib.Scripts.Ads
         }
         
 
-#if IGNORE_ADS
+
        internal sealed class NoAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
@@ -420,7 +420,7 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-#elif UNITY_ANDROID && USE_ANDROID_MEDIATION 
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION 
         internal sealed class AndroidAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
@@ -618,7 +618,7 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-#else
+#endif
         internal sealed class IosAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
@@ -730,6 +730,5 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-#endif
     }
 }
