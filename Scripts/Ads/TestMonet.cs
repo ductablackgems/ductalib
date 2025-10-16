@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
     public class TestMonet : MonoBehaviour
     {
-        public GameObject trans;
+        public DucTALib.Scripts.Common.UIDragObject trans;
 
         public void ShowAds()
         {
-            CallAdsManager.ShowONA("Test1");
+            CallAdsManager.ShowONA("Test1", trans.rect);
         }
 
         public void HideAds()
@@ -20,5 +21,7 @@ namespace _0.DucLib.Scripts.Ads
         {
             CallAdsManager.InitONA("Test1");
         }
+        
+        
     }
 }

@@ -253,6 +253,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void InitONA(string group) => _impl.InitONA(group);
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
+        public static void ShowONA(string pos, RectTransform objectPos) => _impl.ShowONA(pos, objectPos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
         public static bool ONAReady(string pos) => _impl.ONAReady(pos);
@@ -345,6 +346,7 @@ namespace _0.DucLib.Scripts.Ads
 
             void InitONA(string group);
             void ShowONA(string pos);
+            void ShowONA(string pos, RectTransform objectPos);
             void ClearONA(string pos);
             void CloseONA(string pos);
             bool ONAReady(string pos);
@@ -427,7 +429,8 @@ namespace _0.DucLib.Scripts.Ads
             #region OVERLAY
 
             public void InitONA(string group) => LogHelper.CheckPoint($"Init OnA {group}");
-            public void ShowONA(string pos) => LogHelper.CheckPoint($"ShowONA OnA {pos}");
+            public void ShowONA(string pos) => LogHelper.CheckPoint($"ShowONA {pos}");
+            public void ShowONA(string pos, RectTransform objectPos)=> LogHelper.CheckPoint($"ShowONA XY {pos}");
             public void ClearONA(string pos) => LogHelper.CheckPoint($"ClearONA OnA {pos}");
             public void CloseONA(string pos) => LogHelper.CheckPoint($"CloseONA OnA {pos}");
 
@@ -609,12 +612,14 @@ namespace _0.DucLib.Scripts.Ads
             public void ShowONA(string pos)
             {
                 LogHelper.CheckPoint();
-                Game3DCore2.ShowONA(pos, 0, 0);
+                Game3DCore2.ShowONA(pos);
             }
-            public void ShowONA(string pos, Vector2 adsPosition)
+
+            public void ShowONA(string pos, RectTransform objectPos)
             {
                 LogHelper.CheckPoint();
-                Game3DCore2.ShowONA(pos, adsPosition.x, adsPosition.y);
+                var position = CommonHelper.ObjectToOverlayPos(objectPos);
+                Game3DCore2.ShowONA(pos, position.x, position.y);
             }
 
             public void ClearONA(string pos)
@@ -743,6 +748,8 @@ namespace _0.DucLib.Scripts.Ads
 
             public void InitONA(string group) => LogHelper.CheckPoint();
             public void ShowONA(string pos) => LogHelper.CheckPoint();
+            public void ShowONA(string pos,RectTransform objectPoss) =>    LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
+
             public void ClearONA(string pos) => LogHelper.CheckPoint();
             public void CloseONA(string pos) => LogHelper.CheckPoint();
 

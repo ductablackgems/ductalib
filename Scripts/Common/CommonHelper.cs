@@ -209,5 +209,20 @@ namespace _0.DucLib.Scripts.Common
             obj.alpha = 0;
         }
         #endregion
+        
+        public static Vector2 ObjectToOverlayPos(RectTransform rect)
+        {
+            var size = rect.sizeDelta;
+            var vv = ConvertToNormalized(new Vector2(rect.anchoredPosition.x,
+                rect.anchoredPosition.y));
+            return vv;
+        }
+        static Vector2 ConvertToNormalized(Vector2 screenPos)
+        {
+            float x = 0.5f + screenPos.x / Screen.width;
+            float y = 0.5f + screenPos.y / Screen.height;
+            return new Vector2(x, y);
+        }
+
     }
 }
