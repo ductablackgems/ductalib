@@ -143,10 +143,20 @@ namespace _0.DucLib.Scripts.Ads
 #if UNITY_IOS
             return;
 #endif
+            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
+            {
+                case BannerType.Admob:
+                    break;
+                case BannerType.Mix:
+                    HideBanner();
+                    ShowBannerNA();
+                    ShowCollapseBanner();
+                    break;
+                case BannerType.Android:
+                    break;
+            }
             LogHelper.CheckPoint();
-            HideBanner();
-            ShowBannerNA();
-            ShowCollapseBanner();
+            
         }
 
         public void ShowBannerMenu()
@@ -154,10 +164,20 @@ namespace _0.DucLib.Scripts.Ads
 #if UNITY_IOS
             return;
 #endif
+            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
+            {
+                case BannerType.Admob:
+                    break;
+                case BannerType.Mix:
+                    StopAutoExpandBanner();
+                    ShowBanner();
+                    HideBannerNA();
+                    break;
+                case BannerType.Android:
+                    break;
+            }
             LogHelper.CheckPoint();
-            StopAutoExpandBanner();
-            ShowBanner();
-            HideBannerNA();
+           
         }
 
         private void OnBannerCollapsed()
@@ -632,6 +652,7 @@ namespace _0.DucLib.Scripts.Ads
 
             public void InitInter(string group)
             {
+                LogHelper.CheckPoint($"Init inter {group}");
                 AdsManager.InitInterstitialManually(group);
             }
 
