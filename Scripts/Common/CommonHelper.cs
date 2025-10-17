@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BG_Library.Common;
 using DG.Tweening;
 using UnityEngine;
 using Object = System.Object;
@@ -212,10 +213,19 @@ namespace _0.DucLib.Scripts.Common
         
         public static Vector2 ObjectToOverlayPos(RectTransform rect)
         {
-            var size = rect.sizeDelta;
-            var vv = ConvertToNormalized(new Vector2(rect.anchoredPosition.x,
-                rect.anchoredPosition.y));
-            return vv;
+            Vector3[] corners = new Vector3[4];
+            rect.GetWorldCorners(corners);  
+
+            Vector3 centerWorld = (corners[0] + corners[2]) * 0.5f;
+            var canvas = Master.GetNearestCanvas(rect);
+            Camera cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            Vector2 centerScreen = RectTransformUtility.WorldToScreenPoint(cam, centerWorld);
+
+            Rect px = canvas.pixelRect;
+            float nx = (centerScreen.x - px.x) / px.width;
+            float ny = (centerScreen.y - px.y) / px.height;
+
+            return new Vector2(nx, ny);
         }
         static Vector2 ConvertToNormalized(Vector2 screenPos)
         {

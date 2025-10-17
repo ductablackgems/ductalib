@@ -729,6 +729,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug Overlay Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3831340857158359478, guid: 8c51045b39343004ca279f6e3d0f3c1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551122452186581193, guid: 8c51045b39343004ca279f6e3d0f3c1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7163720146550802861, guid: 8c51045b39343004ca279f6e3d0f3c1b,
         type: 3}
       propertyPath: m_Pivot.x
