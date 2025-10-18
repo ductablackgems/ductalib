@@ -56,7 +56,6 @@ namespace _0.DucLib.Scripts.Ads
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
             LoadReward();
-            AddEndCardEvent();
         }
 
         #region Setup
@@ -72,7 +71,6 @@ namespace _0.DucLib.Scripts.Ads
         _impl = new IosAdsPlatform();
 #endif
         }
-
         private void Start()
         {
             DontDestroyOnLoad(this);
@@ -82,58 +80,19 @@ namespace _0.DucLib.Scripts.Ads
 #endif
         }
 
-        public void AddEndCardEvent()
-        {
-#if USE_ANDROID_MEDIATION
-            if (eventAdded) return;
-            eventAdded = true;
-            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed += CallEndCard;
-            AndroidMediationEvent.OverlayNative.OnAdContentClosed += OnOverlayClose;
-            InitONA("endcard");
-#endif
-        }
-
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
 #if USE_ANDROID_MEDIATION
-            AndroidMediationEvent.FullScreenNative.OnAdFullScreenContentClosed -= CallEndCard;
-            AndroidMediationEvent.OverlayNative.OnAdContentClosed -= OnOverlayClose;
             AndroidMediationEvent.BannerNative.OnBannerCollapsed -= OnBannerCollapsed;
 #endif
         }
-
-        public void OnOverlayClose(string groupname)
-        {
-            OnOverlayCloseEvent?.Invoke(groupname);
-        }
-
-        public void CallEndCard(string groupName)
-        {
-#if USE_ANDROID_MEDIATION
-            currentInter += 1;
-            if (currentInter >= CommonRemoteConfig.instance.commonConfig.interstitialsBeforeMRECCount)
-            {
-                currentInter = 0;
-                StartCoroutine(CallEndCardFullScreen());
-            }
-            else LogHelper.CheckPoint($"Interstitial count not reached MREC threshold : {currentInter}");
-#endif
-        }
-
-        private IEnumerator CallEndCardFullScreen()
-        {
-            yield return new WaitForSecondsRealtime(15f);
-            ShowONA("endcard");
-        }
-
         private void MRECLoadDone(string a, ResponseInfo info)
         {
             LogHelper.CheckPoint();
             if (sceneName == "")
                 HideMREC();
         }
-
         #endregion
 
         #region Banner & Collapse
