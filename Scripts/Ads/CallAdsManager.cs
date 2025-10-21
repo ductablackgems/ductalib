@@ -62,15 +62,15 @@ namespace _0.DucLib.Scripts.Ads
 
         private static void Setup()
         {
-
 #if IGNORE_ADS
-        _impl = new NoAdsPlatform();
+            _impl = new NoAdsPlatform();
 #elif UNITY_ANDROID && USE_ANDROID_MEDIATION
             _impl = new AndroidAdsPlatform();
 #else
-        _impl = new IosAdsPlatform();
+            _impl = new IosAdsPlatform();
 #endif
         }
+
         private void Start()
         {
             DontDestroyOnLoad(this);
@@ -87,12 +87,14 @@ namespace _0.DucLib.Scripts.Ads
             AndroidMediationEvent.BannerNative.OnBannerCollapsed -= OnBannerCollapsed;
 #endif
         }
+
         private void MRECLoadDone(string a, ResponseInfo info)
         {
             LogHelper.CheckPoint();
             if (sceneName == "")
                 HideMREC();
         }
+
         #endregion
 
         #region Banner & Collapse
@@ -114,8 +116,8 @@ namespace _0.DucLib.Scripts.Ads
                 case BannerType.Android:
                     break;
             }
+
             LogHelper.CheckPoint();
-            
         }
 
         public void ShowBannerMenu()
@@ -135,8 +137,8 @@ namespace _0.DucLib.Scripts.Ads
                 case BannerType.Android:
                     break;
             }
+
             LogHelper.CheckPoint();
-           
         }
 
         private void OnBannerCollapsed()
@@ -246,7 +248,11 @@ namespace _0.DucLib.Scripts.Ads
             _impl.ShowMREC(adPosition);
         }
 
-        public static void HideMREC() => _impl.HideMREC();
+        public static void HideMREC()
+        {
+            sceneName = "";
+            _impl.HideMREC();
+        }
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
 
@@ -313,10 +319,9 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-        
 
 
-       internal sealed class NoAdsPlatform : IAdsPlatform
+        internal sealed class NoAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
 
@@ -346,6 +351,7 @@ namespace _0.DucLib.Scripts.Ads
             public void HideBannerNA() => LogHelper.CheckPoint();
             public void DestroyBannerNA() => LogHelper.CheckPoint();
             public bool BNNAIsShowing() => false;
+
             public bool BannerNAReady()
             {
                 LogHelper.CheckPoint();
@@ -354,6 +360,7 @@ namespace _0.DucLib.Scripts.Ads
 
             public void StopReloadBNNA() => LogHelper.CheckPoint();
             public bool BannerReady() => AdsManager.Ins.AdsCoreIns.IsBNReady();
+
             #endregion
 
             #region REWARD
@@ -389,7 +396,7 @@ namespace _0.DucLib.Scripts.Ads
 
             public void InitONA(string group) => LogHelper.CheckPoint($"Init OnA {group}");
             public void ShowONA(string pos) => LogHelper.CheckPoint($"ShowONA {pos}");
-            public void ShowONA(string pos, RectTransform objectPos)=> LogHelper.CheckPoint($"ShowONA XY {pos}");
+            public void ShowONA(string pos, RectTransform objectPos) => LogHelper.CheckPoint($"ShowONA XY {pos}");
             public void ClearONA(string pos) => LogHelper.CheckPoint($"ClearONA OnA {pos}");
             public void CloseONA(string pos) => LogHelper.CheckPoint($"CloseONA OnA {pos}");
 
@@ -402,7 +409,7 @@ namespace _0.DucLib.Scripts.Ads
 
             #endregion
         }
-#if UNITY_ANDROID && USE_ANDROID_MEDIATION 
+#if UNITY_ANDROID && USE_ANDROID_MEDIATION
         internal sealed class AndroidAdsPlatform : IAdsPlatform
         {
             public string sceneName { get; set; }
@@ -646,6 +653,7 @@ namespace _0.DucLib.Scripts.Ads
             public void StopReloadBNNA() => LogHelper.CheckPoint();
             public bool BannerReady() => AdsManager.Ins.AdsCoreIns.IsBNReady();
             public bool BNNAIsShowing() => false;
+
             #endregion
 
             #region REWARD
@@ -707,7 +715,7 @@ namespace _0.DucLib.Scripts.Ads
 
             public void InitONA(string group) => LogHelper.CheckPoint();
             public void ShowONA(string pos) => LogHelper.CheckPoint();
-            public void ShowONA(string pos,RectTransform objectPoss) =>    LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
+            public void ShowONA(string pos, RectTransform objectPoss) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
 
             public void ClearONA(string pos) => LogHelper.CheckPoint();
             public void CloseONA(string pos) => LogHelper.CheckPoint();
