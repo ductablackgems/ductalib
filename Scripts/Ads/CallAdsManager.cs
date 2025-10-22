@@ -17,7 +17,16 @@ namespace _0.DucLib.Scripts.Ads
         public static Action rewardNotReadyAction;
         public static Action<string> OnOverlayCloseEvent;
         private Coroutine expandBannerCR;
-        private static IAdsPlatform _impl;
+
+        private static IAdsPlatform _impl
+        {
+            get
+            {
+                if(adsPlatform == null) Setup();
+                return adsPlatform;
+            }
+        }
+        private static IAdsPlatform adsPlatform;
         private bool eventAdded = false;
         private int currentInter = 0;
 
@@ -63,11 +72,11 @@ namespace _0.DucLib.Scripts.Ads
         private static void Setup()
         {
 #if IGNORE_ADS
-            _impl = new NoAdsPlatform();
+            adsPlatform = new NoAdsPlatform();
 #elif UNITY_ANDROID && USE_ANDROID_MEDIATION
-            _impl = new AndroidAdsPlatform();
+            adsPlatform = new AndroidAdsPlatform();
 #else
-            _impl = new IosAdsPlatform();
+            adsPlatform = new IosAdsPlatform();
 #endif
         }
 
