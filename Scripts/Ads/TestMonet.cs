@@ -11,11 +11,7 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class TestMonet : MonoBehaviour
     {
-#if USE_IMMERSIVE_ADMOB
-         public ImmersiveInGameDisplayAd ad;
-        private AdLoader immersiveAdLoader;
 
-#endif
 
         public DucTALib.Scripts.Common.UIDragObject trans;
         public GameObject objectImmersive;
@@ -51,36 +47,43 @@ namespace _0.DucLib.Scripts.Ads
         }
 
 #if USE_IMMERSIVE_ADMOB
+        public ImmersiveInGameDisplayAd ad;
+
         public void LoadImmersive()
         {
-            immersiveAdLoader = new AdLoader.Builder("ca-app-pub-8243023565158105/8321505460")
-                .ForImmersiveInGameDisplayAd()
-                .SetImmersiveInGameDisplayAdAspectRatio(new ImmersiveInGameDisplayAdAspectRatio(1, 1))
-                .Build();
+            ImmersiveInGameDisplayAd.Initialize(() =>
+            {
+                // Configure an Adloader with ad unit to be shown on loading screen
+                ImmersiveInGameDisplayAdAspectRatio adSize = new ImmersiveInGameDisplayAdAspectRatio(1, 1);
+                AdLoader adLoader = new AdLoader.Builder("ca-app-pub-8243023565158105/3998471597")
+                    .ForImmersiveInGameDisplayAd()
+                    .SetImmersiveInGameDisplayAdAspectRatio(adSize)
+                    .Build();
 
-            // Configure callbacks
-            immersiveAdLoader.OnImmersiveInGameDisplayAdLoaded += HandleImmersiveInGameDisplayAdLoaded;
-            immersiveAdLoader.OnAdLoadFailed += this.HandleAdLoadFailed;
-            immersiveAdLoader.OnImmersiveInGameDisplayAdPaidEvent += this.HandleAdPaidEvent;
-            immersiveAdLoader.OnImmersiveInGameDisplayAdClicked += this.HandleAdClicked;
-            immersiveAdLoader.OnImmersiveInGameDisplayAdImpression += this.HandleAdImpression;
-            // Make the ad request
-            var request = new AdRequest();
-            immersiveAdLoader.LoadAd(request);
+                // Configure callbacks
+                adLoader.OnImmersiveInGameDisplayAdLoaded += this.HandleImmersiveInGameDisplayAdLoaded;
+                adLoader.OnAdLoadFailed += this.HandleAdLoadFailed;
+                adLoader.OnImmersiveInGameDisplayAdPaidEvent += this.HandleAdPaidEvent;
+                adLoader.OnImmersiveInGameDisplayAdClicked += this.HandleAdClicked;
+                adLoader.OnImmersiveInGameDisplayAdImpression += this.HandleAdImpression;
+
+                // Make the ad request
+                var request = new AdRequest();
+                adLoader.LoadAd(request);
+            });
         }
 
         private void HandleImmersiveInGameDisplayAdLoaded(object sender,
             ImmersiveInGameDisplayAdEventArgs args)
         {
             LogHelper.CheckPoint();
-            args.ImmersiveInGameDisplayAd.DontDestroyOnLoad();
             ad = args.ImmersiveInGameDisplayAd;
         }
 
         // Ad Load Failure.
         private void HandleAdLoadFailed(LoadAdError error)
         {
-            Debug.Log("Immersive in-game display ad failed to load: " + error.GetMessage());
+            Debug.Log("Immersive in-game display ad failed to load : " + error.GetMessage());
             // Retry ad load after a delay.
         }
 
@@ -96,8 +99,7 @@ namespace _0.DucLib.Scripts.Ads
 
         private void HandleAdPaidEvent(AdValue adValue)
         {
-            Debug.Log(
-                String.Format("Immersive in-game ad paid {0} {1}.", adValue.Value, adValue.CurrencyCode));
+            Debug.Log(String.Format("Immersive in-game ad paid {0} {1}.", adValue.Value, adValue.CurrencyCode));
         }
         public void ShowImmersiveAds()
         {
