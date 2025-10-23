@@ -78,7 +78,7 @@ namespace _0.DucTALib.Splash.Scripts
                 yield return null;
             }
 
-            loadDuration = 15f;
+            loadDuration = 8f;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
             while (currentTime < loadDuration)

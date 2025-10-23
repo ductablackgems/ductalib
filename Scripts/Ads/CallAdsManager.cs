@@ -217,7 +217,7 @@ namespace _0.DucLib.Scripts.Ads
         public static bool BannerReady() => _impl.BannerReady();
         public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
         
-        public static bool IsInterGroupReady(string pos) => _impl.IsInterGroupReady(pos);
+        public static bool IsInterPosReady(string pos) => _impl.IsInterPosReady(pos);
 
         public static void StopReloadFS(string group) => _impl.StopReloadFS(group);
         public static bool RewardedIsReady() => _impl.RewardedIsReady();
@@ -279,7 +279,7 @@ namespace _0.DucLib.Scripts.Ads
 
             void InitInter(string group);
             void ShowInter(string pos, Action complete);
-            bool IsInterGroupReady(string pos);
+            bool IsInterPosReady(string pos);
             void StopReloadFS(string group);
 
             #endregion
@@ -350,7 +350,7 @@ namespace _0.DucLib.Scripts.Ads
                 complete?.Invoke();
             }
 
-            public bool IsInterGroupReady(string group) => false;
+            public bool IsInterPosReady(string group) => false;
 
             public void StopReloadFS(string group) => LogHelper.CheckPoint($"StopReloadFS {group}");
 
@@ -447,7 +447,7 @@ namespace _0.DucLib.Scripts.Ads
                 complete?.Invoke();
             }
 
-            public bool IsInterGroupReady(string pos) => AdsManager.IsInterstitialReady(pos);
+            public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
 
             public void StopReloadFS(string group)
             {
@@ -588,7 +588,7 @@ namespace _0.DucLib.Scripts.Ads
             public void HideMREC()
             {
                 LogHelper.CheckPoint();
-                AdsManager.HideMrec();
+                AdsManager.DestroyMrec();
             }
 
             #endregion
@@ -660,7 +660,7 @@ namespace _0.DucLib.Scripts.Ads
                 complete?.Invoke();
             }
 
-            public bool IsInterGroupReady(string pos) => AdsManager.IsInterstitialReady(pos);
+            public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
 
             public void StopReloadFS(string group) => LogHelper.CheckPoint();
 

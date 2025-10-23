@@ -9,13 +9,17 @@ using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
 {
-
     public class TestMonet : MonoBehaviour
     {
-        public ImmersiveInGameDisplayAd ad;
-        public DucTALib.Scripts.Common.UIDragObject trans;
+#if USE_IMMERSIVE_ADMOB
+         public ImmersiveInGameDisplayAd ad;
         private AdLoader immersiveAdLoader;
+
+#endif
+
+        public DucTALib.Scripts.Common.UIDragObject trans;
         public GameObject objectImmersive;
+
         public void ShowAds()
         {
             CallAdsManager.ShowONA("Test1", trans.rect);
@@ -46,7 +50,7 @@ namespace _0.DucLib.Scripts.Ads
             CallAdsManager.ShowBannerCollapsible();
         }
 
-
+#if USE_IMMERSIVE_ADMOB
         public void LoadImmersive()
         {
             immersiveAdLoader = new AdLoader.Builder("ca-app-pub-8243023565158105/8321505460")
@@ -103,5 +107,6 @@ namespace _0.DucLib.Scripts.Ads
             ad.SetLocalScale(1.0f);
             ad.ShowAd();
         }
+#endif
     }
 }
