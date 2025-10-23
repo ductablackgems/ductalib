@@ -216,6 +216,8 @@ namespace _0.DucLib.Scripts.Ads
 
         public static bool BannerReady() => _impl.BannerReady();
         public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
+        
+        public static bool IsInterGroupReady(string pos) => _impl.IsInterGroupReady(pos);
 
         public static void StopReloadFS(string group) => _impl.StopReloadFS(group);
         public static bool RewardedIsReady() => _impl.RewardedIsReady();
@@ -277,6 +279,7 @@ namespace _0.DucLib.Scripts.Ads
 
             void InitInter(string group);
             void ShowInter(string pos, Action complete);
+            bool IsInterGroupReady(string pos);
             void StopReloadFS(string group);
 
             #endregion
@@ -346,6 +349,8 @@ namespace _0.DucLib.Scripts.Ads
                 LogHelper.CheckPoint($"ShowInter {pos}");
                 complete?.Invoke();
             }
+
+            public bool IsInterGroupReady(string group) => false;
 
             public void StopReloadFS(string group) => LogHelper.CheckPoint($"StopReloadFS {group}");
 
@@ -441,6 +446,8 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.ShowInterstitial(pos);
                 complete?.Invoke();
             }
+
+            public bool IsInterGroupReady(string pos) => AdsManager.IsInterstitialReady(pos);
 
             public void StopReloadFS(string group)
             {
@@ -652,6 +659,8 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.ShowInterstitial(pos);
                 complete?.Invoke();
             }
+
+            public bool IsInterGroupReady(string pos) => AdsManager.IsInterstitialReady(pos);
 
             public void StopReloadFS(string group) => LogHelper.CheckPoint();
 
