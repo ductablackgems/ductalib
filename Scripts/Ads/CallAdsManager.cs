@@ -120,7 +120,7 @@ namespace _0.DucLib.Scripts.Ads
                 case BannerType.Mix:
                     HideBanner();
                     ShowBannerNA();
-                    ShowCollapseBanner();
+                    ShowBannerCollapsibleNA();
                     break;
                 case BannerType.Android:
                     break;
@@ -172,7 +172,7 @@ namespace _0.DucLib.Scripts.Ads
                 yield return null;
             }
 
-            ShowCollapseBanner();
+            ShowBannerCollapsibleNA();
         }
 
         private void StopAutoExpandBanner()
@@ -232,10 +232,12 @@ namespace _0.DucLib.Scripts.Ads
 
 
         public static void ShowBanner() => _impl.ShowBanner();
+
+        public static void ShowBannerCollapsible() => _impl.ShowBannerCollapsible();
         public static void HideBanner() => _impl.HideBanner();
 
-        public static void ShowCollapseBanner() => _impl.ShowCollapseBanner();
-        public static void HideCollapseBanner() => _impl.HideCollapseBanner();
+        public static void ShowBannerCollapsibleNA() => _impl.ShowCollapseBannerNA();
+        public static void HideBannerCollapsibleNA() => _impl.HideCollapseBannerNA();
 
         public static void StopReloadBNNA() => _impl.StopReloadBNNA();
 
@@ -284,9 +286,10 @@ namespace _0.DucLib.Scripts.Ads
             void InitBannerNA();
             void InitBanner();
             void ShowBanner();
+            void ShowBannerCollapsible();
             void HideBanner();
-            void ShowCollapseBanner();
-            void HideCollapseBanner();
+            void ShowCollapseBannerNA();
+            void HideCollapseBannerNA();
             void ShowBannerNA();
             void HideBannerNA();
             void DestroyBannerNA();
@@ -353,9 +356,10 @@ namespace _0.DucLib.Scripts.Ads
             public void InitBannerNA() => LogHelper.CheckPoint();
             public void InitBanner() => LogHelper.CheckPoint();
             public void ShowBanner() => LogHelper.CheckPoint();
+            public void ShowBannerCollapsible()=> LogHelper.CheckPoint();
             public void HideBanner() => LogHelper.CheckPoint();
-            public void ShowCollapseBanner() => LogHelper.CheckPoint();
-            public void HideCollapseBanner() => LogHelper.CheckPoint();
+            public void ShowCollapseBannerNA() => LogHelper.CheckPoint();
+            public void HideCollapseBannerNA() => LogHelper.CheckPoint();
             public void ShowBannerNA() => LogHelper.CheckPoint();
             public void HideBannerNA() => LogHelper.CheckPoint();
             public void DestroyBannerNA() => LogHelper.CheckPoint();
@@ -466,19 +470,25 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.ShowBanner();
             }
 
+            public void ShowBannerCollapsible()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowBannerCollapsible();
+            }
+
             public void HideBanner()
             {
                 LogHelper.CheckPoint();
                 AdsManager.HideBanner();
             }
 
-            public void ShowCollapseBanner()
+            public void ShowCollapseBannerNA()
             {
                 LogHelper.CheckPoint();
                 Game3DCore2.ExpandBNNA();
             }
 
-            public void HideCollapseBanner()
+            public void HideCollapseBannerNA()
             {
                 Debug.Log("Hide Collapse Banner");
             }
@@ -652,9 +662,14 @@ namespace _0.DucLib.Scripts.Ads
             public void InitBannerNA() => LogHelper.CheckPoint();
             public void InitBanner() => AdsManager.InitBannerManually();
             public void ShowBanner() => AdsManager.ShowBanner();
+            public void ShowBannerCollapsible()
+            {
+                AdsManager.ShowBannerCollapsible();
+            }
+
             public void HideBanner() => AdsManager.HideBanner();
-            public void ShowCollapseBanner() => LogHelper.CheckPoint("ShowCollapseBanner (iOS) noop");
-            public void HideCollapseBanner() => LogHelper.CheckPoint("HideCollapseBanner (iOS) noop");
+            public void ShowCollapseBannerNA() => LogHelper.CheckPoint("ShowCollapseBannerNA (iOS) noop");
+            public void HideCollapseBannerNA() => LogHelper.CheckPoint("HideCollapseBannerNA (iOS) noop");
             public void ShowBannerNA() => LogHelper.CheckPoint();
             public void HideBannerNA() => LogHelper.CheckPoint();
             public void DestroyBannerNA() => LogHelper.CheckPoint();

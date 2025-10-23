@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using BG_Library.NET;
+using TMPro;
 using UnityEngine;
 
 namespace _0.DucLib.Scripts.Ads
@@ -21,7 +22,21 @@ namespace _0.DucLib.Scripts.Ads
         {
             CallAdsManager.InitONA("Test1");
         }
-        
+
+        public void InitBN()
+        {
+            CallAdsManager.LoadBanner();
+        }
+
+        public void ShowBanner()
+        {
+            CallAdsManager.ShowBanner();
+        }
+
+        public void ShowCollapse()
+        {
+            CallAdsManager.ShowBannerCollapsible();
+        }
         
     }
 }
