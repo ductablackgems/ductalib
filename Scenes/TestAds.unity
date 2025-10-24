@@ -414,13 +414,15 @@ PrefabInstance:
         [\r\n        {\r\n            \"groupName\": \"\",\r\n            \"pos\":
         [\r\n                \"test\",\r\n                \"test1\"\r\n           
         ],\r\n            \"id\": \"\",\r\n            \"reloadAfterShow\": false\r\n       
-        }\r\n    ],\r\n    \"bnna_info\": {\r\n        \"isEnable\": false,\r\n       
-        \"id\": \"\",\r\n        \"layout\": \"\",\r\n        \"reloadTime\": 0,\r\n       
-        \"closeableTime\": 0\r\n    },\r\n    \"ona_infos\": [\r\n        {\r\n           
-        \"groupName\": \"\",\r\n            \"pos\": [\r\n                \"test\"\r\n           
-        ],\r\n            \"id\": \"\",\r\n            \"layout\": \"\",\r\n           
-        \"closeableTime\": 0,\r\n            \"reloadAfterShow\": false,\r\n           
-        \"closeAdsTime\": 0\r\n        }\r\n    ]\r\n}"
+        }\r\n    ],\r\n    \"immersiveInfos\": [\r\n        {\r\n            \"pos\":
+        \"test\",\r\n            \"id\": \"\"\r\n        }\r\n    ],\r\n    \"bnna_info\":
+        {\r\n        \"isEnable\": false,\r\n        \"id\": \"\",\r\n        \"layout\":
+        \"\",\r\n        \"reloadTime\": 0,\r\n        \"closeableTime\": 0\r\n   
+        },\r\n    \"ona_infos\": [\r\n        {\r\n            \"groupName\": \"\",\r\n           
+        \"pos\": [\r\n                \"test\"\r\n            ],\r\n            \"id\":
+        \"\",\r\n            \"layout\": \"\",\r\n            \"closeableTime\":
+        0,\r\n            \"reloadAfterShow\": false,\r\n            \"closeAdsTime\":
+        0\r\n        }\r\n    ]\r\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 2140372439654425605, guid: 1384f948869f8b7428384740a3e334c8,
         type: 3}
@@ -691,7 +693,10 @@ PrefabInstance:
         \"reloadTime\": 0.0\r\n            }\r\n        ]\r\n    },\r\n    \"overlay\":
         {\r\n        \"isEnable\": false,\r\n        \"posInfos\": [\r\n           
         {\r\n                \"isEnable\": false,\r\n                \"pos\": \"temp\"\r\n           
-        }\r\n        ]\r\n    }\r\n}"
+        }\r\n        ]\r\n    },\r\n    \"immersive\": {\r\n        \"isEnable\":
+        false,\r\n        \"posInfos\": [\r\n            {\r\n                \"isEnable\":
+        false,\r\n                \"pos\": \"temp\"\r\n            }\r\n        ]\r\n   
+        }\r\n}"
       objectReference: {fileID: 0}
     - target: {fileID: 6983167801751673383, guid: ba3707f671ec8d34ea8778d6938d1923,
         type: 3}
@@ -907,6 +912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063625798987640509, guid: 8c51045b39343004ca279f6e3d0f3c1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 156.6665
       objectReference: {fileID: 0}
     - target: {fileID: 7163720146550802861, guid: 8c51045b39343004ca279f6e3d0f3c1b,
         type: 3}
@@ -1671,6 +1681,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6601073651869429862, guid: 31ea30db01f5b434b80920e3794acab1,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 8388407
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

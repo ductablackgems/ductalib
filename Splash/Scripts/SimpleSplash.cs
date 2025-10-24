@@ -78,7 +78,7 @@ namespace _0.DucTALib.Splash.Scripts
                 yield return null;
             }
 
-            loadDuration = 8f;
+            loadDuration = CommonRemoteConfig.instance.commonConfig.splashTime;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
             while (currentTime < loadDuration)

@@ -269,6 +269,12 @@ namespace _0.DucLib.Scripts.Ads
         }
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
+        
+        public static void InitImmersive(string pos) =>  _impl.InitImmersive(pos);
+        public static void ShowImmersive(string pos , GameObject adParent) => _impl.ShowImmersive(pos, adParent);
+        public static bool ImmersiveIsReady(string pos) => _impl.ImmersiveReady(pos);
+        public static void DestroyImmersive(string pos) => _impl.DestroyImmersive(pos);
+        
 
         #endregion
 
