@@ -22,10 +22,11 @@ namespace _0.DucLib.Scripts.Ads
         {
             get
             {
-                if(adsPlatform == null) Setup();
+                if (adsPlatform == null) Setup();
                 return adsPlatform;
             }
         }
+
         private static IAdsPlatform adsPlatform;
         private bool eventAdded = false;
         private int currentInter = 0;
@@ -216,7 +217,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public static bool BannerReady() => _impl.BannerReady();
         public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
-        
+
         public static bool IsInterPosReady(string pos) => _impl.IsInterPosReady(pos);
 
         public static void StopReloadFS(string group) => _impl.StopReloadFS(group);
@@ -333,6 +334,16 @@ namespace _0.DucLib.Scripts.Ads
             void StopReloadONA(string group);
 
             #endregion
+#if USE_IMMERSIVE_ADMOB
+
+            #region Immersive
+            void InitImmersive(string pos);
+            void ShowImmersive(string pos, GameObject adParent);
+            void DestroyImmersive(string pos);
+            bool ImmersiveReady(string pos);
+            #endregion
+
+#endif
         }
 
 
@@ -361,7 +372,7 @@ namespace _0.DucLib.Scripts.Ads
             public void InitBannerNA() => LogHelper.CheckPoint();
             public void InitBanner() => LogHelper.CheckPoint();
             public void ShowBanner() => LogHelper.CheckPoint();
-            public void ShowBannerCollapsible()=> LogHelper.CheckPoint();
+            public void ShowBannerCollapsible() => LogHelper.CheckPoint();
             public void HideBanner() => LogHelper.CheckPoint();
             public void ShowCollapseBannerNA() => LogHelper.CheckPoint();
             public void HideCollapseBannerNA() => LogHelper.CheckPoint();
@@ -424,8 +435,21 @@ namespace _0.DucLib.Scripts.Ads
             }
 
             public void StopReloadONA(string group) => LogHelper.CheckPoint($"StopReloadONA {group}");
+          
+            #endregion
+#if USE_IMMERSIVE_ADMOB
+
+            #region Immersive
+            public void InitImmersive(string pos) => LogHelper.CheckPoint($"InitImmersive {pos}");
+            public void ShowImmersive(string pos, GameObject adParent) => LogHelper.CheckPoint($"Show Immersive {pos}");
+
+            public void DestroyImmersive(string pos) => LogHelper.CheckPoint($"Destroy immersive {pos}");
+
+            public bool ImmersiveReady(string pos) => false;
 
             #endregion
+
+#endif
         }
 #if UNITY_ANDROID && USE_ANDROID_MEDIATION
         internal sealed class AndroidAdsPlatform : IAdsPlatform
@@ -638,7 +662,36 @@ namespace _0.DucLib.Scripts.Ads
                 Game3DCore2.StopReloadONA(group);
             }
 
+            
+
             #endregion
+#if USE_IMMERSIVE_ADMOB
+
+            #region Immersive
+            public void InitImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"InitImmersive {pos}");
+                AdsManager.InitImmersive(pos);
+            }
+
+            public void ShowImmersive(string pos, GameObject adParent)
+            {
+                LogHelper.CheckPoint($"ShowImmersive {pos}");
+                AdsManager.ShowImmersive(pos, adParent);
+            }
+
+            public void DestroyImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"DestroyImmersive {pos}");
+                AdsManager.DestroyImmersive(pos);
+            }
+
+            public bool ImmersiveReady(string pos)
+            {
+                return AdsManager.ImmersiveIsReady(pos);
+            }
+            #endregion
+#endif
         }
 #endif
         internal sealed class IosAdsPlatform : IAdsPlatform
@@ -671,6 +724,7 @@ namespace _0.DucLib.Scripts.Ads
             public void InitBannerNA() => LogHelper.CheckPoint();
             public void InitBanner() => AdsManager.InitBannerManually();
             public void ShowBanner() => AdsManager.ShowBanner();
+
             public void ShowBannerCollapsible()
             {
                 AdsManager.ShowBannerCollapsible();
@@ -762,6 +816,35 @@ namespace _0.DucLib.Scripts.Ads
             public void StopReloadONA(string group) => LogHelper.CheckPoint();
 
             #endregion
+
+#if USE_IMMERSIVE_ADMOB
+
+            #region Immersive
+            public void InitImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"InitImmersive {pos}");
+                AdsManager.InitImmersive(pos);
+            }
+
+            public void ShowImmersive(string pos, GameObject adParent)
+            {
+                LogHelper.CheckPoint($"ShowImmersive {pos}");
+                AdsManager.ShowImmersive(pos, adParent);
+            }
+
+            public void DestroyImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"DestroyImmersive {pos}");
+                AdsManager.DestroyImmersive(pos);
+            }
+
+            public bool ImmersiveReady(string pos)
+            {
+                return AdsManager.ImmersiveIsReady(pos);
+            }
+            #endregion
+
+#endif
         }
     }
 }
