@@ -269,12 +269,12 @@ namespace _0.DucLib.Scripts.Ads
         }
 
         public static bool CheckInternet() => Application.internetReachability != NetworkReachability.NotReachable;
-        
-        public static void InitImmersive(string pos) =>  _impl.InitImmersive(pos);
-        public static void ShowImmersive(string pos , GameObject adParent) => _impl.ShowImmersive(pos, adParent);
+#if USE_IMMERSIVE_ADMOB
+        public static void InitImmersive(string pos) => _impl.InitImmersive(pos);
+        public static void ShowImmersive(string pos, GameObject adParent) => _impl.ShowImmersive(pos, adParent);
         public static bool ImmersiveIsReady(string pos) => _impl.ImmersiveReady(pos);
         public static void DestroyImmersive(string pos) => _impl.DestroyImmersive(pos);
-        
+#endif
 
         #endregion
 
@@ -340,13 +340,16 @@ namespace _0.DucLib.Scripts.Ads
             void StopReloadONA(string group);
 
             #endregion
+
 #if USE_IMMERSIVE_ADMOB
 
             #region Immersive
+
             void InitImmersive(string pos);
             void ShowImmersive(string pos, GameObject adParent);
             void DestroyImmersive(string pos);
             bool ImmersiveReady(string pos);
+
             #endregion
 
 #endif
@@ -441,11 +444,13 @@ namespace _0.DucLib.Scripts.Ads
             }
 
             public void StopReloadONA(string group) => LogHelper.CheckPoint($"StopReloadONA {group}");
-          
+
             #endregion
+
 #if USE_IMMERSIVE_ADMOB
 
             #region Immersive
+
             public void InitImmersive(string pos) => LogHelper.CheckPoint($"InitImmersive {pos}");
             public void ShowImmersive(string pos, GameObject adParent) => LogHelper.CheckPoint($"Show Immersive {pos}");
 
@@ -668,12 +673,12 @@ namespace _0.DucLib.Scripts.Ads
                 Game3DCore2.StopReloadONA(group);
             }
 
-            
-
             #endregion
+
 #if USE_IMMERSIVE_ADMOB
 
             #region Immersive
+
             public void InitImmersive(string pos)
             {
                 LogHelper.CheckPoint($"InitImmersive {pos}");
@@ -696,7 +701,9 @@ namespace _0.DucLib.Scripts.Ads
             {
                 return AdsManager.ImmersiveIsReady(pos);
             }
+
             #endregion
+
 #endif
         }
 #endif
@@ -826,6 +833,7 @@ namespace _0.DucLib.Scripts.Ads
 #if USE_IMMERSIVE_ADMOB
 
             #region Immersive
+
             public void InitImmersive(string pos)
             {
                 LogHelper.CheckPoint($"InitImmersive {pos}");
@@ -848,6 +856,7 @@ namespace _0.DucLib.Scripts.Ads
             {
                 return AdsManager.ImmersiveIsReady(pos);
             }
+
             #endregion
 
 #endif
