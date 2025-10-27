@@ -4,6 +4,7 @@ using GoogleMobileAds.Api;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash;
+using BG_Lib.NET.PUZZLE_CORE;
 using BG_Library.Common;
 using BG_Library.NET;
 using UnityEngine;
@@ -74,6 +75,8 @@ namespace _0.DucLib.Scripts.Ads
         {
 #if IGNORE_ADS
             adsPlatform = new NoAdsPlatform();
+#elif UNITY_ANDROID && USE_PUZZLE_MEDIATION
+            adsPlatform = new PuzzleAdsPlatform();
 #elif UNITY_ANDROID && USE_ANDROID_MEDIATION
             adsPlatform = new AndroidAdsPlatform();
 #else
@@ -108,48 +111,6 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Banner & Collapse
-
-        public void ShowBannerGameplay()
-        {
-#if UNITY_IOS
-            return;
-#endif
-            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
-            {
-                case BannerType.Admob:
-                    break;
-                case BannerType.Mix:
-                    HideBanner();
-                    ShowBannerNA();
-                    ShowBannerCollapsibleNA();
-                    break;
-                case BannerType.Android:
-                    break;
-            }
-
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowBannerMenu()
-        {
-#if UNITY_IOS
-            return;
-#endif
-            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
-            {
-                case BannerType.Admob:
-                    break;
-                case BannerType.Mix:
-                    StopAutoExpandBanner();
-                    ShowBanner();
-                    HideBannerNA();
-                    break;
-                case BannerType.Android:
-                    break;
-            }
-
-            LogHelper.CheckPoint();
-        }
 
         private void OnBannerCollapsed()
         {
@@ -280,7 +241,6 @@ namespace _0.DucLib.Scripts.Ads
 
         internal interface IAdsPlatform
         {
-            public string sceneName { get; set; }
 
             #region INTER
 
@@ -358,7 +318,6 @@ namespace _0.DucLib.Scripts.Ads
 
         internal sealed class NoAdsPlatform : IAdsPlatform
         {
-            public string sceneName { get; set; }
 
             #region INTER
 
@@ -462,10 +421,10 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
+        
 #if UNITY_ANDROID && USE_ANDROID_MEDIATION
         internal sealed class AndroidAdsPlatform : IAdsPlatform
         {
-            public string sceneName { get; set; }
 
             #region INTER
 
@@ -706,10 +665,10 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
+        
 #endif
         internal sealed class IosAdsPlatform : IAdsPlatform
         {
-            public string sceneName { get; set; }
 
             #region INTER
 
@@ -861,5 +820,251 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
+        
+        
+#if UNITY_ANDROID && USE_PUZZLE_MEDIATION
+        internal sealed class PuzzleAdsPlatform : IAdsPlatform
+        {
+
+            #region INTER
+
+            public void InitInter(string group)
+            {
+                LogHelper.CheckPoint($"Load inter {group}");
+                AdsManager.InitInterstitialManually(group);
+            }
+
+            public void ShowInter(string pos, Action complete)
+            {
+                LogHelper.CheckPoint($"show inter {pos}");
+                AdsManager.ShowInterstitial(pos);
+                complete?.Invoke();
+            }
+
+            public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
+
+            public void StopReloadFS(string group)
+            {
+                LogHelper.CheckPoint($"Stop  reload inter {group}");
+                AdPuzzleCore.StopReloadFA(group);
+            }
+
+            #endregion
+
+            #region BANNER
+
+            public void InitBannerNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.InitializeBNNA();
+            }
+
+            public void InitBanner()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.InitBannerManually();
+            }
+
+            public void ShowBanner()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowBanner();
+            }
+
+            public void ShowBannerCollapsible()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowBannerCollapsible();
+            }
+
+            public void HideBanner()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.HideBanner();
+            }
+
+            public void ShowCollapseBannerNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ExpandBNNA();
+            }
+
+            public void HideCollapseBannerNA()
+            {
+                Debug.Log("Hide Collapse Banner");
+            }
+
+            public void ShowBannerNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ShowBNNA();
+            }
+
+            public void HideBannerNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.HideBNNA();
+            }
+
+            public void DestroyBannerNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ClearBNNA();
+            }
+
+            public bool BannerNAReady() => Game3DCore2.IsBNNAReady();
+
+            public void StopReloadBNNA()
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.StopReloadBNNA();
+            }
+
+            public bool BNNAIsShowing() => AdPuzzleCore.BNNAIsShowing();
+
+            public bool BannerReady() => AdsManager.Ins.AdsCoreIns.IsBNReady();
+
+            #endregion
+
+            #region REWARD
+
+            public void InitReward()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.InitRewardManually();
+            }
+
+            public bool RewardedIsReady() => AdsManager.IsRewardedReady;
+
+            public bool ShowRewardVideo(string pos, Action actionDone)
+            {
+                LogHelper.CheckPoint();
+                if (!RewardedIsReady())
+                {
+                    CallAdsManager.rewardNotReadyAction?.Invoke();
+                    return false;
+                }
+
+                return AdsManager.ShowRewardVideo(pos, actionDone);
+            }
+
+            #endregion
+
+            #region MREC
+
+            public void InitMREC()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.InitMrecManually();
+            }
+
+            public void ShowMREC(GameObject target)
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowMrec(target);
+                AdsManager.UpdatePos(target);
+            }
+
+            public void ShowMREC(GameObject target, Camera cam)
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowMrec(target, cam);
+                AdsManager.UpdatePos(target, cam);
+            }
+
+            public void ShowMREC(AdPosition adPosition)
+            {
+                LogHelper.CheckPoint();
+                AdsManager.ShowMrec((int)adPosition);
+                AdsManager.UpdatePos((int)adPosition);
+            }
+
+            public void HideMREC()
+            {
+                LogHelper.CheckPoint();
+                AdsManager.DestroyMrec();
+            }
+
+            #endregion
+
+            #region OVERLAY
+
+            public void InitONA(string group)
+            {
+                LogHelper.CheckPoint($"load ONA {group}");
+                AdPuzzleCore.InitializeONA(group);
+            }
+
+            public void ShowONA(string pos)
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ShowONA(pos);
+            }
+
+            public void ShowONA(string pos, RectTransform objectPos)
+            {
+                LogHelper.CheckPoint();
+                var position = CommonHelper.ObjectToOverlayPos(objectPos);
+                AdPuzzleCore.ShowONA(pos, position.x, position.y);
+            }
+
+            public void ClearONA(string pos)
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ClearONA(pos);
+            }
+
+            public void CloseONA(string pos)
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.CloseONA(pos);
+            }
+
+            public bool ONAReady(string pos)
+            {
+                LogHelper.CheckPoint();
+                return AdPuzzleCore.IsONAReady(pos);
+            }
+
+            public void StopReloadONA(string group)
+            {
+                LogHelper.CheckPoint($"Stop Reload  ONA {group}");
+                AdPuzzleCore.StopReloadONA(group);
+            }
+
+            #endregion
+
+#if USE_IMMERSIVE_ADMOB
+
+            #region Immersive
+
+            public void InitImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"InitImmersive {pos}");
+                AdsManager.InitImmersive(pos);
+            }
+
+            public void ShowImmersive(string pos, GameObject adParent)
+            {
+                LogHelper.CheckPoint($"ShowImmersive {pos}");
+                AdsManager.ShowImmersive(pos, adParent);
+            }
+
+            public void DestroyImmersive(string pos)
+            {
+                LogHelper.CheckPoint($"DestroyImmersive {pos}");
+                AdsManager.DestroyImmersive(pos);
+            }
+
+            public bool ImmersiveReady(string pos)
+            {
+                return AdsManager.ImmersiveIsReady(pos);
+            }
+
+            #endregion
+
+#endif
+        }
+#endif
     }
 }

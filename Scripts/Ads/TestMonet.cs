@@ -11,10 +11,9 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class TestMonet : MonoBehaviour
     {
-
-
         public DucTALib.Scripts.Common.UIDragObject trans;
         public GameObject objectImmersive;
+        public TMP_InputField inputField;
 
         public void ShowAds()
         {
@@ -44,6 +43,41 @@ namespace _0.DucLib.Scripts.Ads
         public void ShowCollapse()
         {
             CallAdsManager.ShowBannerCollapsible();
+        }
+
+        public void ShowInter()
+        {
+            string value = inputField.text;
+            CallAdsManager.ShowInter(value);
+        }
+
+        public void InitInter()
+        {
+            string value = inputField.text;
+            CallAdsManager.LoadInterByGroup(value);
+        }
+
+        public void ShowBN()
+        {
+            CallAdsManager.ShowBanner();
+        }
+
+        public void ShowRW()
+        {
+            CallAdsManager.ShowRewardVideo("", () =>
+            {
+                LogHelper.CheckPoint("reward done");
+            });
+        }
+
+        public void ShowBNNA()
+        {
+            CallAdsManager.ShowBannerNA();
+        }
+
+        public void InitBNNA()
+        {
+            CallAdsManager.InitBannerNA();
         }
 
 #if USE_IMMERSIVE_ADMOB
