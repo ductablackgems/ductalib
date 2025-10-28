@@ -4,11 +4,12 @@ using GoogleMobileAds.Api;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Splash;
-using BG_Lib.NET.PUZZLE_CORE;
 using BG_Library.Common;
 using BG_Library.NET;
 using UnityEngine;
-
+#if UNITY_ANDROID && USE_PUZZLE_MEDIATION
+using BG_Lib.NET.PUZZLE_CORE;
+#endif
 namespace _0.DucLib.Scripts.Ads
 {
     public class CallAdsManager : MonoBehaviour
@@ -111,7 +112,47 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Banner & Collapse
+        public void ShowBannerGameplay()
+        {
+#if UNITY_IOS
+            return;
+#endif
+            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
+            {
+                case BannerType.Admob:
+                    break;
+                case BannerType.Mix:
+                    HideBanner();
+                    ShowBannerNA();
+                    ShowBannerCollapsibleNA();
+                    break;
+                case BannerType.Android:
+                    break;
+            }
 
+            LogHelper.CheckPoint();
+        }
+
+        public void ShowBannerMenu()
+        {
+#if UNITY_IOS
+            return;
+#endif
+            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
+            {
+                case BannerType.Admob:
+                    break;
+                case BannerType.Mix:
+                    StopAutoExpandBanner();
+                    ShowBanner();
+                    HideBannerNA();
+                    break;
+                case BannerType.Android:
+                    break;
+            }
+
+            LogHelper.CheckPoint();
+        }
         private void OnBannerCollapsed()
         {
             LogHelper.CheckPoint("Close collapsed banner, start countdown");
@@ -823,6 +864,7 @@ namespace _0.DucLib.Scripts.Ads
         
         
 #if UNITY_ANDROID && USE_PUZZLE_MEDIATION
+        
         internal sealed class PuzzleAdsPlatform : IAdsPlatform
         {
 
