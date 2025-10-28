@@ -954,7 +954,7 @@ namespace _0.DucLib.Scripts.Ads
                 AdPuzzleCore.ClearBNNA();
             }
 
-            public bool BannerNAReady() => Game3DCore2.IsBNNAReady();
+            public bool BannerNAReady() => AdPuzzleCore.IsBNNAReady();
 
             public void StopReloadBNNA()
             {
