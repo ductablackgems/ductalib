@@ -5,7 +5,11 @@ namespace _0.DucLib.Scripts.Common
 {
     public static class GlobalData
     {
-       
+        public static bool FirstTimeAction
+        {
+            get => PlayerPrefHelper.GetBool("FirstTimeAction");
+            set => PlayerPrefHelper.SetBool("FirstTimeAction", value);
+        }
         public static bool Reviewed
         {
             get => PlayerPrefHelper.GetBool("Reviewed");
