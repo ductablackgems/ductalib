@@ -478,8 +478,7 @@ namespace _0.DucLib.Scripts.Ads
             public void ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter {pos}");
-                AdsManager.ShowInterstitial(pos);
-                complete?.Invoke();
+                AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
@@ -722,8 +721,7 @@ namespace _0.DucLib.Scripts.Ads
             public void ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter (iOS) {pos}");
-                AdsManager.ShowInterstitial(pos);
-                complete?.Invoke();
+                AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
@@ -879,8 +877,7 @@ namespace _0.DucLib.Scripts.Ads
             public void ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter {pos}");
-                AdsManager.ShowInterstitial(pos);
-                complete?.Invoke();
+                AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
