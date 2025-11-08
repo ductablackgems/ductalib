@@ -228,6 +228,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public static void InitONA(string group) => _impl.InitONA(group);
         public static void ShowONA(string pos) => _impl.ShowONA(pos);
+        public static void ShowONAReloadByTime(string pos) => _impl.ShowONAReloadByTime(pos);
         public static void ShowONA(string pos, RectTransform objectPos) => _impl.ShowONA(pos, objectPos);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
