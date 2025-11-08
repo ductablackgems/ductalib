@@ -335,6 +335,7 @@ namespace _0.DucLib.Scripts.Ads
             void InitONA(string group);
             void ShowONA(string pos);
             void ShowONA(string pos, RectTransform objectPos);
+            void ShowONAReloadByTime(string pos);
             void ClearONA(string pos);
             void CloseONA(string pos);
             bool ONAReady(string pos);
@@ -435,6 +436,7 @@ namespace _0.DucLib.Scripts.Ads
             public void InitONA(string group) => LogHelper.CheckPoint($"Init OnA {group}");
             public void ShowONA(string pos) => LogHelper.CheckPoint($"ShowONA {pos}");
             public void ShowONA(string pos, RectTransform objectPos) => LogHelper.CheckPoint($"ShowONA XY {pos}");
+            public void ShowONAReloadByTime(string pos) => LogHelper.CheckPoint($"ShowONAReloadByTime {pos}");
             public void ClearONA(string pos) => LogHelper.CheckPoint($"ClearONA OnA {pos}");
             public void CloseONA(string pos) => LogHelper.CheckPoint($"CloseONA OnA {pos}");
 
@@ -648,6 +650,12 @@ namespace _0.DucLib.Scripts.Ads
                 Game3DCore2.ShowONA(pos, position.x, position.y);
             }
 
+            public void ShowONAReloadByTime(string pos)
+            {
+                LogHelper.CheckPoint();
+                Game3DCore2.ShowONAReloadByTime(pos);
+            }
+
             public void ClearONA(string pos)
             {
                 LogHelper.CheckPoint();
@@ -814,7 +822,7 @@ namespace _0.DucLib.Scripts.Ads
             public void InitONA(string group) => LogHelper.CheckPoint();
             public void ShowONA(string pos) => LogHelper.CheckPoint();
             public void ShowONA(string pos, RectTransform objectPoss) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
-
+            public void ShowONAReloadByTime(string pos) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
             public void ClearONA(string pos) => LogHelper.CheckPoint();
             public void CloseONA(string pos) => LogHelper.CheckPoint();
 
@@ -1045,6 +1053,12 @@ namespace _0.DucLib.Scripts.Ads
                 LogHelper.CheckPoint();
                 var position = CommonHelper.ObjectToOverlayPos(objectPos);
                 AdPuzzleCore.ShowONA(pos, position.x, position.y);
+            }
+
+            public void ShowONAReloadByTime(string pos)
+            {
+                LogHelper.CheckPoint();
+                AdPuzzleCore.ShowONAReloadByTime(pos);
             }
 
             public void ClearONA(string pos)
