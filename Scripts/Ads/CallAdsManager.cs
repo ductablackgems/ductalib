@@ -10,6 +10,7 @@ using UnityEngine;
 #if UNITY_ANDROID && USE_PUZZLE_MEDIATION
 using BG_Lib.NET.PUZZLE_CORE;
 #endif
+
 namespace _0.DucLib.Scripts.Ads
 {
     public class CallAdsManager : MonoBehaviour
@@ -112,6 +113,7 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Banner & Collapse
+
         public void ShowBannerGameplay()
         {
 #if UNITY_IOS
@@ -153,6 +155,7 @@ namespace _0.DucLib.Scripts.Ads
 
             LogHelper.CheckPoint();
         }
+
         private void OnBannerCollapsed()
         {
             LogHelper.CheckPoint("Close collapsed banner, start countdown");
@@ -218,7 +221,7 @@ namespace _0.DucLib.Scripts.Ads
         public static bool BannerNAReady() => _impl.BannerNAReady();
 
         public static bool BannerReady() => _impl.BannerReady();
-        public static void ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
+        public static bool ShowInter(string pos, Action complete = null) => _impl.ShowInter(pos, complete);
 
         public static bool IsInterPosReady(string pos) => _impl.IsInterPosReady(pos);
 
@@ -283,11 +286,10 @@ namespace _0.DucLib.Scripts.Ads
 
         internal interface IAdsPlatform
         {
-
             #region INTER
 
             void InitInter(string group);
-            void ShowInter(string pos, Action complete);
+            bool ShowInter(string pos, Action complete);
             bool IsInterPosReady(string pos);
             void StopReloadFS(string group);
 
@@ -345,7 +347,6 @@ namespace _0.DucLib.Scripts.Ads
             #endregion
 
 #if USE_IMMERSIVE_ADMOB
-
             #region Immersive
 
             void InitImmersive(string pos);
@@ -361,15 +362,15 @@ namespace _0.DucLib.Scripts.Ads
 
         internal sealed class NoAdsPlatform : IAdsPlatform
         {
-
             #region INTER
 
             public void InitInter(string group) => LogHelper.CheckPoint($"InitInter {group}");
 
-            public void ShowInter(string pos, Action complete)
+            public bool ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"ShowInter {pos}");
                 complete?.Invoke();
+                return true;
             }
 
             public bool IsInterPosReady(string group) => false;
@@ -451,7 +452,6 @@ namespace _0.DucLib.Scripts.Ads
             #endregion
 
 #if USE_IMMERSIVE_ADMOB
-
             #region Immersive
 
             public void InitImmersive(string pos) => LogHelper.CheckPoint($"InitImmersive {pos}");
@@ -465,11 +465,10 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
-        
+
 #if UNITY_ANDROID && USE_ANDROID_MEDIATION
         internal sealed class AndroidAdsPlatform : IAdsPlatform
         {
-
             #region INTER
 
             public void InitInter(string group)
@@ -478,10 +477,10 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.InitInterstitialManually(group);
             }
 
-            public void ShowInter(string pos, Action complete)
+            public bool ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter {pos}");
-                AdsManager.ShowInterstitial(pos, complete);
+                return AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
@@ -684,7 +683,6 @@ namespace _0.DucLib.Scripts.Ads
             #endregion
 
 #if USE_IMMERSIVE_ADMOB
-
             #region Immersive
 
             public void InitImmersive(string pos)
@@ -714,11 +712,10 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
-        
+
 #endif
         internal sealed class IosAdsPlatform : IAdsPlatform
         {
-
             #region INTER
 
             public void InitInter(string group)
@@ -727,10 +724,10 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.InitInterstitialManually(group);
             }
 
-            public void ShowInter(string pos, Action complete)
+            public bool ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter (iOS) {pos}");
-                AdsManager.ShowInterstitial(pos, complete);
+                return AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);
@@ -838,7 +835,6 @@ namespace _0.DucLib.Scripts.Ads
             #endregion
 
 #if USE_IMMERSIVE_ADMOB
-
             #region Immersive
 
             public void InitImmersive(string pos)
@@ -868,10 +864,9 @@ namespace _0.DucLib.Scripts.Ads
 
 #endif
         }
-        
-        
+
+
 #if UNITY_ANDROID && USE_PUZZLE_MEDIATION
-        
         internal sealed class PuzzleAdsPlatform : IAdsPlatform
         {
 
