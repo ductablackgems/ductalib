@@ -72,7 +72,7 @@ namespace _0.DucTALib.Splash.Scripts
             yield return new WaitForEndOfFrame();
 
             float fbTimeout = 5;
-            while (fbTimeout > 0 && (RemoteConfig.Ins == null || RemoteConfig.Ins.isDataFetched))
+            while (fbTimeout > 0 && (RemoteConfig.Ins == null || !RemoteConfig.Ins.isDataFetched))
             {
                 fbTimeout -= Time.deltaTime;
                 yield return null;
