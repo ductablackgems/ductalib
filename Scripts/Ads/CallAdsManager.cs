@@ -49,22 +49,10 @@ namespace _0.DucLib.Scripts.Ads
 
         public void FinishSplash()
         {
-            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
-            {
-                case BannerType.Admob:
-                    StopReloadBNNA();
-                    LoadBanner();
-                    HideBannerNA();
-                    ClearBannerNA();
-                    break;
-                case BannerType.Mix:
-                    LoadBanner();
-                    HideBannerNA();
-                    break;
-                case BannerType.Android:
-                    break;
-            }
-
+            StopReloadBNNA();
+            LoadBanner();
+            HideBannerNA();
+            ClearBannerNA();
             StopReloadFS("launch");
             LoadInterByGroup("gameplay");
             LoadInterByGroup("break");
@@ -113,48 +101,7 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Banner & Collapse
-
-        public void ShowBannerGameplay()
-        {
-#if UNITY_IOS
-            return;
-#endif
-            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
-            {
-                case BannerType.Admob:
-                    break;
-                case BannerType.Mix:
-                    HideBanner();
-                    ShowBannerNA();
-                    ShowBannerCollapsibleNA();
-                    break;
-                case BannerType.Android:
-                    break;
-            }
-
-            LogHelper.CheckPoint();
-        }
-
-        public void ShowBannerMenu()
-        {
-#if UNITY_IOS
-            return;
-#endif
-            switch (CommonRemoteConfig.instance.commonConfig.bannerType)
-            {
-                case BannerType.Admob:
-                    break;
-                case BannerType.Mix:
-                    StopAutoExpandBanner();
-                    ShowBanner();
-                    HideBannerNA();
-                    break;
-                case BannerType.Android:
-                    break;
-            }
-
-            LogHelper.CheckPoint();
-        }
+        
 
         private void OnBannerCollapsed()
         {
@@ -878,10 +825,10 @@ namespace _0.DucLib.Scripts.Ads
                 AdsManager.InitInterstitialManually(group);
             }
 
-            public void ShowInter(string pos, Action complete)
+            public bool ShowInter(string pos, Action complete)
             {
                 LogHelper.CheckPoint($"show inter {pos}");
-                AdsManager.ShowInterstitial(pos, complete);
+                return AdsManager.ShowInterstitial(pos, complete);
             }
 
             public bool IsInterPosReady(string pos) => AdsManager.IsInterstitialReady(pos);

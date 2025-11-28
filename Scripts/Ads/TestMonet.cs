@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using _0.DucLib.Scripts.Common;
 using BG_Library.NET;
+using Firebase;
+using Firebase.RemoteConfig;
 using GoogleMobileAds.Api;
 using TMPro;
 using UnityEngine;
@@ -14,6 +18,94 @@ namespace _0.DucLib.Scripts.Ads
         public DucTALib.Scripts.Common.UIDragObject trans;
         public GameObject objectImmersive;
         public TMP_InputField inputField;
+        public TextMeshProUGUI _tmp;
+
+        private void Start()
+        {
+            _tmp.text = "Remote Config — collecting condition info...";
+
+            StartCoroutine(BuildAndShow());
+        }
+
+        private IEnumerator BuildAndShow()
+        {
+            // Init Firebase
+            yield return new WaitUntil(() => RemoteConfig.Ins.isDataFetched);
+
+            var location = FirebaseRemoteConfig.DefaultInstance.GetValue("location").StringValue;
+
+            // Fetch + Activate để chắc dữ liệu mới nhất
+            var fetchTask = FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
+            while (!fetchTask.IsCompleted) yield return null;
+
+            var activateTask = FirebaseRemoteConfig.DefaultInstance.ActivateAsync();
+            while (!activateTask.IsCompleted) yield return null;
+
+            // Thu thập thông tin "condition-related"
+            var info = FirebaseRemoteConfig.DefaultInstance.Info;
+            var sb = new StringBuilder();
+
+            // — App / Device / Locale —
+            string appName = Application.productName;
+            string bundle = Application.identifier;
+            string appVer = Application.version;
+            string platform =
+#if UNITY_ANDROID
+                "Android";
+#elif UNITY_IOS
+            "iOS";
+#elif UNITY_EDITOR
+            "Editor";
+#else
+            Application.platform.ToString();
+#endif
+            string device = SystemInfo.deviceModel;
+            string lang = Application.systemLanguage.ToString();
+            string culture = CultureInfo.CurrentCulture.Name;
+            string region = "";
+            try
+            {
+                region = new RegionInfo(CultureInfo.CurrentCulture.LCID).TwoLetterISORegionName;
+            }
+            catch
+            {
+                region = "??";
+            }
+
+            string timezone = TimeZoneInfo.Local.DisplayName;
+
+            // — (tuỳ chọn) App Instance ID — hữu ích để target theo danh sách
+            string appInstanceId = null;
+
+            // — Tóm tắt nguồn tham số (Remote/Default/Static) —
+            int cRemote = 0, cDefault = 0, cStatic = 0;
+            foreach (var k in FirebaseRemoteConfig.DefaultInstance.Keys)
+            {
+                switch (FirebaseRemoteConfig.DefaultInstance.GetValue(k).Source)
+                {
+                    case ValueSource.RemoteValue: cRemote++; break;
+                    case ValueSource.DefaultValue: cDefault++; break;
+                    case ValueSource.StaticValue: cStatic++; break;
+                }
+            }
+
+            // — Render text —
+            sb.AppendLine("════════ Remote Config — Condition Info ════════");
+            sb.AppendLine($"App           : {appName} ({bundle})");
+            sb.AppendLine($"Version       : {appVer}");
+            sb.AppendLine($"Platform      : {platform} — {device}");
+            sb.AppendLine($"Language      : {lang} ({culture})");
+            sb.AppendLine($"Location        : {location}");
+            sb.AppendLine($"Time Zone     : {timezone}");
+            sb.AppendLine();
+            sb.AppendLine("— RemoteConfig Fetch Status —");
+            sb.AppendLine($"LastFetchStatus : {info.LastFetchStatus}");
+            sb.AppendLine($"LastFetchTime   : {info.FetchTime}");
+            sb.AppendLine($"ThrottledEnd    : {info.ThrottledEndTime}");
+            sb.AppendLine();
+
+            _tmp.text = sb.ToString();
+        }
 
         public void ShowAds()
         {
@@ -64,10 +156,7 @@ namespace _0.DucLib.Scripts.Ads
 
         public void ShowRW()
         {
-            CallAdsManager.ShowRewardVideo("", () =>
-            {
-                LogHelper.CheckPoint("reward done");
-            });
+            CallAdsManager.ShowRewardVideo("", () => { LogHelper.CheckPoint("reward done"); });
         }
 
         public void ShowBNNA()
@@ -144,9 +233,10 @@ namespace _0.DucLib.Scripts.Ads
             ad.ShowAd();
         }
 #endif
-        
+
 #if USE_ADMOB_MEDIATION
         public PreloadConfiguration infoAdsInter;
+
         public void PreloadAdsInterstitial()
         {
             infoAdsInter = new PreloadConfiguration
@@ -181,6 +271,7 @@ namespace _0.DucLib.Scripts.Ads
                 LogHelper.CheckPoint($"Count inter 3 {infoAdsInter.BufferSize}");
             }
         }
+
         void onAdPreloaded(string preloadId, ResponseInfo responseInfo)
         {
             LogHelper.CheckPoint($"Preload ad configuration {preloadId} was preloaded.");
