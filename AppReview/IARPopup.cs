@@ -1,5 +1,4 @@
-﻿#if BG_IAR
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
@@ -51,7 +50,7 @@ namespace _0.DucTALib.AppReview
             currentStar = starRate;
             if (currentStar != 0)
             {
-                AudioController.Instance.PlayClickSound();
+                AudioController.Instance?.PlayClickSound();
                 if (currentStar < 4 && currentCvg != badReview)
                 {
                     currentCvg.DOFade(0, 0.2f);
@@ -94,9 +93,8 @@ namespace _0.DucTALib.AppReview
 
         public void Hide()
         {
-            AudioController.Instance.PlayClickSound();
+            AudioController.Instance?.PlayClickSound();
             gameObject.HideObject();
         }
     }
 }
-#endif
