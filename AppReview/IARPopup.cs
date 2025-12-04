@@ -33,7 +33,7 @@ namespace _0.DucTALib.AppReview
             content.ScaleInPopup();
             currentStar = 0;
             currentCvg = startReview;
-            submitButton.interactable = false;
+            submitButton.enabled = false;
             ShowDefault();
         }
 
@@ -71,7 +71,7 @@ namespace _0.DucTALib.AppReview
                 s.SetActive(currentStar >= i + 1);
             }
 
-            submitButton.interactable = currentStar != 0;
+            submitButton.enabled = currentStar != 0;
         }
 
         public void Submit()
