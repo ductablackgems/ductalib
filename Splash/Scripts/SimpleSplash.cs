@@ -71,13 +71,13 @@ namespace _0.DucTALib.Splash.Scripts
         {
             yield return new WaitForEndOfFrame();
 
-            float fbTimeout = 5;
+            float fbTimeout = 8;
             while (fbTimeout > 0 && (RemoteConfig.Ins == null || !RemoteConfig.Ins.isDataFetched))
             {
                 fbTimeout -= Time.deltaTime;
                 yield return null;
             }
-
+            yield return new WaitForEndOfFrame();
             loadDuration = CommonRemoteConfig.instance.commonConfig.splashTime;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
