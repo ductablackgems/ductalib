@@ -246,30 +246,30 @@ namespace _0.DucLib.Scripts.Ads
                 BufferSize = 5
             };
 
-            InterstitialAdPreloader.Preload(
-                // The Preload ID can be any unique string to identify this configuration.
-                "ca-app-pub-7184522407199366/6047410270",
-                infoAdsInter,
-                onAdPreloaded,
-                onAdFailedToPreload,
-                onAdsExhausted);
+            // InterstitialAdPreloader.Preload(
+            //     // The Preload ID can be any unique string to identify this configuration.
+            //     "ca-app-pub-7184522407199366/6047410270",
+            //     infoAdsInter,
+            //     onAdPreloaded,
+            //     onAdFailedToPreload,
+            //     onAdsExhausted);
         }
 
         public void ShowAdsInterstitial()
         {
-            var ad = InterstitialAdPreloader.DequeueAd("ca-app-pub-7184522407199366/6047410270");
-            LogHelper.CheckPoint($"Count inter 1 {infoAdsInter.BufferSize}");
-            if (ad != null)
-            {
-                LogHelper.CheckPoint($"Count inter  2 {infoAdsInter.BufferSize}");
-                // [Optional] Interact with the ad object as needed.
-                ad.OnAdPaid += (AdValue value) =>
-                {
-                    LogHelper.CheckPoint($"Ad paid: {value.CurrencyCode} {value.Value}");
-                };
-                ad.Show();
-                LogHelper.CheckPoint($"Count inter 3 {infoAdsInter.BufferSize}");
-            }
+            // var ad = InterstitialAdPreloader.DequeueAd("ca-app-pub-7184522407199366/6047410270");
+            // LogHelper.CheckPoint($"Count inter 1 {infoAdsInter.BufferSize}");
+            // if (ad != null)
+            // {
+            //     LogHelper.CheckPoint($"Count inter  2 {infoAdsInter.BufferSize}");
+            //     // [Optional] Interact with the ad object as needed.
+            //     ad.OnAdPaid += (AdValue value) =>
+            //     {
+            //         LogHelper.CheckPoint($"Ad paid: {value.CurrencyCode} {value.Value}");
+            //     };
+            //     ad.Show();
+            //     LogHelper.CheckPoint($"Count inter 3 {infoAdsInter.BufferSize}");
+            // }
         }
 
         void onAdPreloaded(string preloadId, ResponseInfo responseInfo)
