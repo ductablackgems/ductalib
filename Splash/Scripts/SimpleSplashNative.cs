@@ -65,6 +65,12 @@ namespace _0.DucTALib.Splash.Scripts
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            
+#if UNITY_EDITOR
+            loading.HideObject();
+            nativeBanner.ShowObject();
+            yield break;
+#endif
             nativeBanner.Request("loading");
             for (int i = 0; i < nativeLaunch.Count; i++)
             {
@@ -103,11 +109,16 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.SetUserProperty();
             foreach (var native in nativeLaunch)
             {
+#if UNITY_EDITOR
+                activeNativeLaunch.Add(native);
+                native.onClose += CloseNativeLaunch;
+#else
                 if (native.IsReady)
                 {
                     activeNativeLaunch.Add(native);
                     native.onClose += CloseNativeLaunch;
                 }
+#endif
             }
 
             activeNativeLaunch[0].ShowAds();

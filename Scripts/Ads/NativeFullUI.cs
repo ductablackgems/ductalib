@@ -44,9 +44,7 @@ namespace _0.DucLib.Scripts.Ads
                 StartCoroutine(CountToClose());
                 return true;
             }
-#endif
-
-
+#endif 
             return false;
         }
 
@@ -73,7 +71,6 @@ namespace _0.DucLib.Scripts.Ads
         public void CloseAds()
         {
             onClose?.Invoke(this);
-            native.FinishNative();
 #if UNITY_EDITOR
             native.HideObject();
 #else
