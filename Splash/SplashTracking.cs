@@ -9,21 +9,42 @@ namespace _0.DucTALib.Splash
 {
     public static class SplashTracking
     {
+        public enum SplashStepTracking
+        {
+            startLoading, 
+            endLoading,
+            end_intro_step_0,
+            end_intro_step_1,
+            fsna_intro,
+            end_intro_step_2,
+            end_intro_step_3,
+            endCard_intro_0,
+            endCard_intro_1
+        }
+
         public static Stopwatch loading_duration = new Stopwatch();
         public static Stopwatch loadMenuDuration = new Stopwatch();
         public static bool isFirstTime = false;
         public static bool IsRetryTurnOnInternet;
+
         private static int CurrentGame
         {
             get => PlayerPrefs.GetInt("CurrentGame", 0);
             set => PlayerPrefs.SetInt("CurrentGame", value);
         }
 
-        public static void SetBalanceAd(int value)
+     
+
+        public static void SetBalanceAd(SplashStepTracking value)
         {
-            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}");
-            FirebaseEvent.SetUserProperty("balance_ad", $"{value}");
+            string eventName = $"fn_{value.ToString()}";
+            FirebaseEvent.LogEvent(eventName);
+            
+            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}_{(int)value}");
+            LogHelper.LogPurple($"[TRACKING] {eventName}");
+            FirebaseEvent.SetUserProperty("balance_ad", $"{(int)value}");
         }
+
         public static void TrackRetryInternet()
         {
             if (IsRetryTurnOnInternet)
@@ -31,9 +52,10 @@ namespace _0.DucTALib.Splash
                 FirebaseEvent.LogEvent("retry_internet_click");
             }
         }
+
         public static void SetUserProperty()
         {
-            if(!CommonRemoteConfig.instance.fetchComplete) return;
+            if (!CommonRemoteConfig.instance.fetchComplete) return;
             CurrentGame += 1;
             FirebaseEvent.SetUserProperty("current_game", $"{CurrentGame}");
             FirebaseEvent.SetUserProperty("test_segment", $"{CommonRemoteConfig.instance.commonConfig.testSegment}");
@@ -62,6 +84,7 @@ namespace _0.DucTALib.Splash
             LogHelper.LogPurple($"[TRACKING] fn_policy_show");
             FirebaseEvent.LogEvent("fn_policy_show");
         }
+
         public static void PolicyEnd(bool isAutoClose)
         {
             string autoCloseStr = isAutoClose ? "1" : "0";
@@ -91,9 +114,10 @@ namespace _0.DucTALib.Splash
             LogHelper.LogPurple($"[TRACKING] {eventName}");
             FirebaseEvent.LogEvent(eventName);
         }
+
         public static void HomeShow()
         {
-            if(isFirstTime) return;
+            if (isFirstTime) return;
             isFirstTime = true;
             loadMenuDuration.Stop();
             int milliseconds = (int)loading_duration.ElapsedMilliseconds;
@@ -101,19 +125,19 @@ namespace _0.DucTALib.Splash
             Parameter paramTime = new Parameter("duration", milliseconds.ToString());
             FirebaseEvent.LogEvent("fn_home_show", paramTime);
         }
-        
+
         public static void SelectLanguageShow()
         {
             LogHelper.LogPurple($"[TRACKING] fn_language_show");
             FirebaseEvent.LogEvent("fn_language_show");
         }
-        
+
         public static void SelectLanguageHide()
         {
             LogHelper.LogPurple($"[TRACKING] fn_language_hide");
             FirebaseEvent.LogEvent("fn_language_hide");
         }
-        
+
         public static void Rating(int star)
         {
             string eventName = $"game_rating";

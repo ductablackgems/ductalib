@@ -115,11 +115,11 @@ namespace _0.DucTALib.Splash.Scripts
             contentImage.MoveToNextPage();
             if (CallAdsManager.ShowInter($"intro_step_{currentStep}"))
             {
-                SplashTracking.SetBalanceAd(indexTrackingBalance);
+                SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
                 indexTrackingBalance += 1;
             }
 
-            SplashTracking.SetBalanceAd(indexTrackingBalance);
+            SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
             indexTrackingBalance += 1;
             currentStep += 1;
 
@@ -202,7 +202,7 @@ namespace _0.DucTALib.Splash.Scripts
                 CallAdsManager.CloseONA($"{endIntroAdPositions[endIntroIndex]}");
             }
             
-            SplashTracking.SetBalanceAd(indexTrackingBalance);
+            SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
             indexTrackingBalance += 1;
             
             endIntroIndex += 1;

@@ -44,6 +44,8 @@ namespace _0.DucTALib.Splash.Scripts
     }
     public class SimpleSplashOverlay : SingletonMono<SimpleSplashOverlay>
     {
+ 
+        
         private float loadDuration;
         private float currentTime;
         private float currentProgress;
@@ -103,7 +105,7 @@ namespace _0.DucTALib.Splash.Scripts
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             InitFb();
             
-            SplashTracking.SetBalanceAd(0);
+            SplashTracking.SetBalanceAd(SplashTracking.SplashStepTracking.startLoading);
             
             CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
@@ -142,7 +144,7 @@ namespace _0.DucTALib.Splash.Scripts
             
             if (splashConfig.useIntro)
             {
-                SplashTracking.SetBalanceAd(1);
+                SplashTracking.SetBalanceAd(SplashTracking.SplashStepTracking.endLoading);
                 CallAdsManager.StopReloadBNNA();
                 CallAdsManager.HideBannerNA();
                 CallAdsManager.ClearBannerNA();
