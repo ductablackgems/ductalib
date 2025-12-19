@@ -19,7 +19,11 @@ namespace _0.DucTALib.Splash
             set => PlayerPrefs.SetInt("CurrentGame", value);
         }
 
-
+        public static void SetBalanceAd(int value)
+        {
+            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}");
+            FirebaseEvent.SetUserProperty("balance_ad", $"{value}");
+        }
         public static void TrackRetryInternet()
         {
             if (IsRetryTurnOnInternet)

@@ -51,6 +51,7 @@ namespace _0.DucTALib.Splash.Scripts
         private float stopTimer = 0f;
         private float smoothSpeed = 0.02f;
         private int currentMessageIndex;
+        private bool dataFetched;
         public GameObject loading;
         public Image loadingBar;
         public TextMeshProUGUI loadingText;
@@ -93,13 +94,17 @@ namespace _0.DucTALib.Splash.Scripts
             splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
                     .GetValue("splash_config").StringValue)
                 .ToObject<SplashConfig>(JsonSerializer.Create(settings));
+            dataFetched = true;
+            LogHelper.CheckPoint("Splash config fetch done");
         }
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
             InitFb();
-
+            
+            SplashTracking.SetBalanceAd(0);
+            
             CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
             CallAdsManager.InitONA($"{splashConfig.adPositions[0]}");
@@ -113,7 +118,7 @@ namespace _0.DucTALib.Splash.Scripts
             loadingBar.fillAmount = 0;
             yield return new WaitForEndOfFrame();
             float fbTimeout = 8;
-            while (fbTimeout > 0 && (RemoteConfig.Ins == null || !RemoteConfig.Ins.isDataFetched))
+            while (fbTimeout > 0 && (!dataFetched))
             {
                 fbTimeout -= Time.deltaTime;
                 yield return null;
@@ -134,8 +139,10 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.SetUserProperty();
             CallAdsManager.ShowInter("launch");
             yield return new WaitForEndOfFrame();
+            
             if (splashConfig.useIntro)
             {
+                SplashTracking.SetBalanceAd(1);
                 CallAdsManager.StopReloadBNNA();
                 CallAdsManager.HideBannerNA();
                 CallAdsManager.ClearBannerNA();

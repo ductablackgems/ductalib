@@ -30,6 +30,7 @@ namespace _0.DucTALib.Splash.Scripts
         [BoxGroup("EndIntro")] public Image endIntroAdCdFill;
         [BoxGroup("EndIntro")] public Button endIntroBtn;
 
+        private int indexTrackingBalance = 2;
         private int currentStep;
         private int endIntroIndex;
         private Coroutine nextStepCoroutine;
@@ -110,9 +111,16 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 CallAdsManager.CloseONA($"{adPositions[currentStep]}");
             }
-
+            
             contentImage.MoveToNextPage();
-            CallAdsManager.ShowInter($"intro_step_{currentStep}");
+            if (CallAdsManager.ShowInter($"intro_step_{currentStep}"))
+            {
+                SplashTracking.SetBalanceAd(indexTrackingBalance);
+                indexTrackingBalance += 1;
+            }
+
+            SplashTracking.SetBalanceAd(indexTrackingBalance);
+            indexTrackingBalance += 1;
             currentStep += 1;
 
 
@@ -193,7 +201,10 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 CallAdsManager.CloseONA($"{endIntroAdPositions[endIntroIndex]}");
             }
-
+            
+            SplashTracking.SetBalanceAd(indexTrackingBalance);
+            indexTrackingBalance += 1;
+            
             endIntroIndex += 1;
 
             if (endIntroIndex >= endIntroAdPositions.Count)
