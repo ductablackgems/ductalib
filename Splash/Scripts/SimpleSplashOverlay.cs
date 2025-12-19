@@ -1,17 +1,47 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
 using BG_Library.NET;
 using DG.Tweening;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace _0.DucTALib.Splash.Scripts
 {
+    [Serializable]
+    public class SplashConfig
+    {
+        public bool useIntro;
+        public float loadingTime;
+        public float introStepTime;
+        public float endIntroTime;
+        public int stepCount;
+        public List<string> adPositions;
+        public List<string> endIntroAdPositions;
+        public List<string> tipText;
+
+
+        public static SplashConfig CreateDefault()
+        {
+            var value = new SplashConfig
+            {
+                adPositions = new List<string>() { " " },
+                endIntroAdPositions = new List<string>() { " " },
+                tipText = new List<string>() { " " },
+            };
+            return value;
+        }
+    }
     public class SimpleSplashOverlay : SingletonMono<SimpleSplashOverlay>
     {
         private float loadDuration;
@@ -26,7 +56,7 @@ namespace _0.DucTALib.Splash.Scripts
         public TextMeshProUGUI loadingText;
         public TextMeshProUGUI currentProgressTxt;
         public IntroSplashOverlay introSplash;
-
+        public SplashConfig splashConfig;
         [ReadOnly] public string[] loadingTxt = new string[]
         {
             "Checking network connection...",
@@ -54,14 +84,25 @@ namespace _0.DucTALib.Splash.Scripts
             StartCoroutine(WaitToLoadScene());
         }
 
-
+        private void InitFb()
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            };
+            splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
+                    .GetValue("splash_config").StringValue)
+                .ToObject<SplashConfig>(JsonSerializer.Create(settings));
+        }
         private IEnumerator AdsControl()
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
+            InitFb();
+
             CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
-            CallAdsManager.InitONA($"{CommonRemoteConfig.instance.splashConfig.adPositions[0]}");
+            CallAdsManager.InitONA($"{splashConfig.adPositions[0]}");
             yield return new WaitUntil(CallAdsManager.BannerNAReady);
             loading.HideObject();
             CallAdsManager.ShowBannerNA();
@@ -79,7 +120,7 @@ namespace _0.DucTALib.Splash.Scripts
             }
 
             yield return new WaitForEndOfFrame();
-            loadDuration = CommonRemoteConfig.instance.splashConfig.loadingTime;
+            loadDuration = splashConfig.loadingTime;
             loadingBar.fillAmount = 0;
             currentProgressTxt.text = $"0%";
             while (currentTime < loadDuration)
@@ -93,7 +134,7 @@ namespace _0.DucTALib.Splash.Scripts
             SplashTracking.SetUserProperty();
             CallAdsManager.ShowInter("launch");
             yield return new WaitForEndOfFrame();
-            if (CommonRemoteConfig.instance.splashConfig.useIntro)
+            if (splashConfig.useIntro)
             {
                 CallAdsManager.StopReloadBNNA();
                 CallAdsManager.HideBannerNA();
@@ -152,5 +193,18 @@ namespace _0.DucTALib.Splash.Scripts
             LoadingScene.instance.LoadMenu();
             AppOpenCaller.IgnoreAppOpenResume = false;
         }
+
+#if UNITY_EDITOR
+        public string splashConfigDefault;
+        [Button]
+        public void CreateSplashConfig()
+        {
+            var value = SplashConfig.CreateDefault();
+            splashConfigDefault = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            });
+        }
+#endif
     }
 }

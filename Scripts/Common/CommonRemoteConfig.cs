@@ -35,37 +35,14 @@ namespace _0.DucTALib.Scripts.Common
         }
     }
 
-    [Serializable]
-    public class SplashConfig
-    {
-        public bool useIntro;
-        public float loadingTime;
-        public float introStepTime;
-        public float endIntroTime;
-        public int stepCount;
-        public List<string> adPositions;
-        public List<string> endIntroAdPositions;
-        public List<string> tipText;
-
-
-        public static SplashConfig CreateDefault()
-        {
-            var value = new SplashConfig
-            {
-                adPositions = new List<string>() { " " },
-                endIntroAdPositions = new List<string>() { " " },
-                tipText = new List<string>() { " " },
-            };
-            return value;
-        }
-    }
+    
 
     public class CommonRemoteConfig : SingletonMono<CommonRemoteConfig>
     {
         public bool fetchComplete = false;
 
         public CommonConfig commonConfig;
-        public SplashConfig splashConfig;
+        
         public static Action FetchDone;
 
         private void Awake()
@@ -89,10 +66,7 @@ namespace _0.DucTALib.Scripts.Common
                     .GetValue("common_config").StringValue)
                 .ToObject<CommonConfig>(JsonSerializer.Create(settings));
 
-            splashConfig = JObject.Parse(Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance
-                    .GetValue("splash_config").StringValue)
-                .ToObject<SplashConfig>(JsonSerializer.Create(settings));
-
+           
             fetchComplete = true;
         }
 
@@ -111,15 +85,7 @@ namespace _0.DucTALib.Scripts.Common
             });
         }
 
-        [Button]
-        public void CreateSplashConfig()
-        {
-            var value = SplashConfig.CreateDefault();
-            splashConfigDefault = JsonConvert.SerializeObject(value, new JsonSerializerSettings
-            {
-                Converters = new List<JsonConverter> { new StringEnumConverter() }
-            });
-        }
+       
 #endif
     }
 }

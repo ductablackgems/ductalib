@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _0.DucLib.Scripts.Ads;
@@ -11,6 +12,7 @@ using UnityEngine.UI;
 
 namespace _0.DucTALib.Splash.Scripts
 {
+    
     public class IntroSplashOverlay : MonoBehaviour
     {
         [BoxGroup("Intro")] public ContentCarousel contentImage;
@@ -34,11 +36,10 @@ namespace _0.DucTALib.Splash.Scripts
         private Coroutine endIntroStepCoroutine;
         private List<string> adPositions;
         private List<string> endIntroAdPositions;
-
         private void SetUp()
         {
-            this.adPositions = CommonRemoteConfig.instance.splashConfig.adPositions;
-            this.endIntroAdPositions = CommonRemoteConfig.instance.splashConfig.endIntroAdPositions;
+            this.adPositions = SimpleSplashOverlay.instance.splashConfig.adPositions;
+            this.endIntroAdPositions = SimpleSplashOverlay.instance.splashConfig.endIntroAdPositions;
             CallAdsManager.LoadInterByGroup("intro_step");
         }
 
@@ -89,7 +90,7 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator NextStepCD()
         {
-            float nextTime = CommonRemoteConfig.instance.splashConfig.introStepTime;
+            float nextTime = SimpleSplashOverlay.instance.splashConfig.introStepTime;
             cdTimeText.text = $"Next in {(int)nextTime}s...";
             cdTimeText.ShowObject();
             while (nextTime > 0)
@@ -115,7 +116,7 @@ namespace _0.DucTALib.Splash.Scripts
             currentStep += 1;
 
 
-            if (currentStep >= CommonRemoteConfig.instance.splashConfig.stepCount)
+            if (currentStep >= SimpleSplashOverlay.instance.splashConfig.stepCount)
             {
                 LogHelper.LogPurple("Kết thúc intro, sang màn end ads");
 
@@ -129,14 +130,14 @@ namespace _0.DucTALib.Splash.Scripts
 
         private string GetTip()
         {
-            if (CommonRemoteConfig.instance == null || CommonRemoteConfig.instance.splashConfig == null ||
-                CommonRemoteConfig.instance.splashConfig.tipText == null ||
-                CommonRemoteConfig.instance.splashConfig.tipText.Count == 0)
+            if (SimpleSplashOverlay.instance.splashConfig == null ||
+                SimpleSplashOverlay.instance.splashConfig.tipText == null ||
+                SimpleSplashOverlay.instance.splashConfig.tipText.Count == 0)
             {
                 return "";
             }
 
-            return CommonRemoteConfig.instance.splashConfig.tipText[currentStep];
+            return SimpleSplashOverlay.instance.splashConfig.tipText[currentStep];
         }
 
 
@@ -166,9 +167,9 @@ namespace _0.DucTALib.Splash.Scripts
 
         private IEnumerator EndIntroCD()
         {
-            float maxTime = CommonRemoteConfig.instance.splashConfig.introStepTime;
+            float maxTime = SimpleSplashOverlay.instance.splashConfig.introStepTime;
             float currentTime0 = 0;
-            float currentTime1 = CommonRemoteConfig.instance.splashConfig.introStepTime;
+            float currentTime1 = SimpleSplashOverlay.instance.splashConfig.introStepTime;
 
             endIntroTextTime.text = $"{(int)currentTime1}";
             endIntroTextTime.ShowObject();
