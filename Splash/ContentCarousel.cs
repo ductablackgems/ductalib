@@ -1,4 +1,5 @@
 ﻿using _0.DucTALib.Scripts.Common;
+using _0.DucTALib.Splash.Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -115,7 +116,7 @@ namespace _0.DucTALib.Splash
 
         private void InitializeNavigationDots()
         {
-            var total = CommonRemoteConfig.instance.splashConfig.stepCount;
+            var total = SimpleSplashOverlay.instance.splashConfig.stepCount;
             for (int i = 0; i < total; i++)
             {
                 GameObject dot = Instantiate(dotPrefab, dotsContainer.transform);
@@ -274,7 +275,7 @@ namespace _0.DucTALib.Splash
 
         private void UpdateDotSizes()
         {
-            var count = CommonRemoteConfig.instance.splashConfig.stepCount;
+            var count = SimpleSplashOverlay.instance.splashConfig.stepCount;
             for (int i = 0; i < count; i++)
             {
                 GameObject dot = dotsContainer.transform.GetChild(i).gameObject;
