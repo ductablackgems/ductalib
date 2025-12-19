@@ -160,7 +160,7 @@ namespace _0.DucLib.Scripts.Ads
         #endregion
 
         #region Call ADS
-
+        
         public static void InitBannerNA() => _impl.InitBannerNA();
         public static void ShowBannerNA() => _impl.ShowBannerNA();
         public static void HideBannerNA() => _impl.HideBannerNA();
