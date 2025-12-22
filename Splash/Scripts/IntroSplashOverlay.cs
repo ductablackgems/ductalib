@@ -12,7 +12,6 @@ using UnityEngine.UI;
 
 namespace _0.DucTALib.Splash.Scripts
 {
-    
     public class IntroSplashOverlay : MonoBehaviour
     {
         [BoxGroup("Intro")] public ContentCarousel contentImage;
@@ -37,6 +36,7 @@ namespace _0.DucTALib.Splash.Scripts
         private Coroutine endIntroStepCoroutine;
         private List<string> adPositions;
         private List<string> endIntroAdPositions;
+
         private void SetUp()
         {
             this.adPositions = SimpleSplashOverlay.instance.splashConfig.adPositions;
@@ -59,8 +59,6 @@ namespace _0.DucTALib.Splash.Scripts
                 FinishAll();
                 return;
             }
-
-
             CallAdsManager.ShowONA($"{adPositions[currentStep]}", adPos);
             if (currentStep + 1 == adPositions.Count)
             {
@@ -111,7 +109,7 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 CallAdsManager.CloseONA($"{adPositions[currentStep]}");
             }
-            
+
             contentImage.MoveToNextPage();
             if (CallAdsManager.ShowInter($"intro_step_{currentStep}"))
             {
@@ -153,23 +151,28 @@ namespace _0.DucTALib.Splash.Scripts
         {
             if (endIntroAdPositions.Count <= 0 || endIntroIndex >= endIntroAdPositions.Count)
             {
+                FinishAll();
                 return;
             }
 
-            endIntroBtn.HideObject();
-            endIntroAdCdFill.fillAmount = 1;
-            endIntroAdCdFill.ShowObject();
-
-            endIntroImage.sprite = endIntroBackgroundSprite[endIntroIndex];
-            endIntroAdObject.ShowObject();
-
-            CallAdsManager.ShowONA($"{endIntroAdPositions[endIntroIndex]}", adPos);
-            if (endIntroIndex + 1 != endIntroAdPositions.Count)
+            if (CallAdsManager.ONAReady($"{endIntroAdPositions[endIntroIndex]}"))
             {
-                CallAdsManager.InitONA($"{endIntroAdPositions[endIntroIndex + 1]}");
-            }
+                endIntroBtn.HideObject();
+                endIntroAdCdFill.fillAmount = 1;
+                endIntroAdCdFill.ShowObject();
 
-            StartCoroutine(EndIntroCD());
+                endIntroImage.sprite = endIntroBackgroundSprite[endIntroIndex];
+                endIntroAdObject.ShowObject();
+
+                CallAdsManager.ShowONA($"{endIntroAdPositions[endIntroIndex]}", adPos);
+                if (endIntroIndex + 1 != endIntroAdPositions.Count)
+                {
+                    CallAdsManager.InitONA($"{endIntroAdPositions[endIntroIndex + 1]}");
+                }
+
+                StartCoroutine(EndIntroCD());
+            }
+            else CloseEndIntroAd();
         }
 
 
@@ -201,10 +204,10 @@ namespace _0.DucTALib.Splash.Scripts
             {
                 CallAdsManager.CloseONA($"{endIntroAdPositions[endIntroIndex]}");
             }
-            
+
             SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
             indexTrackingBalance += 1;
-            
+
             endIntroIndex += 1;
 
             if (endIntroIndex >= endIntroAdPositions.Count)
