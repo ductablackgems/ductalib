@@ -18,6 +18,7 @@ namespace _0.DucTALib.Scripts.Common
     [Serializable]
     public class CommonConfig
     {
+        public List<string> vipPlayerIDs = new List<string>();
         public bool expandBanner;
         public float timeExpandBanner;
         public bool isProduct;
@@ -29,6 +30,7 @@ namespace _0.DucTALib.Scripts.Common
         {
             var value = new CommonConfig
             {
+                vipPlayerIDs = new List<string> { "" },
                 isProduct = false
             };
             return value;

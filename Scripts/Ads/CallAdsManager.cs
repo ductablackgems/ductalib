@@ -72,6 +72,10 @@ namespace _0.DucLib.Scripts.Ads
 #else
             adsPlatform = new IosAdsPlatform();
 #endif
+            if (CommonRemoteConfig.instance.commonConfig.vipPlayerIDs.Contains(GlobalData.PlayerID))
+            {
+                adsPlatform = new NoAdsPlatform();
+            }
         }
 
         private void Start()
