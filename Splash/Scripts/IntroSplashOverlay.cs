@@ -59,6 +59,7 @@ namespace _0.DucTALib.Splash.Scripts
                 FinishAll();
                 return;
             }
+
             CallAdsManager.ShowONA($"{adPositions[currentStep]}", adPos);
             if (currentStep + 1 == adPositions.Count)
             {
@@ -113,11 +114,11 @@ namespace _0.DucTALib.Splash.Scripts
             contentImage.MoveToNextPage();
             if (CallAdsManager.ShowInter($"intro_step_{currentStep}"))
             {
-                SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
+                SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking.fsna_intro));
                 indexTrackingBalance += 1;
             }
 
-            SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
+            SplashTracking.SetBalanceAd($"end_intro_step_{currentStep}", currentStep);
             indexTrackingBalance += 1;
             currentStep += 1;
 
@@ -205,7 +206,7 @@ namespace _0.DucTALib.Splash.Scripts
                 CallAdsManager.CloseONA($"{endIntroAdPositions[endIntroIndex]}");
             }
 
-            SplashTracking.SetBalanceAd((SplashTracking.SplashStepTracking)indexTrackingBalance);
+            SplashTracking.SetBalanceAd($"endCard_intro_{endIntroIndex}", endIntroIndex);
             indexTrackingBalance += 1;
 
             endIntroIndex += 1;

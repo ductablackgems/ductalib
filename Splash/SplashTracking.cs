@@ -33,11 +33,20 @@ namespace _0.DucTALib.Splash
             set => PlayerPrefs.SetInt("CurrentGame", value);
         }
 
-     
+        public static void SetBalanceAd(string value, int balance)
+        {
+            string eventName = $"fg_{value.ToString()}";
+            FirebaseEvent.LogEvent(eventName);
+            
+            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}_{balance}");
+            LogHelper.LogPurple($"[TRACKING] {eventName}");
+            FirebaseEvent.SetUserProperty("balance_ad", $"{balance}");
+        }
+
 
         public static void SetBalanceAd(SplashStepTracking value)
         {
-            string eventName = $"fn_{value.ToString()}";
+            string eventName = $"fg_{value.ToString()}";
             FirebaseEvent.LogEvent(eventName);
             
             LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}_{(int)value}");
