@@ -74,6 +74,7 @@ namespace _0.DucLib.Scripts.Ads
 #endif
             if (CommonRemoteConfig.instance.commonConfig.vipPlayerIDs.Contains(GlobalData.PlayerID))
             {
+                LogHelper.CheckPoint("no ads");
                 adsPlatform = new NoAdsPlatform();
             }
         }
