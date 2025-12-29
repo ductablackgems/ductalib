@@ -59,7 +59,7 @@ namespace _0.DucTALib.Splash.Scripts
         {
             yield return new WaitUntil(() => CommonRemoteConfig.instance.fetchComplete);
             yield return new WaitUntil(() => AdmobMediation.IsInitComplete);
-            SplashTracking.TrackRetryInternet();
+            SplashTracking.TrackingFlowGame("start_loading");
             CallAdsManager.InitBannerNA();
             CallAdsManager.LoadInterByGroup("launch");
             yield return new WaitUntil(CallAdsManager.BannerNAReady);
@@ -90,7 +90,11 @@ namespace _0.DucTALib.Splash.Scripts
             FinishLoadingPhase();
             AppOpenCaller.IgnoreAppOpenResume = true;
             SplashTracking.SetUserProperty();
-            CallAdsManager.ShowInter("launch");
+            SplashTracking.TrackingFlowGame("start_launch");
+            CallAdsManager.ShowInter("launch", () =>
+            {
+                SplashTracking.TrackingFlowGame("complete_launch");
+            });
             FinishLoading();
         }
 
