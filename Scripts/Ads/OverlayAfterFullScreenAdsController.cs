@@ -9,7 +9,7 @@ namespace _0.DucLib.Scripts.Ads
 {
     public class OverlayAfterFullScreenAdsController : MonoBehaviour
     {
-        public RectTransform ONAPos;
+        public ONALayout ONAPos;
         private int currentAdsFullScreen;
 
         private void Awake()

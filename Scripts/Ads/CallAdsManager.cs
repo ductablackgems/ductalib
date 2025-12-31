@@ -182,9 +182,9 @@ namespace _0.DucLib.Scripts.Ads
         public static bool ShowRewardVideo(string pos, Action actionDone) => _impl.ShowRewardVideo(pos, actionDone);
 
         public static void InitONA(string group) => _impl.InitONA(group);
-        public static void ShowONA(string pos) => _impl.ShowONA(pos);
+        public static void ShowONA(string pos) => _impl.ShowONACollapse(pos);
         public static void ShowONAReloadByTime(string pos) => _impl.ShowONAReloadByTime(pos);
-        public static void ShowONA(string pos, RectTransform objectPos) => _impl.ShowONA(pos, objectPos);
+        public static void ShowONA(string pos, ONALayout onaLayout) => _impl.ShowONA(pos, onaLayout);
         public static void ClearONA(string pos) => _impl.ClearONA(pos);
         public static void CloseONA(string pos) => _impl.CloseONA(pos);
         public static bool ONAReady(string pos) => _impl.ONAReady(pos);
@@ -288,8 +288,8 @@ namespace _0.DucLib.Scripts.Ads
             #region OVERLAY
 
             void InitONA(string group);
-            void ShowONA(string pos);
-            void ShowONA(string pos, RectTransform objectPos);
+            void ShowONACollapse(string pos);
+            void ShowONA(string pos, ONALayout onaLayout);
             void ShowONAReloadByTime(string pos);
             void ClearONA(string pos);
             void CloseONA(string pos);
@@ -388,8 +388,8 @@ namespace _0.DucLib.Scripts.Ads
             #region OVERLAY
 
             public void InitONA(string group) => LogHelper.CheckPoint($"Init OnA {group}");
-            public void ShowONA(string pos) => LogHelper.CheckPoint($"ShowONA {pos}");
-            public void ShowONA(string pos, RectTransform objectPos) => LogHelper.CheckPoint($"ShowONA XY {pos}");
+            public void ShowONACollapse(string pos) => LogHelper.CheckPoint($"ShowONA {pos}");
+            public void ShowONA(string pos, ONALayout onaLayout) => LogHelper.CheckPoint($"ShowONA XY {pos}");
             public void ShowONAReloadByTime(string pos) => LogHelper.CheckPoint($"ShowONAReloadByTime {pos}");
             public void ClearONA(string pos) => LogHelper.CheckPoint($"ClearONA OnA {pos}");
             public void CloseONA(string pos) => LogHelper.CheckPoint($"CloseONA OnA {pos}");
@@ -589,17 +589,18 @@ namespace _0.DucLib.Scripts.Ads
                 Game3DCore2.InitializeONA(group);
             }
 
-            public void ShowONA(string pos)
+            public void ShowONACollapse(string pos)
             {
                 LogHelper.CheckPoint();
-                Game3DCore2.ShowONA(pos);
+                Game3DCore2.ShowONACollapse(pos);
             }
 
-            public void ShowONA(string pos, RectTransform objectPos)
+            public void ShowONA(string pos, ONALayout onaLayout)
             {
                 LogHelper.CheckPoint();
-                var position = CommonHelper.ObjectToOverlayPos(objectPos);
-                Game3DCore2.ShowONA(pos, position.x, position.y);
+                var coor = onaLayout.CenterNormalized;
+                var size = onaLayout.SizeInPixels;
+                Game3DCore2.ShowONA(pos, coor.x, coor.y, size.x / Master.GetScreenDensity(), size.y / Master.GetScreenDensity());
             }
 
             public void ShowONAReloadByTime(string pos)
@@ -770,8 +771,8 @@ namespace _0.DucLib.Scripts.Ads
             #region OVERLAY
 
             public void InitONA(string group) => LogHelper.CheckPoint();
-            public void ShowONA(string pos) => LogHelper.CheckPoint();
-            public void ShowONA(string pos, RectTransform objectPoss) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
+            public void ShowONACollapse(string pos) => LogHelper.CheckPoint();
+            public void ShowONA(string pos, ONALayout onaLayout) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
             public void ShowONAReloadByTime(string pos) => LogHelper.CheckPoint("Show ONA (iOS-ignoe)");
             public void ClearONA(string pos) => LogHelper.CheckPoint();
             public void CloseONA(string pos) => LogHelper.CheckPoint();

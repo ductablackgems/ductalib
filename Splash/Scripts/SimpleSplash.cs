@@ -67,6 +67,8 @@ namespace _0.DucTALib.Splash.Scripts
             CallAdsManager.ShowBannerNA();
         }
 
+    
+
         private IEnumerator WaitToLoadScene()
         {
             yield return new WaitForEndOfFrame();

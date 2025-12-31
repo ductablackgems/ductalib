@@ -5,6 +5,7 @@ using _0.DucLib.Scripts.Ads;
 using _0.DucLib.Scripts.Common;
 using _0.DucTALib.Scripts.Common;
 using _0.DucTALib.Scripts.Loading;
+using BG_Library.NET;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace _0.DucTALib.Splash.Scripts
         [BoxGroup("Intro")] public TextMeshProUGUI cdTimeText;
         [BoxGroup("Intro")] public List<Image> introImg;
         [BoxGroup("Intro")] public List<Sprite> introSprites;
-        [BoxGroup("Intro")] public RectTransform adPos;
+        [BoxGroup("Intro")] public ONALayout adPos;
         [BoxGroup("Intro")] public GameObject btnNext;
 
         [BoxGroup("EndIntro")] public GameObject endIntroAdObject;
