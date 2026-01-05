@@ -35,28 +35,19 @@ namespace _0.DucTALib.Splash
 
         public static void SetBalanceAd(string value, int balance)
         {
-            string eventName = $"fg_{value.ToString()}";
-            FirebaseEvent.LogEvent(eventName);
             
-            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}_{balance}");
-            LogHelper.LogPurple($"[TRACKING] {eventName}");
-            FirebaseEvent.SetUserProperty("balance_ad", $"{balance}");
         }
 
         public static void TrackingFlowGame(string value)
         {
             string eventName = $"flow_{value}";
+            LogHelper.LogPurple($"[TRACKING] {eventName}");
             FirebaseEvent.LogEvent(eventName);
         }
 
         public static void SetBalanceAd(SplashStepTracking value)
         {
-            string eventName = $"flow_{value.ToString()}";
-            FirebaseEvent.LogEvent(eventName);
             
-            LogHelper.LogPurple($"[TRACKING] Set Balance Ad: {value}_{(int)value}");
-            LogHelper.LogPurple($"[TRACKING] {eventName}");
-            FirebaseEvent.SetUserProperty("balance_ad", $"{(int)value}");
         }
 
         public static void TrackRetryInternet()
