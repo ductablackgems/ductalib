@@ -233,6 +233,26 @@ namespace _0.DucLib.Scripts.Common
             float y = 0.5f + screenPos.y / Screen.height;
             return new Vector2(x, y);
         }
+        
+        public static float GetScreenDensity()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            using (var metricsClass = new AndroidJavaClass("android.util.DisplayMetrics"))
+            using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+            using (var metrics = new AndroidJavaObject("android.util.DisplayMetrics"))
+            {
+                var windowManager = activity.Call<AndroidJavaObject>("getWindowManager");
+                var display = windowManager.Call<AndroidJavaObject>("getDefaultDisplay");
+                display.Call("getMetrics", metrics);
+                return metrics.Get<float>("density");
+            }
+#elif UNITY_IOS && !UNITY_EDITOR
+            return UnityEngine.Screen.dpi / 160f;
+#else
+            return UnityEngine.Screen.dpi > 0 ? UnityEngine.Screen.dpi / 160f : 1f;
+#endif
+        }
 
     }
 }

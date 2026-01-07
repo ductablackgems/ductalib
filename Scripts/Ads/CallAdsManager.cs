@@ -991,18 +991,21 @@ namespace _0.DucLib.Scripts.Ads
                 AdPuzzleCore.InitializeONA(group);
             }
 
-            public void ShowONA(string pos)
+
+            public void ShowONACollapse(string pos)
             {
                 LogHelper.CheckPoint();
-                AdPuzzleCore.ShowONA(pos);
+                AdPuzzleCore.ShowONACollapse(pos);
             }
 
-            public void ShowONA(string pos, RectTransform objectPos)
+            public void ShowONA(string pos, ONALayout onaLayout)
             {
                 LogHelper.CheckPoint();
-                var position = CommonHelper.ObjectToOverlayPos(objectPos);
-                AdPuzzleCore.ShowONA(pos, position.x, position.y);
+                var coor = onaLayout.CenterNormalized;
+                var size = onaLayout.SizeInPixels;
+                Game3DCore2.ShowONA(pos, coor.x, coor.y, size.x / Master.GetScreenDensity(), size.y / Master.GetScreenDensity());
             }
+
 
             public void ShowONAReloadByTime(string pos)
             {
