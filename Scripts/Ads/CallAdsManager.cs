@@ -83,17 +83,12 @@ namespace _0.DucLib.Scripts.Ads
         {
             DontDestroyOnLoad(this);
             BG_Event.AdmobMediation.Mrec.OnAdLoaded += MRECLoadDone;
-#if USE_ANDROID_MEDIATION
-            AndroidMediationEvent.BannerNative.OnBannerCollapsed += OnBannerCollapsed;
-#endif
+
         }
 
         private void OnDestroy()
         {
             BG_Event.AdmobMediation.Mrec.OnAdLoaded -= MRECLoadDone;
-#if USE_ANDROID_MEDIATION
-            AndroidMediationEvent.BannerNative.OnBannerCollapsed -= OnBannerCollapsed;
-#endif
         }
 
         private void MRECLoadDone(string a, ResponseInfo info)
@@ -101,41 +96,6 @@ namespace _0.DucLib.Scripts.Ads
             LogHelper.CheckPoint();
             if (sceneName == "")
                 HideMREC();
-        }
-
-        #endregion
-
-        #region Banner & Collapse
-        
-
-        private void OnBannerCollapsed()
-        {
-            LogHelper.CheckPoint("Close collapsed banner, start countdown");
-            StartCDExpandBanner();
-        }
-
-        private void StartCDExpandBanner()
-        {
-            if (!CommonRemoteConfig.instance.commonConfig.expandBanner) return;
-            if (expandBannerCR != null) StopCoroutine(expandBannerCR);
-            expandBannerCR = StartCoroutine(AutoExpandBannerIE());
-        }
-
-        private IEnumerator AutoExpandBannerIE()
-        {
-            var time = CommonRemoteConfig.instance.commonConfig.timeExpandBanner;
-            while (time > 0)
-            {
-                time -= Time.deltaTime;
-                yield return null;
-            }
-
-            ShowBannerCollapsibleNA();
-        }
-
-        private void StopAutoExpandBanner()
-        {
-            if (expandBannerCR != null) StopCoroutine(expandBannerCR);
         }
 
         #endregion
